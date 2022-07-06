@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import useAuth from "../../hooks/useAuth";
 import SpotifyWebApi from "spotify-web-api-node";
+import TrackSearchResult from "./TrackSearchResult";
+import Player from "./Player";
 
 const spotifyApi = new SpotifyWebApi({
   clientId: "d679667fbb3e4d9e92688887dd7e6db3",
@@ -9,7 +11,13 @@ const spotifyApi = new SpotifyWebApi({
 const Dashboard = ({ code }) => {
   const accessToken = useAuth(code);
   const [search, setSearch] = useState("");
-  const [searchResaults, setSearchResaults] = useState([]);
+  const [searchResults, setSearchResults] = useState([]);
+  const [playingTrack, setPlayingTrack] = useState();
+
+  const chooseTrack = (track) => {
+    setPlayingTrack(track);
+    setSearch("");
+  };
 
   useEffect(() => {
     if (!accessToken) return;
@@ -17,13 +25,14 @@ const Dashboard = ({ code }) => {
   }, [accessToken]);
 
   useEffect(() => {
-    console.log(accessToken);
-    if (!search) return setSearchResaults([]);
+    if (!search) return setSearchResults([]);
     if (!accessToken) return;
 
-    console.log(search);
+    let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
-      setSearchResaults(
+      if (cancel) return;
+
+      setSearchResults(
         res.body.tracks.items.map((track) => {
           const smallestAlbumImage = track.album.images.reduce(
             (smallest, image) => {
@@ -32,7 +41,6 @@ const Dashboard = ({ code }) => {
             },
             track.album.images[0]
           );
-
           return {
             artist: track.artists[0].name,
             title: track.name,
@@ -42,6 +50,8 @@ const Dashboard = ({ code }) => {
         })
       );
     });
+
+    return () => (cancel = true);
   }, [search, accessToken]);
 
   return (
@@ -54,11 +64,21 @@ const Dashboard = ({ code }) => {
           value={search}
           onChange={(e) => {
             setSearch(e.target.value);
-            // console.log(search);
           }}
         />
       </form>
-      <div className="flex flex-grow m-2 overflow-y-auto">Songs</div>
+      <div className="flex flex-col flex-grow m-2 overflow-y-auto">
+        {searchResults.map((track) => (
+          <TrackSearchResult
+            track={track}
+            key={track.uri}
+            chooseTrack={chooseTrack}
+          />
+        ))}
+      </div>
+      <div>
+        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
+      </div>
     </div>
   );
 };
