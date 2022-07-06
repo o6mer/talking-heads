@@ -2,6 +2,9 @@
 
 # dependencies
 /node_modules
+/music-chat-app-frontend-backend-and-spotify-api/node_modules
+/server-master/node_modules
+/node_modules
 /.pnp
 .pnp.js
 /server/node_modules

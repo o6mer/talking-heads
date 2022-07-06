@@ -7,12 +7,13 @@ export default function useAuth(code) {
   const [expiresIn, setExpiresIn] = useState();
 
   useEffect(() => {
-    if (!refreshToken || !expiresIn || !accessToken) return;
+    // if (!refreshToken || !expiresIn || !accessToken) return;
     axios
       .post("http://localhost:3001/login", {
         code,
       })
       .then((res) => {
+        // console.log(res);
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
@@ -20,7 +21,7 @@ export default function useAuth(code) {
         window.history.pushState({}, null, "/main");
       })
       .catch(() => {
-        window.location = "/main";
+        // window.location = "/main";
       });
   }, [code]);
 
