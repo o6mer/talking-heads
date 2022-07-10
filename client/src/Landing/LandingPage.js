@@ -12,7 +12,7 @@ const LandingPage = () => {
         <LabeledInput labelText="Email Address" type="email" />
         <LabeledInput labelText="Password" type="password" />
         <Link
-          to="/main"
+          to="/main/1"
           className="bg-blue-700 text-white font-bold p-1 text-center "
         >
           Login
