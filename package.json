@@ -1,0 +1,24 @@
+{
+  "name": "music-chat-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "concurrently \"cd client && npm start\"  \"cd server && npm run devStart\"",
+    "setup": "concurrently \"cd client && npm install\"  \"cd server && npm install\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/o6mer/music-chat-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/o6mer/music-chat-app/issues"
+  },
+  "homepage": "https://github.com/o6mer/music-chat-app#readme",
+  "devDependencies": {
+    "concurrently": "^7.2.2"
+  }
+}
