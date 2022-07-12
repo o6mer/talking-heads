@@ -1,29 +1,43 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 
 const SignupPage = () => {
   const { email, password, userName, formValid, handleChange } = useForm();
 
+  const [user, setUser] = useState({});
+
+  const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("error");
+
   const submitHandler = async (e) => {
     e.preventDefault();
-    // const req = await fetch("http://localhost:3001/api/users");
-    // const data = await req.json();
-    // console.log(data);
 
-    const response = await fetch("http://localhost:3001/api/users/signup", {
-      method: "POST",
-      body: JSON.stringify({ userName, email, password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
+    let data;
+    try {
+      const response = await fetch("http://localhost:3001/api/users/signup", {
+        method: "POST",
+        body: JSON.stringify({ userName, email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      data = await response.json();
+    } catch (error) {
+      setIsError(true);
+      setErrorMessage(error.message);
+      return;
+    }
 
-    console.log(response);
-
-    const data = await response.json();
+    setUser(...data);
     console.log(data);
   };
+
+  useEffect(() => {
+    if (isError) return alert(errorMessage);
+    setIsError(false);
+    setErrorMessage("");
+  }, [isError, errorMessage]);
 
   return (
     <div className="flex justify-center items-center h-screen">

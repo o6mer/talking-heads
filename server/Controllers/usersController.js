@@ -48,8 +48,9 @@ const signup = async (req, res, next) => {
     DUMMY_USERS.map((user) => user.email).find(
       (existingEmail) => existingEmail === email
     )
-  )
+  ) {
     return next(new Error("user exists already"));
+  }
 
   const createdUser = {
     userId: new Date().getTime(),
