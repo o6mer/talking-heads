@@ -5,8 +5,24 @@ import LabeledInput from "../General/LabeledInput";
 const SignupPage = () => {
   const { email, password, userName, formValid, handleChange } = useForm();
 
-  const submitHandler = (e) => {
+  const submitHandler = async (e) => {
     e.preventDefault();
+    // const req = await fetch("http://localhost:3001/api/users");
+    // const data = await req.json();
+    // console.log(data);
+
+    const response = await fetch("http://localhost:3001/api/users/signup", {
+      method: "POST",
+      body: JSON.stringify({ userName, email, password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    console.log(response);
+
+    const data = await response.json();
+    console.log(data);
   };
 
   return (
@@ -39,8 +55,8 @@ const SignupPage = () => {
         <button
           type="submit"
           className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          disabled={!formValid}
-          onSubmit={submitHandler}
+          // disabled={!formValid}
+          onClick={submitHandler}
         >
           Signup
         </button>

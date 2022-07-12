@@ -2,10 +2,13 @@ const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const usersRoutes = require("./Routes/usersRoutes");
 
 const app = express();
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use("/api/users", usersRoutes);
 
 app.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;
