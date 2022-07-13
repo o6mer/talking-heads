@@ -69,16 +69,23 @@ const signup = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(new Error("Invalid inputs passed, please check your data."));
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   return res.status(400).json({
+  //     message: "bad input",
+  //   });
+  // }
+  console.log(req.body);
   const { email, password } = req.body;
 
   const user = DUMMY_USERS.find(
     (user) => user.email === email && user.password === password
   );
-  if (!user) return next(new Error("Email or password are incorrect"));
+  // if (!user) return next(new Error("Email or password are incorrect"));
+  if (!user) {
+    res.status(400).json({ message: "Invalid username or password" });
+    return next("text");
+  }
 
   res.status(200).json({
     ...user,

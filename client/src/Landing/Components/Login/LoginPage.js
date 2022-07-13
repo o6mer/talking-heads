@@ -1,19 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm();
 
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
+  const [errorMessage, setErrorMessage] = useState("");
 
   const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();
 
-    let data;
     try {
       const response = await fetch("http://localhost:3001/api/users/login", {
         method: "POST",
@@ -22,17 +20,19 @@ const LoginPage = () => {
           "Content-Type": "application/json",
         },
       });
+      const data = await response.json();
       if (response.ok) {
-        data = await response.json();
+        console.log(data);
         navigate("/main/1");
-      }
+      } else setErrorMessage(data.message + "hi");
     } catch (error) {
-      console.log(error);
-      return;
+      alert(error);
     }
-
-    console.log(data);
   };
+
+  useEffect(() => {
+    if (!errorMessage === "") alert(errorMessage);
+  }, [errorMessage]);
 
   return (
     <div className="flex justify-center items-center h-screen">
