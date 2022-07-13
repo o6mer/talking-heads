@@ -68,5 +68,23 @@ const signup = async (req, res, next) => {
   });
 };
 
+const login = async (req, res, next) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return next(new Error("Invalid inputs passed, please check your data."));
+  }
+  const { email, password } = req.body;
+
+  const user = DUMMY_USERS.find(
+    (user) => user.email === email && user.password === password
+  );
+  if (!user) return next(new Error("Email or password are incorrect"));
+
+  res.status(200).json({
+    ...user,
+  });
+};
+
 exports.getUsers = getUsers;
 exports.signup = signup;
+exports.login = login;

@@ -1,12 +1,37 @@
-import React from "react";
+import React, { useState } from "react";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm();
 
-  const submitHandler = (e) => {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [user, setUser] = useState({});
+
+  const navigate = useNavigate();
+
+  const submitHandler = async (e) => {
     e.preventDefault();
+
+    let data;
+    try {
+      const response = await fetch("http://localhost:3001/api/users/login", {
+        method: "POST",
+        body: JSON.stringify({ email, password }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (response.ok) {
+        data = await response.json();
+        navigate("/main/1");
+      }
+    } catch (error) {
+      console.log(error);
+      return;
+    }
+
+    console.log(data);
   };
 
   return (
@@ -32,8 +57,8 @@ const LoginPage = () => {
         <button
           type="submit"
           className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          disabled={!formValid}
-          onSubmit={submitHandler}
+          // disabled={!formValid}
+          onClick={submitHandler}
         >
           Login
         </button>

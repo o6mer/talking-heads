@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 
@@ -6,9 +7,16 @@ const SignupPage = () => {
   const { email, password, userName, formValid, handleChange } = useForm();
 
   const [user, setUser] = useState({});
-
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (isError) return alert(errorMessage);
+    setIsError(false);
+    setErrorMessage("");
+  }, [isError, errorMessage]);
 
   const submitHandler = async (e) => {
     e.preventDefault();
@@ -22,22 +30,19 @@ const SignupPage = () => {
           "Content-Type": "application/json",
         },
       });
-      data = await response.json();
+      if (response.ok) {
+        data = await response.json();
+        navigate("/main/1");
+      }
     } catch (error) {
       setIsError(true);
       setErrorMessage(error.message);
       return;
     }
 
-    setUser(...data);
+    setUser(data);
     console.log(data);
   };
-
-  useEffect(() => {
-    if (isError) return alert(errorMessage);
-    setIsError(false);
-    setErrorMessage("");
-  }, [isError, errorMessage]);
 
   return (
     <div className="flex justify-center items-center h-screen">
