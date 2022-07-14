@@ -15,11 +15,11 @@ const Chat = (props) => {
 
   return (
     <section className="flex flex-col gap-5 w-full h-full p-3">
-      {messages.map((msg) => {
+      {messages.map((element) => {
         // making ChatMsg components from the messages array
-        return <ChatMsg {...msg} />;
+        return <ChatMsg msgObj={element} />;
       })}
-      <Keyboard sendMsg={sendMessage} /> {/*need to stick down*/}
+      <Keyboard sendMsg={sendMessage} roomId={props.roomId} />
     </section>
   );
 };

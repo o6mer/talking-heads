@@ -51,4 +51,15 @@ app.post("/login", (req, res) => {
       res.sendStatus(400);
     });
 });
-app.listen(3001);
+
+const router = express.Router();
+const { getRoomById, sendMessage } = require("./controller/roomsController");
+
+router.get("/:roomId", getRoomById); // get room details
+router.post("/:roomId", sendMessage); // send a message
+
+app.use("/api/rooms", router); //mounting the router on the app
+
+app.listen(3001, () => {
+  console.log("listening on port 3001!!");
+});
