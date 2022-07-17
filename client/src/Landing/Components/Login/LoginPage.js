@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 import { Link, useNavigate } from "react-router-dom";
+import { UserContext } from "../../../contexts/UserContextProvider";
+
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm();
-
   const [errorMessage, setErrorMessage] = useState("");
+  const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
 
@@ -22,7 +24,7 @@ const LoginPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        console.log(data);
+        setUser(data);
         navigate("/main/1");
       } else setErrorMessage(data.message + "hi");
     } catch (error) {

@@ -1,14 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { UserContext } from "../../../contexts/UserContextProvider";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 
 const SignupPage = () => {
   const { email, password, userName, formValid, handleChange } = useForm();
 
-  const [user, setUser] = useState({});
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
+  const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
 
@@ -32,6 +33,7 @@ const SignupPage = () => {
       });
       if (response.ok) {
         data = await response.json();
+        setUser(data);
         navigate("/main/1");
       }
     } catch (error) {

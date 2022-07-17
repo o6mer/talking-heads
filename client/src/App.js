@@ -9,18 +9,22 @@ import {
 import LandingPage from "./Landing/LandingPage";
 import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
+import { createContext, useState } from "react";
+import UserContextProvider from "./contexts/UserContextProvider";
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LandingPage />} />
-        <Route path="/main/:roomId" element={<MainPage />} />
-        <Route path="/signup" element={<SignupPage />} />
-        {/* <Route path="/main" element={<MainPage />} /> */}
-      </Routes>
-    </Router>
+    <UserContextProvider>
+      <Router>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LandingPage />} />
+          <Route path="/main/:roomId" element={<MainPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          {/* <Route path="/main" element={<MainPage />} /> */}
+        </Routes>
+      </Router>
+    </UserContextProvider>
   );
 }
 
