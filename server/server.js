@@ -2,6 +2,7 @@ const express = require("express");
 const SpotifyWebApi = require("spotify-web-api-node");
 const cors = require("cors");
 const bodyParser = require("body-parser");
+const mongoose = require("mongoose");
 
 const app = express();
 app.use(cors());
@@ -53,13 +54,26 @@ app.post("/login", (req, res) => {
 });
 
 const router = express.Router();
-const { getRoomById, sendMessage } = require("./controller/roomsController");
+const {
+  getRoomById,
+  sendMessage,
+  addRoom,
+} = require("./controller/roomsController");
 
 router.get("/:roomId", getRoomById); // get room details
 router.post("/:roomId", sendMessage); // send a message
 
-app.use("/api/rooms", router); //mounting the router on the app
+app.use("/api/room", router); //mounting the router on the app
 
-app.listen(3001, () => {
-  console.log("listening on port 3001!!");
-});
+mongoose
+  .connect(
+    "mongodb+srv://yanaysella:Yanay123456@name.xo8bocb.mongodb.net/?retryWrites=true&w=majority"
+  )
+  .then(
+    app.listen(3001, () => {
+      console.log("listening on port 3001!!");
+    })
+  )
+  .catch((err) => {
+    console.log(err);
+  });

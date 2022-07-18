@@ -36,7 +36,7 @@ const Keyboard = (props) => {
         type="submit"
         className="bg-white p-1 border-solid border-2 border-black"
         onClick={(e) => {
-          fetch(`http://localhost:3001/api/rooms/${props.roomId}`, {
+          fetch(`http://localhost:3001/api/room/${props.roomId}`, {
             method: "POST",
           });
           e.preventDefault();

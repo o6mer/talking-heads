@@ -3,9 +3,9 @@ import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 
 const Chat = (props) => {
-  const DUMMY_MASSAGES = props.chatArr;
+  const initialMessages = props.chatArr;
 
-  const [messages, addMsg] = useState(DUMMY_MASSAGES); //keeping track on the messages
+  const [messages, addMsg] = useState(initialMessages); //keeping track on the messages
 
   const sendMessage = ({ msgWriter = "guest", msgContent, msgTime }) => {
     addMsg((prev) => {
