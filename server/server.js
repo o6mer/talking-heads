@@ -57,17 +57,18 @@ const router = express.Router();
 const {
   getRoomById,
   sendMessage,
-  addRoom,
+  getAllRooms,
 } = require("./controller/roomsController");
 
 router.get("/:roomId", getRoomById); // get room details
+router.get("/", getAllRooms); // get all the rooms as an array
 router.post("/:roomId", sendMessage); // send a message
 
 app.use("/api/room", router); //mounting the router on the app
 
 mongoose
   .connect(
-    "mongodb+srv://yanaysella:Yanay123456@name.xo8bocb.mongodb.net/?retryWrites=true&w=majority"
+    "mongodb+srv://yanaysella:YanaySella1234@name.xo8bocb.mongodb.net/?retryWrites=true&w=majority"
   )
   .then(
     app.listen(3001, () => {

@@ -44,7 +44,7 @@ const room5 = new Room(5, "bit", msgsArr[4], peopleArr[4], 10);
 const rooms = [room1, room2, room3, room4, room5];
 
 const ChatRoom = (props) => {
-  let { roomId } = props; //getting the room id prop
+  let { roomId, roomList } = props; //might not need the roomList
 
   const [chatRoom, setChatRoom] = useState({});
 
@@ -63,7 +63,13 @@ const ChatRoom = (props) => {
     sendRequest();
   }, [roomId]); // reRenders when the roomId changes
 
+  // const theChatRoom = roomList.find((e) => e._id === `${roomId}`);
+  // console.log("the chat room!");
+  // console.log(theChatRoom);
+
   const { _id, messages, pop } = chatRoom;
+  console.log("this is pop but from above");
+  console.log(pop);
 
   return (
     <main className="flex w-full">
@@ -73,7 +79,7 @@ const ChatRoom = (props) => {
             {code ? <Dashboard code={code} /> : <SpotifyAuth />}
             <Chat chatArr={messages} roomId={_id} key={_id} />
           </section>
-          <ProfilesSideBar people={pop} key={_id} />
+          <ProfilesSideBar pop={pop} key={_id} />
         </React.Fragment>
       )}
     </main>

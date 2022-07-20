@@ -1,8 +1,10 @@
 const { Room } = require("../dataBase");
 
+//API methods
+
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
-  console.log(roomId);
+
   let room;
   try {
     room = await Room.findById(roomId);
@@ -10,6 +12,16 @@ const getRoomById = async (req, res, next) => {
     return next(err);
   }
   res.json({ room });
+};
+
+const getAllRooms = async (req, res, next) => {
+  let roomList;
+  try {
+    roomList = await Room.find({}); // getting an array of all rooms
+  } catch (error) {
+    console.log(error);
+  }
+  res.json({ roomList }); //sending the array as a response
 };
 
 const addRoom = async (req, res, next) => {
@@ -33,4 +45,4 @@ const sendMessage = (req, res, next) => {
   console.log(`a message has send in room ${roomId}`);
 };
 
-module.exports = { getRoomById, sendMessage, addRoom };
+module.exports = { getRoomById, sendMessage, getAllRooms };
