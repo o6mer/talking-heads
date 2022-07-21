@@ -51,6 +51,7 @@ const SignupPage = () => {
       <form
         action=""
         className="flex flex-col gap-4 bg-gray-400 p-8 rounded-md"
+        onSubmit={submitHandler}
       >
         <LabeledInput
           labelText="Email Address"
@@ -76,8 +77,8 @@ const SignupPage = () => {
         <button
           type="submit"
           className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          // disabled={!formValid}
-          onClick={submitHandler}
+          disabled={!formValid}
+          // onClick={}
         >
           Signup
         </button>
