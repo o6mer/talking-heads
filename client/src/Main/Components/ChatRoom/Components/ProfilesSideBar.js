@@ -1,13 +1,10 @@
 import React from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
-import peopleArr from "../chatRoomPeople";
 
 const ProfilesSideBar = (props) => {
   const { pop } = props;
-  // console.log("this is pop");
-  // const pop = ["poop"];
-  console.log(pop);
+
   const [people, alterUsers] = useState(pop); // might not need that use state and only use "pop"
 
   const removeUser = (user) => {

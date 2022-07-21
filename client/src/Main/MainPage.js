@@ -27,10 +27,10 @@ const MainPage = () => {
       <NavBar />
       <div className="flex">
         {roomList && (
-          <React.Fragment>
+          <>
             <SideBar roomList={roomList} />
             <ChatRoom roomId={roomId} roomList={roomList} />
-          </React.Fragment>
+          </>
         )}
       </div>
     </main>

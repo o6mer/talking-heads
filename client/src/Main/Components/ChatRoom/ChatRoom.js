@@ -4,44 +4,7 @@ import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
 import Dashboard from "../SpotifyApi/Dashboard";
 
-// people and messaegs for the room
-import msgsArr from "./chatRoomMsgs";
-import peopleArr from "./chatRoomPeople";
-
 const code = new URLSearchParams(window.location.search).get("code");
-
-//every room will have these properties:
-class Room {
-  constructor(id, name, msgs, pop, maxPop) {
-    this.id = id;
-    this.name = name;
-    this.msgs = msgs; // the messages array
-    this.pop = pop; // the people's array
-    this.maxPop = maxPop;
-  }
-}
-
-//making chat rooms
-const room1 = new Room(
-  "62d551125f5f5e39e60a3781",
-  "pop",
-  msgsArr[0],
-  peopleArr[0],
-  10
-);
-const room2 = new Room(
-  "62d56c184a8048b8f55125b0",
-  "rock",
-  msgsArr[1],
-  peopleArr[1],
-  10
-);
-const room3 = new Room(3, "rap", msgsArr[2], peopleArr[2], 10);
-const room4 = new Room(4, "shit", msgsArr[3], peopleArr[3], 10);
-const room5 = new Room(5, "bit", msgsArr[4], peopleArr[4], 10);
-
-//chat rooms array
-const rooms = [room1, room2, room3, room4, room5];
 
 const ChatRoom = (props) => {
   let { roomId, roomList } = props; //might not need the roomList
@@ -63,28 +26,23 @@ const ChatRoom = (props) => {
     sendRequest();
   }, [roomId]); // reRenders when the roomId changes
 
-  // const theChatRoom = roomList.find((e) => e._id === `${roomId}`);
-  // console.log("the chat room!");
-  // console.log(theChatRoom);
-
   const { _id, messages, pop } = chatRoom;
-  console.log("this is pop but from above");
-  console.log(pop);
 
   return (
     <main className="flex w-full">
-      {chatRoom._id && (
-        <React.Fragment>
+      {_id ? (
+        <>
           <section className="w-full flex flex-col ">
             {code ? <Dashboard code={code} /> : <SpotifyAuth />}
             <Chat chatArr={messages} roomId={_id} key={_id} />
           </section>
           <ProfilesSideBar pop={pop} key={_id} />
-        </React.Fragment>
+        </>
+      ) : (
+        <div>Loading</div>
       )}
     </main>
   );
 };
 
 export default ChatRoom;
-export { rooms };

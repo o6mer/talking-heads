@@ -1,10 +1,9 @@
-const { Room } = require("../dataBase");
+const { Room } = require("../models/roomModel.js");
 
 //API methods
 
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
-
   let room;
   try {
     room = await Room.findById(roomId);
