@@ -27,6 +27,7 @@ const Dashboard = ({ code }) => {
   useEffect(() => {
     if (!search) return setSearchResults([]);
     if (!accessToken) return;
+    console.log("search");
 
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {

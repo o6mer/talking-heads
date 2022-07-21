@@ -1,12 +1,11 @@
 import React from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
-import peopleArr from "../chatRoomPeople";
 
 const ProfilesSideBar = (props) => {
-  const DUMMY_USERS = props.people;
-  console.log(DUMMY_USERS);
-  const [people, alterUsers] = useState(DUMMY_USERS);
+  const { pop } = props;
+
+  const [people, alterUsers] = useState(pop); // might not need that use state and only use "pop"
 
   const removeUser = (user) => {
     alterUsers((prev) => {
@@ -38,7 +37,7 @@ const ProfilesSideBarItem = (props) => {
   const { user } = props;
   return (
     <div className="flex">
-      <h3>{user.name}</h3>
+      <h3>{user}</h3>
     </div>
   );
 };

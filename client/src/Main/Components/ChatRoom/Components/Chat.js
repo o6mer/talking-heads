@@ -3,9 +3,9 @@ import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 
 const Chat = (props) => {
-  const DUMMY_MASSAGES = props.chatArr;
+  const initialMessages = props.chatArr;
 
-  const [messages, addMsg] = useState(DUMMY_MASSAGES); //keeping track on the messages
+  const [messages, addMsg] = useState(initialMessages); //keeping track on the messages
 
   const sendMessage = ({ msgWriter = "guest", msgContent, msgTime }) => {
     addMsg((prev) => {
@@ -15,11 +15,11 @@ const Chat = (props) => {
 
   return (
     <section className="flex flex-col gap-5 w-full h-full p-3">
-      {messages.map((msg) => {
+      {messages.map((element) => {
         // making ChatMsg components from the messages array
-        return <ChatMsg {...msg} />;
+        return <ChatMsg msgObj={element} />;
       })}
-      <Keyboard sendMsg={sendMessage} /> {/*need to stick down*/}
+      <Keyboard sendMsg={sendMessage} roomId={props.roomId} />
     </section>
   );
 };

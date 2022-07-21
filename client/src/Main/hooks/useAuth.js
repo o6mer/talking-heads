@@ -9,7 +9,7 @@ export default function useAuth(code) {
   useEffect(() => {
     // if (!refreshToken || !expiresIn || !accessToken) return;
     axios
-      .post("http://localhost:3001/spotify/login", {
+      .post("http://localhost:3001/api/spotify/login", {
         code,
       })
       .then((res) => {
@@ -27,7 +27,7 @@ export default function useAuth(code) {
     if (!refreshToken || !expiresIn) return;
     const interval = setInterval(() => {
       axios
-        .post("http://localhost:3001/spotify/refresh", {
+        .post("http://localhost:3001/api/spotify/refresh", {
           refreshToken,
         })
         .then((res) => {
@@ -35,7 +35,7 @@ export default function useAuth(code) {
           setExpiresIn(res.data.expiresIn);
         })
         .catch(() => {
-          window.location = "/main";
+          // window.location = "/main/";
         });
     }, (expiresIn - 60) * 1000);
     return () => clearInterval(interval);

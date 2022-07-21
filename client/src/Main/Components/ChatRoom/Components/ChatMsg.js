@@ -1,10 +1,7 @@
 import React from "react";
 
-const ChatMsg = ({
-  msgWriter = "p",
-  msgContent = "massage content",
-  msgTime = "00:00",
-}) => {
+const ChatMsg = (props) => {
+  const { msgWriter, msgContent, msgTime } = props.msgObj;
   return (
     <div
       className={`flex max-w-max p-3  gap-3 text-xl font-bold justify-around border-2 border-black border-solid> ${

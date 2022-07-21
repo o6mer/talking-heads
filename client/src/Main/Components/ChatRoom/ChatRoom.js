@@ -1,44 +1,46 @@
 import React, { useEffect, useState } from "react";
 import SpotifyAuth from "../SpotifyApi/SpotifyAuth";
 import Chat from "./Components/Chat";
-import Keyboard from "./Components/Keyboard";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
-import SpotifyWebPlayer from "react-spotify-web-playback/lib";
 import Dashboard from "../SpotifyApi/Dashboard";
-import msgsArr from "./chatRoomMsgs";
-import peopleArr from "./chatRoomPeople";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
-class Room {
-  constructor(id, msgs, pop) {
-    this.id = id;
-    this.msgs = msgs; // the messages array
-    this.pop = pop; // the people's array
-  }
-}
-
 const ChatRoom = (props) => {
-  let { roomId } = props; //getting the room id prop
+  let { roomId, roomList } = props; //might not need the roomList
 
-  //getting the speceific messages array with id filter
-  const chatArr = msgsArr.filter((element) => {
-    return `${element.id}` === roomId;
-  });
+  const [chatRoom, setChatRoom] = useState({});
 
-  const popArr = peopleArr.filter((element) => {
-    return `${element.roomId}` === roomId;
-  });
+  useEffect(() => {
+    const sendRequest = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:3001/api/room/${roomId}`
+        );
+        const resData = await response.json();
+        setChatRoom(resData.room);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    sendRequest();
+  }, [roomId]); // reRenders when the roomId changes
 
-  const thisRoom = new Room(roomId, chatArr, popArr); // might be useless
+  const { _id, messages, pop } = chatRoom;
 
   return (
     <main className="flex w-full">
-      <section className="w-full flex flex-col ">
-        {code ? <Dashboard code={code} /> : <SpotifyAuth />}
-        <Chat chatArr={chatArr[0].arr} key={chatArr[0].id} />
-      </section>
-      <ProfilesSideBar people={popArr[0].arr} key={popArr[0].roomId} />
+      {_id ? (
+        <>
+          <section className="w-full flex flex-col ">
+            {code ? <Dashboard code={code} /> : <SpotifyAuth />}
+            <Chat chatArr={messages} roomId={_id} key={_id} />
+          </section>
+          <ProfilesSideBar pop={pop} key={_id} />
+        </>
+      ) : (
+        <div>Loading</div>
+      )}
     </main>
   );
 };
