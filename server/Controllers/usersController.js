@@ -69,12 +69,13 @@ const signup = async (req, res, next) => {
 };
 
 const login = async (req, res, next) => {
-  // const errors = validationResult(req);
-  // if (!errors.isEmpty()) {
-  //   return res.status(400).json({
-  //     message: "bad input",
-  //   });
-  // }
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      message: "bad input",
+    });
+  }
+
   console.log(req.body);
   const { email, password } = req.body;
 
