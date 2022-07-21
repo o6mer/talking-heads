@@ -53,7 +53,7 @@ const signup = async (req, res, next) => {
   }
 
   const createdUser = {
-    userId: new Date().getTime(),
+    userId: Date.now(),
     userName,
     email,
     password,

@@ -4,27 +4,16 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const usersRoutes = require("./Routes/usersRoutes");
 const spotifyRoutes = require("./Routes/spotifyRoutes");
+const roomRoutes = require("./routes/roomRoutes");
 
 const app = express();
+
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use("/api/users", usersRoutes);
-
-app.use("/spotify", spotifyRoutes);
-
-const router = express.Router();
-const {
-  getRoomById,
-  sendMessage,
-  getAllRooms,
-} = require("./controller/roomsController");
-
-router.get("/:roomId", getRoomById); // get room details
-router.get("/", getAllRooms); // get all the rooms as an array
-router.post("/:roomId", sendMessage); // send a message
-
-app.use("/api/room", router); //mounting the router on the app
+app.use("/api/user", usersRoutes);
+app.use("/api/spotify", spotifyRoutes);
+app.use("/api/room", roomRoutes);
 
 mongoose
   .connect(

@@ -3,7 +3,7 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 
 import TextField from "@mui/material/TextField";
-import SendIcon from "@mui/icons-material/Send";
+// import SendIcon from "@mui/icons-material/Send";
 
 const Keyboard = (props) => {
   const [msg, setMsg] = useState({
