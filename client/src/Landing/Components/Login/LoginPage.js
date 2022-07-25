@@ -6,7 +6,6 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm();
-  const [errorMessage, setErrorMessage] = useState("");
   const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
@@ -26,16 +25,11 @@ const LoginPage = () => {
       if (response.ok) {
         setUser(data);
         navigate("/main/1");
-      } else setErrorMessage(data.message + "hi");
+      } else throw new Error(data.message);
     } catch (error) {
       alert(error);
     }
   };
-
-  useEffect(() => {
-    if (!errorMessage === "") alert(errorMessage);
-  }, [errorMessage]);
-
   return (
     <div className="flex justify-center items-center h-screen">
       <form

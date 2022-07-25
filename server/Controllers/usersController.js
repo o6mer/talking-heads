@@ -1,4 +1,5 @@
 const { validationResult } = require("express-validator");
+const { User } = require("../models/userModel");
 
 const DUMMY_USERS = [
   {
@@ -37,34 +38,50 @@ const getUsers = async (req, res, next) => {
   res.json({ users: DUMMY_USERS });
 };
 
+const getUserById = async (req, res, next) => {
+  const userId = req.params.userId;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(err);
+  }
+  res.json({ user });
+};
+
 const signup = async (req, res, next) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return next(new Error("Invalid inputs passed, please check your data."));
   }
-  const { userName, email, password } = req.body;
+  const { userName, email, password, imageUrl } = req.body;
 
-  if (
-    DUMMY_USERS.map((user) => user.email).find(
-      (existingEmail) => existingEmail === email
-    )
-  ) {
-    return next(new Error("user exists already"));
+  try {
+    if (await User.exists({ email }))
+      return next(new Error("user exists already"));
+  } catch (err) {
+    console.log(err);
   }
 
-  const createdUser = {
-    userId: Date.now(),
-    userName,
-    email,
-    password,
-  };
-
-  DUMMY_USERS.push(createdUser);
+  let newUser;
+  try {
+    newUser = new User({
+      userName,
+      email,
+      password,
+      imageUrl,
+    });
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+  }
 
   res.status(201).json({
-    userId: createdUser.userId,
-    email: createdUser.email,
-    password: createdUser.password,
+    userId: newUser._id,
+    // userName: newUser.userName,
+    // email: newUser.email,
+    // password: newUser.password,
+    // imageUrl: newUser.imageUrl,
   });
 };
 
@@ -75,24 +92,25 @@ const login = async (req, res, next) => {
       message: "bad input",
     });
   }
-
-  console.log(req.body);
   const { email, password } = req.body;
 
-  const user = DUMMY_USERS.find(
-    (user) => user.email === email && user.password === password
-  );
-  // if (!user) return next(new Error("Email or password are incorrect"));
-  if (!user) {
+  let user;
+  try {
+    user = await User.find({ email, password });
+  } catch (error) {
+    console.log(error);
+  }
+  if (!user.length) {
     res.status(400).json({ message: "Invalid username or password" });
-    return next("text");
+    return next();
   }
 
   res.status(200).json({
-    ...user,
+    user,
   });
 };
 
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
+exports.getUserById = getUserById;
