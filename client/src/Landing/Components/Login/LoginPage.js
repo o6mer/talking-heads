@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const LoginPage = () => {
-  const { email, password, formValid, handleChange } = useForm();
+  const { email, password, formValid, handleChange } = useForm("login");
   const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ const LoginPage = () => {
         <button
           type="submit"
           className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          // disabled={!formValid}
+          disabled={!formValid}
           // onClick={submitHandler}
         >
           Login

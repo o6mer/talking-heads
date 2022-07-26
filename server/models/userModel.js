@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema({
   userName: { type: "string", unique: true },
   email: { type: "string", unique: true },
   password: String,
-  imageUrl: String,
+  profilePictureUrl: String,
 });
 
 const User = mongoose.model("User", userSchema);

@@ -5,7 +5,14 @@ import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
 
 const SignupPage = () => {
-  const { email, password, userName, formValid, handleChange } = useForm();
+  const {
+    email,
+    password,
+    userName,
+    profilePictureUrl,
+    formValid,
+    handleChange,
+  } = useForm("signup");
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
@@ -26,15 +33,17 @@ const SignupPage = () => {
     try {
       const response = await fetch("http://localhost:3001/api/user/signup", {
         method: "POST",
-        body: JSON.stringify({ userName, email, password }),
+        body: JSON.stringify({ userName, email, password, profilePictureUrl }),
         headers: {
           "Content-Type": "application/json",
         },
       });
+      data = await response.json();
       if (response.ok) {
-        data = await response.json();
         setUser(data);
         navigate("/main/1");
+      } else {
+        alert(data.message);
       }
     } catch (error) {
       setIsError(true);
@@ -73,6 +82,13 @@ const SignupPage = () => {
           handleChange={handleChange}
           state={userName}
           name="userName"
+        />
+        <LabeledInput
+          labelText="Profie Picture"
+          type="file"
+          handleChange={handleChange}
+          state={profilePictureUrl}
+          name="profilePictureUrl"
         />
         <button
           type="submit"
