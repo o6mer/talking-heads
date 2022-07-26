@@ -7,11 +7,6 @@ const useForm = (mode) => {
   const [userName, setUserName] = useState("");
   const [profilePictureUrl, setProfilePictureUrl] = useState("");
 
-  const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [userNameValid, setUserNameValid] = useState(false);
-  const [profilePictureUrlValid, setProfilePictureUrlValid] = useState(false);
-
   const [formValid, setFormValid] = useState(false);
 
   const handleChange = (e) => {
@@ -22,54 +17,20 @@ const useForm = (mode) => {
     if (e.target.name === "userName") setUserName(e.target.value);
     if (e.target.name === "profilePictureUrl")
       setProfilePictureUrl(e.target.value);
-    console.log(profilePictureUrl);
-
-    // console.log(email, password);
   };
 
   useEffect(() => {
     if (mode === "signup") {
-      if (userName && profilePictureUrl && password && email) {
-        setUserNameValid(true);
-        setProfilePictureUrlValid(true);
-        setPasswordValid(true);
-        setEmailValid(true);
-        return;
-      }
-      setEmailValid(false);
-      setPasswordValid(false);
-      setUserNameValid(false);
-      setProfilePictureUrlValid(false);
-      return;
-    }
-
-    if (password && email) {
-      setPasswordValid(true);
-      setEmailValid(true);
-      return;
-    }
-
-    setEmailValid(false);
-    setPasswordValid(false);
-    // setUserNameValid(false);
-    // setProfilePictureUrlValid(false);
-  }, [email, password, userName, profilePictureUrl]);
-
-  useEffect(() => {
-    if (mode === "signup")
-      if (
-        emailValid &&
-        passwordValid &&
-        userNameValid &&
-        profilePictureUrlValid
-      )
+      if (userName && profilePictureUrl && password && email)
         return setFormValid(true);
 
-    if (emailValid && passwordValid) return setFormValid(true);
-    //   setFormValid(true)
-    setFormValid(false);
-  }, [emailValid, passwordValid, userNameValid, profilePictureUrlValid]);
+      return setFormValid(false);
+    }
 
+    if (password && email) return setFormValid(true);
+
+    setFormValid(false);
+  }, [email, password, userName, profilePictureUrl]);
   return {
     email,
     password,

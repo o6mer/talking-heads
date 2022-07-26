@@ -1,39 +1,6 @@
 const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
 
-const DUMMY_USERS = [
-  {
-    userId: "1",
-    userName: "user1",
-    email: "test1@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "2",
-    userName: "user2",
-    email: "test2@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "3",
-    userName: "user3",
-    email: "test3@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "4",
-    userName: "user4",
-    email: "test4@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "5",
-    userName: "user5",
-    email: "test5@gmail.com",
-    password: "12345678",
-  },
-];
-
 const getUsers = async (req, res, next) => {
   res.json({ users: DUMMY_USERS });
 };
