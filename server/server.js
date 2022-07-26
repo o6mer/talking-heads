@@ -2,8 +2,8 @@ const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const usersRoutes = require("./Routes/usersRoutes");
-const spotifyRoutes = require("./Routes/spotifyRoutes");
+const usersRoutes = require("./routes/usersRoutes");
+const spotifyRoutes = require("./routes/spotifyRoutes");
 const roomRoutes = require("./routes/roomRoutes");
 
 const app = express();

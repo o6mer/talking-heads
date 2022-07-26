@@ -1,4 +1,8 @@
 const { Room } = require("../models/roomModel.js");
+const bodyParser = require("body-parser");
+
+const jsonParser = bodyParser.json();
+var urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 //API methods
 
@@ -39,9 +43,22 @@ const addRoom = async (req, res, next) => {
   }
 };
 
-const sendMessage = (req, res, next) => {
+const sendMessage = async (req, res, next) => {
   const roomId = req.params.roomId;
+  console.log(req.body);
+  const { msgWriter, msgContent, msgTime } = req.body;
   console.log(`a message has send in room ${roomId}`);
+  const newMsg = {
+    msgWriter,
+    msgContent,
+    msgTime,
+  };
+  try {
+    await Room.findByIdAndUpdate(roomId, { $push: { messages: newMsg } });
+  } catch (err) {
+    console.log(err);
+  }
+  res.json({ ...newMsg });
 };
 
 module.exports = { getRoomById, sendMessage, getAllRooms };

@@ -6,8 +6,10 @@ const Chat = (props) => {
   const initialMessages = props.chatArr;
 
   const [messages, addMsg] = useState(initialMessages); //keeping track on the messages
+  const [val, setVal] = useState({});
 
-  const sendMessage = ({ msgWriter = "guest", msgContent, msgTime }) => {
+  const sendMessage = (msg) => {
+    const { msgWriter, msgContent, msgTime } = msg;
     addMsg((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime }];
     });

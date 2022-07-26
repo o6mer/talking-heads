@@ -3,57 +3,64 @@ import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 
 import TextField from "@mui/material/TextField";
-// import SendIcon from "@mui/icons-material/Send";
 
 const Keyboard = (props) => {
-  const [msg, setMsg] = useState({
-    msgWriter: "p1",
-    msgContent: "",
-    msgTime: "00:00",
-  });
+  const [msg, setMsg] = useState("");
 
   function typing(event) {
-    setMsg((prev) => {
-      return {
-        ...prev,
-        msgContent: event.target.value,
-      };
-    });
+    setMsg(event.target.value);
   }
 
+  const postMsg = async () => {
+    const newMsg = {
+      msgWriter: "p1",
+      msgTime: "28:00",
+      msgContent: msg,
+    };
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/room/${props.roomId}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ ...newMsg }),
+        }
+      );
+      const resData = await response.json();
+      props.sendMsg(resData); //updating the msg array in the front so the chat window will reRender
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    // <section className="w-full bg-slate-300 px-5 py-3 ">
-    <form action="" className="flex gap-2 ">
+    <form
+      action=""
+      className="flex gap-2 "
+      method="POST"
+      onSubmit={(e) => {
+        e.preventDefault();
+        postMsg();
+        setMsg("");
+      }}
+    >
       <TextField
         type="text"
         className="w-full"
         name="message"
         placeholder="Write a message"
-        value={msg.msgContent}
+        value={msg}
         onChange={typing}
       />
       <button
         type="submit"
         className="bg-white p-1 border-solid border-2 border-black"
-        onClick={(e) => {
-          fetch(`http://localhost:3001/api/room/${props.roomId}`, {
-            method: "POST",
-          });
-          e.preventDefault();
-          props.sendMsg(msg);
-          setMsg(() => {
-            return {
-              msgWriter: "p1",
-              msgContent: "",
-              msgTime: "00:00",
-            };
-          });
-        }}
       >
         <AiOutlineSend />
       </button>
     </form>
-    // </section>
   );
 };
 
