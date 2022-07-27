@@ -1,70 +1,58 @@
 const { validationResult } = require("express-validator");
-
-const DUMMY_USERS = [
-  {
-    userId: "1",
-    userName: "user1",
-    email: "test1@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "2",
-    userName: "user2",
-    email: "test2@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "3",
-    userName: "user3",
-    email: "test3@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "4",
-    userName: "user4",
-    email: "test4@gmail.com",
-    password: "12345678",
-  },
-  {
-    userId: "5",
-    userName: "user5",
-    email: "test5@gmail.com",
-    password: "12345678",
-  },
-];
+const { User } = require("../models/userModel");
 
 const getUsers = async (req, res, next) => {
   res.json({ users: DUMMY_USERS });
 };
 
+const getUserById = async (req, res, next) => {
+  const userId = req.params.userId;
+  let user;
+  try {
+    user = await User.findById(userId);
+  } catch (err) {
+    return next(err);
+  }
+  res.json({ user });
+};
+
 const signup = async (req, res, next) => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return next(new Error("Invalid inputs passed, please check your data."));
-  }
-  const { userName, email, password } = req.body;
-
-  if (
-    DUMMY_USERS.map((user) => user.email).find(
-      (existingEmail) => existingEmail === email
-    )
-  ) {
-    return next(new Error("user exists already"));
+  const errorFormatter = ({ msg, param }) => `${param}: ${msg}`;
+  const result = validationResult(req).formatWith(errorFormatter);
+  if (!result.isEmpty()) {
+    return res.status(400).json({ message: result.array() });
   }
 
-  const createdUser = {
-    userId: Date.now(),
-    userName,
-    email,
-    password,
-  };
+  const { userName, email, password, profilePictureUrl } = req.body;
 
-  DUMMY_USERS.push(createdUser);
+  try {
+    if (await User.exists({ email })) {
+      res.status(400).json({ message: "user exists already" });
+      return next();
+    }
+  } catch (err) {
+    console.log(err);
+  }
+
+  let newUser;
+  try {
+    newUser = new User({
+      userName,
+      email,
+      password,
+      profilePictureUrl,
+    });
+    await newUser.save();
+  } catch (err) {
+    console.log(err);
+  }
 
   res.status(201).json({
-    userId: createdUser.userId,
-    email: createdUser.email,
-    password: createdUser.password,
+    userId: newUser._id,
+    // userName: newUser.userName,
+    // email: newUser.email,
+    // password: newUser.password,
+    // imageUrl: newUser.imageUrl,
   });
 };
 
@@ -75,24 +63,25 @@ const login = async (req, res, next) => {
       message: "bad input",
     });
   }
-
-  console.log(req.body);
   const { email, password } = req.body;
 
-  const user = DUMMY_USERS.find(
-    (user) => user.email === email && user.password === password
-  );
-  // if (!user) return next(new Error("Email or password are incorrect"));
-  if (!user) {
+  let user;
+  try {
+    user = await User.find({ email, password });
+  } catch (error) {
+    console.log(error);
+  }
+  if (!user.length) {
     res.status(400).json({ message: "Invalid username or password" });
-    return next("text");
+    return next();
   }
 
   res.status(200).json({
-    ...user,
+    user,
   });
 };
 
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
+exports.getUserById = getUserById;

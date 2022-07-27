@@ -5,8 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const LoginPage = () => {
-  const { email, password, formValid, handleChange } = useForm();
-  const [errorMessage, setErrorMessage] = useState("");
+  const { email, password, formValid, handleChange } = useForm("login");
   const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
@@ -26,16 +25,11 @@ const LoginPage = () => {
       if (response.ok) {
         setUser(data);
         navigate("/main/1");
-      } else setErrorMessage(data.message + "hi");
+      } else throw new Error(data.message);
     } catch (error) {
       alert(error);
     }
   };
-
-  useEffect(() => {
-    if (!errorMessage === "") alert(errorMessage);
-  }, [errorMessage]);
-
   return (
     <div className="flex justify-center items-center h-screen">
       <form
@@ -60,7 +54,7 @@ const LoginPage = () => {
         <button
           type="submit"
           className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          // disabled={!formValid}
+          disabled={!formValid}
           // onClick={submitHandler}
         >
           Login

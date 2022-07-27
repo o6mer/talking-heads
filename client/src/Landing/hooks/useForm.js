@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from "react";
 import validator from "validator";
 
-const useForm = () => {
+const useForm = (mode) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
-
-  const [emailValid, setEmailValid] = useState(false);
-  const [passwordValid, setPasswordValid] = useState(false);
-  const [userNameValid, setUserNameValid] = useState(false);
+  const [profilePictureUrl, setProfilePictureUrl] = useState("");
 
   const [formValid, setFormValid] = useState(false);
 
@@ -18,26 +15,30 @@ const useForm = () => {
     if (e.target.name === "email") setEmail(e.target.value);
     if (e.target.name === "password") setPassword(e.target.value);
     if (e.target.name === "userName") setUserName(e.target.value);
-
-    // console.log(email, password);
+    if (e.target.name === "profilePictureUrl")
+      setProfilePictureUrl(e.target.value);
   };
 
   useEffect(() => {
-    if (password.length >= 8 && validator.isEmail(email)) {
-      setPasswordValid(true);
-      return setEmailValid(true);
+    if (mode === "signup") {
+      if (userName && profilePictureUrl && password && email)
+        return setFormValid(true);
+
+      return setFormValid(false);
     }
 
-    setEmailValid(false);
-    setPasswordValid(false);
-  }, [email, password]);
+    if (password && email) return setFormValid(true);
 
-  useEffect(() => {
-    if (emailValid && passwordValid) return setFormValid(true);
     setFormValid(false);
-  }, [emailValid, passwordValid]);
-
-  return { email, password, userName, formValid, handleChange };
+  }, [email, password, userName, profilePictureUrl]);
+  return {
+    email,
+    password,
+    userName,
+    profilePictureUrl,
+    formValid,
+    handleChange,
+  };
 };
 
 export default useForm;

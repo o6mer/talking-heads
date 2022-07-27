@@ -2,7 +2,7 @@ import React from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
 
-import TextField from "@mui/material/TextField";
+// import { TextField } from "@mui/material/TextField";
 // import SendIcon from "@mui/icons-material/Send";
 
 const Keyboard = (props) => {
@@ -24,14 +24,14 @@ const Keyboard = (props) => {
   return (
     // <section className="w-full bg-slate-300 px-5 py-3 ">
     <form action="" className="flex gap-2 ">
-      <TextField
+      {/* <TextField
         type="text"
         className="w-full"
         name="message"
         placeholder="Write a message"
         value={msg.msgContent}
         onChange={typing}
-      />
+      /> */}
       <button
         type="submit"
         className="bg-white p-1 border-solid border-2 border-black"
