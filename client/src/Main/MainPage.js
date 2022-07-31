@@ -21,7 +21,6 @@ const MainPage = () => {
     };
     sendRequest(); // calling the func above
   }, []);
-
   return (
     <main>
       <NavBar />
@@ -38,3 +37,4 @@ const MainPage = () => {
 };
 
 export default MainPage;
+// export { socket };
