@@ -5,15 +5,17 @@ import Keyboard from "./Keyboard";
 // import { socket } from "../../../MainPage.js";
 
 import { io } from "socket.io-client";
-const socket = io("http://localhost:8080");
 
 const Chat = (props) => {
   const { roomId, chatArr } = props;
 
   const [messages, addMsg] = useState(chatArr); //keeping track on the messages
   const [val, setVal] = useState({});
+  const [connectedSocket, setConnectedSocket] = useState({});
 
   useEffect(() => {
+    const socket = io("http://localhost:8080");
+    setConnectedSocket(socket);
     socket.on("receiveMsg", (msg) => {
       sendMessage(msg);
       console.log("I");
@@ -26,7 +28,6 @@ const Chat = (props) => {
       msgTime: "28:00",
       msgContent: msg,
     };
-    let resData;
     try {
       const response = await fetch(`http://localhost:3001/api/room/${roomId}`, {
         method: "POST",
@@ -35,12 +36,13 @@ const Chat = (props) => {
         },
         body: JSON.stringify({ ...newMsg }),
       });
-      resData = await response.json();
+      const resData = await response.json();
       sendMessage(resData); //updating the msg array in the front so the chat window will reRender
     } catch (error) {
       console.log(error);
     }
-    socket.emit("getMsg", resData);
+    if (!connectedSocket) return;
+    connectedSocket.emit("getMsg", newMsg);
   };
 
   const sendMessage = (msg) => {
@@ -49,7 +51,6 @@ const Chat = (props) => {
     addMsg((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime }];
     });
-    console.log(messages);
   };
 
   return (

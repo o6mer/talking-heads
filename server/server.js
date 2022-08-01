@@ -21,7 +21,7 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
-  console.log("hello world!");
+  console.log("new connection");
   socket.on("getMsg", (msg) => {
     socket.broadcast.emit("receiveMsg", msg);
   });
