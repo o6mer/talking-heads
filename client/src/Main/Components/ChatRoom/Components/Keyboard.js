@@ -15,7 +15,7 @@ const Keyboard = (props) => {
   return (
     <form
       action=""
-      className="flex gap-2 "
+      className="flex gap-2 mt-auto"
       method="POST"
       onSubmit={(e) => {
         e.preventDefault();

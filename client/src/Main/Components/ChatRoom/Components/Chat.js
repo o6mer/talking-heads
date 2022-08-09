@@ -1,31 +1,24 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
-
-// import { socket } from "../../../MainPage.js";
-
-import { io } from "socket.io-client";
+import { UserContext } from "../../../../contexts/UserContextProvider";
+import { socket } from "../../../MainPage";
 
 const Chat = (props) => {
   const { roomId, chatArr } = props;
-
   const [messages, addMsg] = useState(chatArr); //keeping track on the messages
-  const [val, setVal] = useState({});
-  const [connectedSocket, setConnectedSocket] = useState({});
+  const { userId, currentRoomId } = useContext(UserContext);
 
   useEffect(() => {
-    const socket = io("http://localhost:8080");
-    setConnectedSocket(socket);
     socket.on("receiveMsg", (msg) => {
       sendMessage(msg);
-      console.log("I");
     });
   }, []);
 
   const postMsg = async (msg) => {
     const newMsg = {
-      msgWriter: "p1",
-      msgTime: "28:00",
+      msgWriter: userId,
+      msgTime: new Date(),
       msgContent: msg,
     };
     try {
@@ -41,8 +34,8 @@ const Chat = (props) => {
     } catch (error) {
       console.log(error);
     }
-    if (!connectedSocket) return;
-    connectedSocket.emit("getMsg", newMsg);
+    if (!socket) return;
+    socket.emit("getMsg", newMsg, currentRoomId);
   };
 
   const sendMessage = (msg) => {
@@ -54,11 +47,14 @@ const Chat = (props) => {
   };
 
   return (
-    <section className="flex flex-col gap-5 w-full h-full p-3">
-      {messages.map((element) => {
-        // making ChatMsg components from the messages array
-        return <ChatMsg msgObj={element} />;
-      })}
+    <section className="flex flex-col gap-5 h-full w-full p-3">
+      <div className="flex flex-col gap-1 max-h-full overflow-y-scroll ">
+        {messages.map((element) => {
+          // making ChatMsg components from the messages array
+          return <ChatMsg {...element} />;
+        })}
+      </div>
+
       <Keyboard postMsg={postMsg} roomId={props.roomId} />
     </section>
   );

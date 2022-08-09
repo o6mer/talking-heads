@@ -28,10 +28,10 @@ const ChatRoom = (props) => {
   }, [roomId]); // take action when the roomId changes
 
   return (
-    <main className="flex w-full">
+    <main className="flex w-full ">
       {_id ? (
         <>
-          <section className="w-full flex flex-col ">
+          <section className="w-full h-[90vh] flex flex-col ">
             {code ? <Dashboard code={code} /> : <SpotifyAuth />}
             <Chat chatArr={messages} roomId={_id} key={_id} />
           </section>

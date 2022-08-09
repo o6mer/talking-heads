@@ -21,9 +21,14 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
-  console.log("new connection");
-  socket.on("getMsg", (msg) => {
-    socket.broadcast.emit("receiveMsg", msg);
+  socket.on("getMsg", (msg, room) => {
+    if (room === "") socket.broadcast.emit("receiveMsg", msg);
+    else socket.to(room).emit("receiveMsg", msg);
+
+    console.log(msg);
+  });
+  socket.on("join-room", (room) => {
+    socket.join(room);
   });
 });
 

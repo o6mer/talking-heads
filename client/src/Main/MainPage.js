@@ -4,6 +4,9 @@ import SideBar from "./Components/SideBar/SideBar";
 import NavBar from "./Components/General/NavBar";
 import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
+import { io } from "socket.io-client";
+
+export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const roomId = useParams().roomId;
