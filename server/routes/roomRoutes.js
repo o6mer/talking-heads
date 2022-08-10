@@ -1,3 +1,5 @@
+//route: /api/room/...
+
 const express = require("express");
 const {
   getRoomById,

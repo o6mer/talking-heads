@@ -4,56 +4,42 @@ import { useState } from "react";
 
 // import { TextField } from "@mui/material/TextField";
 // import SendIcon from "@mui/icons-material/Send";
+import TextField from "@mui/material/TextField";
 
 const Keyboard = (props) => {
-  const [msg, setMsg] = useState({
-    msgWriter: "p1",
-    msgContent: "",
-    msgTime: "00:00",
-  });
+  const { sendMsg, roomId, postMsg } = props;
+  const [msg, setMsg] = useState("");
 
   function typing(event) {
-    setMsg((prev) => {
-      return {
-        ...prev,
-        msgContent: event.target.value,
-      };
-    });
+    setMsg(event.target.value);
   }
 
   return (
-    // <section className="w-full bg-slate-300 px-5 py-3 ">
-    <form action="" className="flex gap-2 ">
-      {/* <TextField
+    <form
+      action=""
+      className="flex gap-2 mt-auto"
+      method="POST"
+      onSubmit={(e) => {
+        e.preventDefault();
+        postMsg(msg);
+        setMsg("");
+      }}
+    >
+      <TextField
         type="text"
         className="w-full"
         name="message"
         placeholder="Write a message"
-        value={msg.msgContent}
+        value={msg}
         onChange={typing}
-      /> */}
+      />
       <button
         type="submit"
         className="bg-white p-1 border-solid border-2 border-black"
-        onClick={(e) => {
-          fetch(`http://localhost:3001/api/room/${props.roomId}`, {
-            method: "POST",
-          });
-          e.preventDefault();
-          props.sendMsg(msg);
-          setMsg(() => {
-            return {
-              msgWriter: "p1",
-              msgContent: "",
-              msgTime: "00:00",
-            };
-          });
-        }}
       >
         <AiOutlineSend />
       </button>
     </form>
-    // </section>
   );
 };
 

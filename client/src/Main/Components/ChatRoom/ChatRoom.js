@@ -10,6 +10,7 @@ const ChatRoom = (props) => {
   let { roomId, roomList } = props; //might not need the roomList
 
   const [chatRoom, setChatRoom] = useState({});
+  const { _id, messages, pop } = chatRoom;
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -24,15 +25,13 @@ const ChatRoom = (props) => {
       }
     };
     sendRequest();
-  }, [roomId]); // reRenders when the roomId changes
-
-  const { _id, messages, pop } = chatRoom;
+  }, [roomId]); // take action when the roomId changes
 
   return (
-    <main className="flex w-full">
+    <main className="flex w-full h-[90vh]">
       {_id ? (
         <>
-          <section className="w-full flex flex-col ">
+          <section className="w-full h-full  flex flex-col ">
             {code ? <Dashboard code={code} /> : <SpotifyAuth />}
             <Chat chatArr={messages} roomId={_id} key={_id} />
           </section>
