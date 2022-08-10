@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime }) => {
-  const currentUserId = useContext(UserContext).user.userId;
+  const { currentUserId } = useContext(UserContext);
 
   return (
     <div
