@@ -65,6 +65,7 @@ const deleteMessages = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     await Room.findByIdAndUpdate(roomId, { $set: { messages: [] } });
+    res.status(200).json({ message: "messages deleted" });
   } catch (err) {
     console.log(err);
   }

@@ -51,7 +51,9 @@ const Chat = (props) => {
       const response = await fetch(
         `http://localhost:3001/api/room/deletMessages/${roomId}`
       );
-      const resData = await response.json();
+      window.location.reload(false);
+      addMsg([]);
+      console.log("reload");
     } catch (error) {
       console.log(error);
     }
