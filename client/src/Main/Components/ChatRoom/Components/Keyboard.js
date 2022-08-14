@@ -1,13 +1,12 @@
 import React from "react";
 import { AiOutlineSend } from "react-icons/ai";
 import { useState } from "react";
-
 // import { TextField } from "@mui/material/TextField";
 // import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
 
 const Keyboard = (props) => {
-  const { sendMsg, roomId, postMsg } = props;
+  const { sendMsg, roomId, postMsg, deleteAllMessages } = props;
   const [msg, setMsg] = useState("");
 
   function typing(event) {
@@ -38,6 +37,12 @@ const Keyboard = (props) => {
         className="bg-white p-1 border-solid border-2 border-black"
       >
         <AiOutlineSend />
+      </button>
+      <button
+        className="bg-white p-1 border-solid border-2 border-black"
+        onClick={deleteAllMessages}
+      >
+        X
       </button>
     </form>
   );

@@ -46,6 +46,17 @@ const Chat = (props) => {
     });
   };
 
+  const deleteAllMessages = async () => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/room/deletMessages/${roomId}`
+      );
+      const resData = await response.json();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <section className="flex flex-col gap-5 h-full w-full p-3">
       <div className="flex flex-col gap-1 max-h-full overflow-y-scroll ">
@@ -55,7 +66,11 @@ const Chat = (props) => {
         })}
       </div>
 
-      <Keyboard postMsg={postMsg} roomId={props.roomId} />
+      <Keyboard
+        postMsg={postMsg}
+        roomId={props.roomId}
+        deleteAllMessages={deleteAllMessages}
+      />
     </section>
   );
 };

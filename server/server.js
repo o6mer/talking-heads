@@ -21,14 +21,25 @@ app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
 io.on("connection", (socket) => {
+  const rooms = [];
   socket.on("getMsg", (msg, room) => {
     if (room === "") socket.broadcast.emit("receiveMsg", msg);
-    else socket.to(room).emit("receiveMsg", msg);
+    else {
+      socket.to(room).emit("receiveMsg", msg);
+      console.log(room);
+    }
 
-    console.log(msg);
+    // console.log(msg);
   });
   socket.on("join-room", (room) => {
+    console.log(rooms);
+    if (rooms.length !== 0) {
+      rooms.forEach(() => {
+        socket.leave(rooms.shift());
+      });
+    }
     socket.join(room);
+    rooms.push(room);
   });
 });
 

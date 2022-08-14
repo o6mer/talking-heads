@@ -61,4 +61,13 @@ const sendMessage = async (req, res, next) => {
   res.json({ ...newMsg });
 };
 
-module.exports = { getRoomById, sendMessage, getAllRooms };
+const deleteMessages = async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    await Room.findByIdAndUpdate(roomId, { $set: { messages: [] } });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+module.exports = { getRoomById, sendMessage, getAllRooms, deleteMessages };
