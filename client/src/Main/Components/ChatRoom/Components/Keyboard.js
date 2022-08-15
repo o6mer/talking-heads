@@ -14,37 +14,39 @@ const Keyboard = (props) => {
   }
 
   return (
-    <form
-      action=""
-      className="flex gap-2 mt-auto"
-      method="POST"
-      onSubmit={(e) => {
-        e.preventDefault();
-        postMsg(msg);
-        setMsg("");
-      }}
-    >
-      <TextField
-        type="text"
-        className="w-full"
-        name="message"
-        placeholder="Write a message"
-        value={msg}
-        onChange={typing}
-      />
-      <button
-        type="submit"
-        className="bg-white p-1 border-solid border-2 border-black"
+    <div className="justify-self-end mt-auto">
+      <form
+        action=""
+        className="flex gap-2 mt-auto"
+        method="POST"
+        onSubmit={(e) => {
+          e.preventDefault();
+          postMsg(msg);
+          setMsg("");
+        }}
       >
-        <AiOutlineSend />
-      </button>
-      <button
-        className="bg-white p-1 border-solid border-2 border-black"
-        onClick={deleteAllMessages}
-      >
-        X
-      </button>
-    </form>
+        <TextField
+          type="text"
+          className="w-full"
+          name="message"
+          placeholder="Write a message"
+          value={msg}
+          onChange={typing}
+        />
+        <button
+          type="submit"
+          className="bg-white p-1 border-solid border-2 border-black"
+        >
+          <AiOutlineSend />
+        </button>
+        <button
+          className="bg-white p-1 border-solid border-2 border-black"
+          onClick={deleteAllMessages}
+        >
+          X
+        </button>
+      </form>
+    </div>
   );
 };
 

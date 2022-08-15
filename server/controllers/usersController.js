@@ -76,6 +76,8 @@ const login = async (req, res, next) => {
     return next();
   }
 
+  console.log(user);
+
   res.status(200).json({
     user,
   });

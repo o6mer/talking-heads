@@ -6,18 +6,18 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import axios from "axios";
 
 const NavBar = () => {
-  const user = useContext(UserContext).user;
+  const { user } = useContext(UserContext);
 
   const clickHandler = async (e) => {
     e.preventDefault();
-
-    try {
-      const req = await fetch(`http://localhost:3001/api/user/${user.userId}`);
-      const data = await req.json();
-      console.log(data.user);
-    } catch (err) {
-      console.log(err);
-    }
+    console.log(user);
+    // try {
+    //   const req = await fetch(`http://localhost:3001/api/user/${user.userId}`);
+    //   const data = await req.json();
+    //   console.log(data.user);
+    // } catch (err) {
+    //   console.log(err);
+    // }
   };
 
   return (

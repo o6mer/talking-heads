@@ -25,16 +25,14 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
   return (
-    <main>
+    <main className="h-screen">
       <NavBar />
-      <div className="flex">
-        {roomList && (
-          <>
-            <SideBar roomList={roomList} />
-            <ChatRoom roomId={roomId} roomList={roomList} />
-          </>
-        )}
-      </div>
+      {roomList && (
+        <div className="flex h-[90vh]">
+          <SideBar roomList={roomList} />
+          <ChatRoom roomId={roomId} roomList={roomList} />
+        </div>
+      )}
     </main>
   );
 };
