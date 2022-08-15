@@ -16,6 +16,7 @@ const ChatRoom = (props) => {
           `http://localhost:3001/api/room/${roomId}`
         );
         const resData = await response.json();
+        console.log(resData);
         setChatRoom(resData.room);
       } catch (err) {
         console.log(err);
@@ -28,8 +29,8 @@ const ChatRoom = (props) => {
     <>
       {_id ? (
         <section className="w-full flex">
-          <Chat chatArr={messages} roomId={_id} key={_id} />
-          <ProfilesSideBar pop={pop} key={_id} />
+          <Chat chatArr={messages} roomId={_id} />
+          <ProfilesSideBar pop={pop} />
         </section>
       ) : (
         <div>Loading</div>

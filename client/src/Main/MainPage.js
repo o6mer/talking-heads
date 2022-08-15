@@ -10,6 +10,7 @@ export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const roomId = useParams().roomId;
+  console.log(roomId);
   const [roomList, setRoomList] = useState();
 
   useEffect(() => {

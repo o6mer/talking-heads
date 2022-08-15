@@ -14,6 +14,10 @@ const Chat = (props) => {
   const { user, currentRoomId } = useContext(UserContext);
 
   useEffect(() => {
+    addMsg(chatArr);
+  }, [chatArr]);
+
+  useEffect(() => {
     socket.on("receiveMsg", (msg) => {
       sendMessage(msg);
     });

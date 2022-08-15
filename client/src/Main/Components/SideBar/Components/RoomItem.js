@@ -16,7 +16,6 @@ const RoomItem = (props) => {
       onClick={(e) => {
         socket.emit("join-room", _id);
         setCurrentRoomId(_id);
-        console.log(_id);
       }}
     >
       <div
