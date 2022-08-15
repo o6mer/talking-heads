@@ -6,7 +6,7 @@ import { socket } from "../../../MainPage";
 const RoomItem = (props) => {
   const { _id, name, maxPop, pop, messages, currentSong } = props.room;
 
-  const { setCurrentRoomId } = useContext(UserContext);
+  const { setCurrentRoomId, user } = useContext(UserContext);
   console.log();
   const rowContainerStyle = "flex gap-3 p-2 items-center justify-between ";
 
@@ -14,7 +14,7 @@ const RoomItem = (props) => {
     <Link
       to={`/main/${_id}`}
       onClick={(e) => {
-        socket.emit("join-room", _id);
+        socket.emit("join-room", _id, user._id);
         setCurrentRoomId(_id);
       }}
     >

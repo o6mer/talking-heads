@@ -71,4 +71,37 @@ const deleteMessages = async (req, res, next) => {
   }
 };
 
-module.exports = { getRoomById, sendMessage, getAllRooms, deleteMessages };
+const joinRoom = async (roomId, userId) => {
+  try {
+    const currentRoom = await Room.find({ pop: userId });
+    const currentRoomId = currentRoom[0]._id.toString();
+
+    if (currentRoomId === roomId) {
+      console.log(
+        currentRoomId + " already joined the room | roomdId: " + roomId
+      );
+      return;
+    }
+
+    if (currentRoom.length !== 0) {
+      await Room.findByIdAndUpdate(currentRoomId, {
+        $pull: { pop: userId },
+      });
+      console.log(userId + " removed from: " + currentRoomId);
+    }
+
+    await Room.findByIdAndUpdate(roomId, { $push: { pop: userId } });
+    return "joined room";
+  } catch (err) {
+    console.log(err);
+    return new Error(err);
+  }
+};
+
+module.exports = {
+  getRoomById,
+  sendMessage,
+  getAllRooms,
+  deleteMessages,
+  joinRoom,
+};

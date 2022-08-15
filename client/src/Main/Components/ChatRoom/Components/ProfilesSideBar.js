@@ -1,14 +1,18 @@
-import React from "react";
+import React, { useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
 
 const ProfilesSideBar = (props) => {
   const { pop } = props;
 
-  const [people, alterUsers] = useState(pop); // might not need that use state and only use "pop"
+  const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
+
+  useEffect(() => {
+    setPeople(pop);
+  }, [pop]);
 
   const removeUser = (user) => {
-    alterUsers((prev) => {
+    setPeople((prev) => {
       const newArr = prev.filter((element) => {
         return element.id !== user.id; // keeps all the users which their id is not the given one
       });
@@ -16,7 +20,7 @@ const ProfilesSideBar = (props) => {
   };
 
   const addUser = (user) => {
-    alterUsers(
+    setPeople(
       (prev) => prev.push(user) // adding the user to the array
     );
   };
