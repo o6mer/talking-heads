@@ -16,7 +16,6 @@ const ChatRoom = (props) => {
           `http://localhost:3001/api/room/${roomId}`
         );
         const resData = await response.json();
-        console.log(resData);
         setChatRoom(resData.room);
       } catch (err) {
         console.log(err);

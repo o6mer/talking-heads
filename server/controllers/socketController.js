@@ -8,7 +8,6 @@ const onSocketConection = (socket) => {
     if (room === "") socket.broadcast.emit("receiveMsg", msg);
     else {
       socket.to(room).emit("receiveMsg", msg);
-      console.log(room);
     }
   }
 
@@ -20,7 +19,7 @@ const onSocketConection = (socket) => {
       });
     }
     try {
-      await joinRoom(room, userId);
+      // await joinRoom(room, userId);
       socket.join(room);
       rooms.push(room);
     } catch (err) {

@@ -25,9 +25,7 @@ app.use(bodyParser.json());
 io.on("connection", onSocketConection);
 
 const routerLand = express.Router();
-routerLand.get("/", (req, res, next) => {
-  console.log("LMAO");
-});
+routerLand.get("/", (req, res, next) => {});
 
 app.use("/api/user", usersRoutes);
 app.use("/api/spotify", spotifyRoutes);

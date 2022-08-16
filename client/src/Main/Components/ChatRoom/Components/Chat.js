@@ -61,7 +61,6 @@ const Chat = (props) => {
       );
       window.location.reload(false);
       addMsg([]);
-      console.log("reload");
     } catch (error) {
       console.log(error);
     }

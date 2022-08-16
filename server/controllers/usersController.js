@@ -75,9 +75,6 @@ const login = async (req, res, next) => {
     res.status(400).json({ message: "Invalid username or password" });
     return next();
   }
-
-  console.log(user);
-
   res.status(200).json({
     user,
   });

@@ -1,11 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
+import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const ProfilesSideBar = (props) => {
   const { pop } = props;
 
   const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
+
+  const { currentRoom } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!currentRoom) return;
+    setPeople(currentRoom.pop);
+  }, [currentRoom.pop]);
 
   useEffect(() => {
     setPeople(pop);
