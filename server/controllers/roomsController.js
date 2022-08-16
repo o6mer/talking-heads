@@ -74,7 +74,10 @@ const joinRoom = async (req, res, next) => {
   const { userId } = req.body;
   try {
     const currentRoom = await Room.find({ pop: userId });
-    const currentRoomId = currentRoom[0]._id.toString();
+
+    console.log(currentRoom);
+    let currentRoomId;
+    if (currentRoom.length !== 0) currentRoomId = currentRoom[0]._id.toString();
 
     if (currentRoomId === roomId) {
       res.status(400).json({ message: "already joined the room" });
