@@ -6,13 +6,18 @@ const {
   sendMessage,
   getAllRooms,
   deleteMessages,
+  addRoom,
 } = require("../controllers/roomsController");
 
 const router = express.Router();
 
-router.get("/:roomId", getRoomById); // get room details
+//get
 router.get("/", getAllRooms); // get all the rooms as an array
+router.get("/:roomId", getRoomById); // get room details
 router.get("/deletMessages/:roomId", deleteMessages);
-router.post("/:roomId", sendMessage); // send a message
+
+//post
+router.post("/", addRoom); // add a new room
+router.post("/:roomId", sendMessage); // send a message in a specific room id
 
 module.exports = router;
