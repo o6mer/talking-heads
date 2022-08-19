@@ -16,9 +16,10 @@ const Chat = (props) => {
 
   //post a message to the backend
   const postMsg = async (msgContent) => {
+    const time = new Date();
     const newMsg = {
-      msgWriter: user.user.userName,
-      msgTime: new Date(),
+      msgWriter: user.userName,
+      msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
 
