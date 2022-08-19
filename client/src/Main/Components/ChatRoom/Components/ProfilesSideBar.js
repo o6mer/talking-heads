@@ -6,6 +6,7 @@ const ProfilesSideBar = (props) => {
   const { pop } = props;
 
   const [people, alterUsers] = useState(pop); // might not need that use state and only use "pop"
+  console.log(people);
 
   const removeUser = (user) => {
     alterUsers((prev) => {

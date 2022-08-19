@@ -4,12 +4,12 @@ import RoomSearch from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
 
 const SideBar = (props) => {
-  const { roomList } = props;
+  const { roomList, joinRoom } = props;
 
   return (
     <aside className="flex flex-col h-[90vh] max-w-xs border-black border-solid border-2">
       <RoomSearch />
-      <RoomList roomList={roomList} />
+      <RoomList roomList={roomList} joinRoom={joinRoom} />
       {/* <button className="mt-auto border-black border-solid border-2 p-2">
         create room
       </button> */}

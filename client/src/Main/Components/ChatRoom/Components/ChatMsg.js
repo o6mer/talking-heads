@@ -2,17 +2,17 @@ import React, { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime }) => {
-  const { currentUserId } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   return (
     <div
       className={`flex max-w-max p-3  gap-3 text-xl font-bold justify-around border-2 border-black border-solid> ${
-        currentUserId === msgWriter && "self-end bg-green-300"
+        user.user.userName === msgWriter ? "self-end bg-blue-300" : ""
       }`}
     >
-      <p>{msgWriter ?? "p1"}</p>
-      <p>{msgContent ?? "erorr"}</p>
-      <p>{msgTime ?? "00:00:00"}</p>
+      <p>{msgWriter}</p>
+      <p>{msgContent}</p>
+      <p>{msgTime}</p>
     </div>
   );
 };

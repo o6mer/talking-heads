@@ -5,6 +5,7 @@ import { socket } from "../../../MainPage";
 
 const RoomItem = (props) => {
   const { _id, name, maxPop, pop, messages, currentSong } = props.room;
+  const { joinRoom } = props;
 
   const { setCurrentRoomId } = useContext(UserContext);
   console.log();
@@ -14,9 +15,8 @@ const RoomItem = (props) => {
     <Link
       to={`/main/${_id}`}
       onClick={(e) => {
-        socket.emit("join-room", _id);
-        setCurrentRoomId(_id);
-        console.log(_id);
+        // e.preventDefault();
+        joinRoom(_id);
       }}
     >
       <div
