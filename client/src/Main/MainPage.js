@@ -13,6 +13,12 @@ const MainPage = () => {
   const [roomList, setRoomList] = useState();
   const { setCurrentRoomId } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
+  const { roomId } = useParams();
+
+  useEffect(() => {
+    if (!roomId) return;
+    joinRoom(roomId);
+  }, []);
 
   const joinRoom = async (roomId) => {
     socket.emit("join-room", roomId);
@@ -39,13 +45,17 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
 
+  useEffect(() => {
+    console.log(selectedRoom);
+  }, [selectedRoom]);
+
   return (
     <main className="h-screen bg-gray-200">
       <NavBar />
       {roomList && (
         <div className="flex h-[90vh]">
           <SideBar roomList={roomList} joinRoom={joinRoom} />
-          <ChatRoom selectedRoom={selectedRoom} />
+          <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
         </div>
       )}
     </main>

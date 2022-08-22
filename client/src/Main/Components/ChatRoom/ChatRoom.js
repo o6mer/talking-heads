@@ -8,13 +8,14 @@ const code = new URLSearchParams(window.location.search).get("code");
 
 const ChatRoom = ({ selectedRoom }) => {
   const { _id, messages, pop } = selectedRoom;
+
   console.log(selectedRoom);
 
   return (
     <>
       {_id ? (
         <section className="w-full flex">
-          <Chat msgsArr={messages} roomId={_id} />
+          <Chat msgsArr={messages} roomId={_id} key={_id} />
           <ProfilesSideBar pop={pop} key={_id} />
         </section>
       ) : (
