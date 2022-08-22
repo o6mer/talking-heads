@@ -10,7 +10,6 @@ import { UserContext } from "../contexts/UserContextProvider";
 export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
-  // const roomId = useParams().roomId;
   const [roomList, setRoomList] = useState();
   const { setCurrentRoomId } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
@@ -40,16 +39,14 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
   return (
-    <main className="bg-gray-200">
+    <main className="h-screen bg-gray-200">
       <NavBar />
-      <div className="flex">
         {roomList && (
-          <>
+          <div className="flex h-[90vh]">
             <SideBar roomList={roomList} joinRoom={joinRoom} />
             <ChatRoom selectedRoom={selectedRoom} />
-          </>
+          </div>
         )}
-      </div>
     </main>
   );
 };

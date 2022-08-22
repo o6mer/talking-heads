@@ -7,6 +7,8 @@ const mongoose = require("mongoose");
 const usersRoutes = require("./routes/usersRoutes");
 const spotifyRoutes = require("./routes/spotifyRoutes");
 const roomRoutes = require("./routes/roomRoutes");
+const { onSocketConection } = require("./controllers/socketController");
+
 const io = require("socket.io")(8080, {
   cors: {
     origin: ["http://localhost:3000"],
@@ -20,33 +22,10 @@ const app = express();
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
-io.on("connection", (socket) => {
-  const rooms = [];
-  socket.on("getMsg", (msg, room) => {
-    if (room === "") socket.broadcast.emit("receiveMsg", msg);
-    else {
-      socket.to(room).emit("receiveMsg", msg);
-      console.log(room);
-    }
-
-    // console.log(msg);
-  });
-  socket.on("join-room", (room) => {
-    console.log(rooms);
-    if (rooms.length !== 0) {
-      rooms.forEach(() => {
-        socket.leave(rooms.shift());
-      });
-    }
-    socket.join(room);
-    rooms.push(room);
-  });
-});
+io.on("connection", onSocketConection);
 
 const routerLand = express.Router();
-routerLand.get("/", (req, res, next) => {
-  console.log("LMAO");
-});
+routerLand.get("/", (req, res, next) => {});
 
 app.use("/api/user", usersRoutes);
 app.use("/api/spotify", spotifyRoutes);

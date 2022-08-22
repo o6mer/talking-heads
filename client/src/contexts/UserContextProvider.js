@@ -13,7 +13,7 @@ const UserPorivder = ({ children }) => {
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, currentRoomId, setCurrentRoomId }}
+      value={{ user, setUser, currentRoom, setCurrentRoom }}
     >
       {children}
     </UserContext.Provider>

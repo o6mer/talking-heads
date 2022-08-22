@@ -52,7 +52,6 @@ const SignupPage = () => {
     }
 
     setUser(data);
-    console.log(data);
   };
 
   return (

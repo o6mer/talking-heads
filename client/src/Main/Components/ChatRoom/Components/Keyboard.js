@@ -17,8 +17,7 @@ const Keyboard = (props) => {
   }
 
   return (
-    <div className="mt-auto">
-      <div className="">
+    <div className="justify-self-end mt-auto">
         <form
           action=""
           className="flex gap-x-1"
@@ -46,7 +45,6 @@ const Keyboard = (props) => {
             <DeleteForeverIcon color="primary" />
           </IconButton>
         </form>
-      </div>
     </div>
   );
 };
