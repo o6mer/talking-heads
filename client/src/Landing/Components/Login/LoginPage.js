@@ -23,7 +23,7 @@ const LoginPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        setUser(data.user[0]);
+        setUser(data.user);
         navigate("/main/1");
       } else throw new Error(data.message);
     } catch (error) {

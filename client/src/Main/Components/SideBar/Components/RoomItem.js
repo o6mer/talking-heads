@@ -5,6 +5,7 @@ import { socket } from "../../../MainPage";
 
 const RoomItem = (props) => {
   const { _id, name, maxPop, pop, messages, currentSong } = props.room;
+  const { joinRoom } = props;
 
   const { setCurrentRoom, user } = useContext(UserContext);
   const rowContainerStyle = "flex gap-3 p-2 items-center justify-between ";
@@ -37,11 +38,14 @@ const RoomItem = (props) => {
   };
 
   return (
-    <Link to={`/main/${_id}`} onClick={onRoomClickHandler}>
+    <Link
+      to={`/main/${_id}`}
+      onClick={(e) => {
+        joinRoom(_id);
+      }}
+    >
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-2  hover:bg-blue-300 cursor-pointer p-4 box-border text-xl font-bold ${
-          _id === 1 && "bg-blue-200"
-        }`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-2  hover:bg-blue-300 cursor-pointer p-4 box-border text-xl font-bold`}
       >
         <div className={rowContainerStyle}>
           <p>{name}</p>

@@ -9,13 +9,9 @@ import Dashboard from "../../SpotifyApi/Dashboard";
 const code = new URLSearchParams(window.location.search).get("code");
 
 const Chat = (props) => {
-  const { roomId, chatArr } = props;
-  const [messages, addMsg] = useState(chatArr); //keeping track on the messages
+  const { roomId, msgsArr } = props;
+  const [messages, setMsg] = useState(msgsArr); //keeping track on the messages
   const { user, currentRoomId } = useContext(UserContext);
-
-  useEffect(() => {
-    addMsg(chatArr);
-  }, [chatArr]);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg) => {
@@ -23,12 +19,15 @@ const Chat = (props) => {
     });
   }, []);
 
-  const postMsg = async (msg) => {
+  //post a message to the backend
+  const postMsg = async (msgContent) => {
+    const time = new Date();
     const newMsg = {
       msgWriter: user.userName,
-      msgTime: new Date(),
-      msgContent: msg,
+      msgTime: `${time.getHours()}:${time.getMinutes()}`,
+      msgContent,
     };
+
     try {
       const response = await fetch(`http://localhost:3001/api/room/${roomId}`, {
         method: "POST",
@@ -46,10 +45,11 @@ const Chat = (props) => {
     socket.emit("getMsg", newMsg, currentRoomId);
   };
 
+  //send a message in the frontend
   const sendMessage = (msg) => {
     //front arr
     const { msgWriter, msgContent, msgTime } = msg;
-    addMsg((prev) => {
+    setMsg((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime }];
     });
   };
@@ -60,7 +60,8 @@ const Chat = (props) => {
         `http://localhost:3001/api/room/deletMessages/${roomId}`
       );
       window.location.reload(false);
-      addMsg([]);
+      setMsg([]);
+      console.log("reload");
     } catch (error) {
       console.log(error);
     }

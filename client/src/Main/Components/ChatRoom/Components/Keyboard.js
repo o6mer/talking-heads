@@ -4,6 +4,9 @@ import { useState } from "react";
 // import { TextField } from "@mui/material/TextField";
 // import SendIcon from "@mui/icons-material/Send";
 import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import SendIcon from "@mui/icons-material/Send";
+import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 
 const Keyboard = (props) => {
   const { sendMsg, roomId, postMsg, deleteAllMessages } = props;
@@ -15,37 +18,33 @@ const Keyboard = (props) => {
 
   return (
     <div className="justify-self-end mt-auto">
-      <form
-        action=""
-        className="flex gap-2 mt-auto"
-        method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          postMsg(msg);
-          setMsg("");
-        }}
-      >
-        <TextField
-          type="text"
-          className="w-full"
-          name="message"
-          placeholder="Write a message"
-          value={msg}
-          onChange={typing}
-        />
-        <button
-          type="submit"
-          className="bg-white p-1 border-solid border-2 border-black"
+        <form
+          action=""
+          className="flex gap-x-1"
+          method="POST"
+          onSubmit={(e) => {
+            e.preventDefault();
+            postMsg(msg);
+            setMsg("");
+          }}
         >
-          <AiOutlineSend />
-        </button>
-        <button
-          className="bg-white p-1 border-solid border-2 border-black"
-          onClick={deleteAllMessages}
-        >
-          X
-        </button>
-      </form>
+          <div className="w-full mt-1">
+            <TextField
+              type="text"
+              className="w-full"
+              name="message"
+              placeholder="Write a message"
+              value={msg}
+              onChange={typing}
+            />
+          </div>
+          <IconButton type="submit">
+            <SendIcon color="primary" />
+          </IconButton>
+          <IconButton onClick={deleteAllMessages}>
+            <DeleteForeverIcon color="primary" />
+          </IconButton>
+        </form>
     </div>
   );
 };

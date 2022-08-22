@@ -76,7 +76,7 @@ const login = async (req, res, next) => {
     return next();
   }
   res.status(200).json({
-    user,
+    user: user[0],
   });
 };
 

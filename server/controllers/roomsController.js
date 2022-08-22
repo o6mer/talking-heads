@@ -28,9 +28,10 @@ const getAllRooms = async (req, res, next) => {
 };
 
 const addRoom = async (req, res, next) => {
+  const { roomName, maxPop } = req.body; // getting the room details from the request body
   const newRoom = new Room({
-    name: "room1",
-    maxPop: 10,
+    name: roomName,
+    maxPop,
     pop: [],
     messages: [],
     currentSong: "drake",
@@ -116,4 +117,5 @@ module.exports = {
   getAllRooms,
   deleteMessages,
   joinRoom,
+  addRoom,
 };
