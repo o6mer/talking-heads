@@ -19,6 +19,10 @@ const Chat = (props) => {
     });
   }, []);
 
+  useEffect(() => {
+    setMsg(msgsArr);
+  }, [msgsArr]);
+
   //post a message to the backend
   const postMsg = async (msgContent) => {
     const time = new Date();

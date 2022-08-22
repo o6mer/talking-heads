@@ -20,7 +20,7 @@ const MainPage = () => {
     try {
       const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
       const resData = await response.json();
-      setSelRoom(resData.room); // changing the currRoom
+      setSelRoom(resData.room);
     } catch (err) {
       console.log(err);
     }
@@ -38,15 +38,16 @@ const MainPage = () => {
     };
     sendRequest(); // calling the func above
   }, []);
+
   return (
     <main className="h-screen bg-gray-200">
       <NavBar />
-        {roomList && (
-          <div className="flex h-[90vh]">
-            <SideBar roomList={roomList} joinRoom={joinRoom} />
-            <ChatRoom selectedRoom={selectedRoom} />
-          </div>
-        )}
+      {roomList && (
+        <div className="flex h-[90vh]">
+          <SideBar roomList={roomList} joinRoom={joinRoom} />
+          <ChatRoom selectedRoom={selectedRoom} />
+        </div>
+      )}
     </main>
   );
 };
