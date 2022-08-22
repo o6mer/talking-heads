@@ -40,7 +40,7 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
   return (
-    <main>
+    <main className="bg-gray-200">
       <NavBar />
       <div className="flex">
         {roomList && (

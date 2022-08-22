@@ -6,26 +6,23 @@ import Link from "@mui/material/Link";
 const ChatMsg = ({ msgWriter, msgContent, msgTime }) => {
   const { user } = useContext(UserContext);
   const loggedUserName = user.userName;
-  const isLoggedInUser = loggedUserName === msgWriter;
-  console.log("logged in? " + isLoggedInUser);
+  const isLoggedInUser = loggedUserName === msgWriter; //boolean value represents if the message is written by the logged in user
 
   return (
     <div
       className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-black border-solid rounded-md ${
-        isLoggedInUser ? "self-end bg-green-300" : "bg-gray-300"
+        isLoggedInUser ? "self-end bg-blue-200" : "bg-gray-400"
       }`}
     >
       <div>
-        <Link
-          // className={`${isLoggedInUser ? "text-gray-300" : "text-blue-500"}`}
-          href="#"
-          color="primary"
-        >
-          {msgWriter}
-        </Link>
+        <Link href="#">{msgWriter}</Link>
       </div>
 
-      <div className="flex gap-4 text-xl">
+      <div
+        className={`flex gap-4 text-xl ${
+          isLoggedInUser ? "text-black" : "text-white"
+        }`}
+      >
         <p>{msgContent}</p>
       </div>
 

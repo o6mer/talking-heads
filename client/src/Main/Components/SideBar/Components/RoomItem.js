@@ -15,14 +15,11 @@ const RoomItem = (props) => {
     <Link
       to={`/main/${_id}`}
       onClick={(e) => {
-        // e.preventDefault();
         joinRoom(_id);
       }}
     >
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-2  hover:bg-blue-300 cursor-pointer p-4 box-border text-xl font-bold ${
-          _id === 1 && "bg-blue-200"
-        }`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-2  hover:bg-blue-300 cursor-pointer p-4 box-border text-xl font-bold`}
       >
         <div className={rowContainerStyle}>
           <p>{name}</p>
