@@ -5,22 +5,24 @@ import { UserContext } from "../../../../contexts/UserContextProvider";
 import { socket } from "../../../MainPage";
 
 const Chat = (props) => {
-  const { roomId, chatArr } = props;
-  const [messages, addMsg] = useState(chatArr); //keeping track on the messages
-  const { userId, currentRoomId } = useContext(UserContext);
-
+  const { roomId, msgsArr } = props;
+  const [messages, setMsg] = useState(msgsArr); //keeping track on the messages
+  const { user, currentRoomId } = useContext(UserContext);
   useEffect(() => {
     socket.on("receiveMsg", (msg) => {
       sendMessage(msg);
     });
   }, []);
 
-  const postMsg = async (msg) => {
+  //post a message to the backend
+  const postMsg = async (msgContent) => {
+    const time = new Date();
     const newMsg = {
-      msgWriter: userId,
-      msgTime: new Date(),
-      msgContent: msg,
+      msgWriter: user.userName,
+      msgTime: `${time.getHours()}:${time.getMinutes()}`,
+      msgContent,
     };
+
     try {
       const response = await fetch(`http://localhost:3001/api/room/${roomId}`, {
         method: "POST",
@@ -38,10 +40,11 @@ const Chat = (props) => {
     socket.emit("getMsg", newMsg, currentRoomId);
   };
 
+  //send a message in the frontend
   const sendMessage = (msg) => {
     //front arr
     const { msgWriter, msgContent, msgTime } = msg;
-    addMsg((prev) => {
+    setMsg((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime }];
     });
   };
@@ -52,7 +55,7 @@ const Chat = (props) => {
         `http://localhost:3001/api/room/deletMessages/${roomId}`
       );
       window.location.reload(false);
-      addMsg([]);
+      setMsg([]);
       console.log("reload");
     } catch (error) {
       console.log(error);
