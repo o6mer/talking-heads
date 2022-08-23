@@ -11,7 +11,7 @@ export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
-  const { setCurrentRoomId } = useContext(UserContext);
+  const { currentRoomId, setCurrentRoomId, user } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const { roomId } = useParams();
 
@@ -21,11 +21,24 @@ const MainPage = () => {
   }, []);
 
   const joinRoom = async (roomId) => {
-    socket.emit("join-room", roomId);
+    if (currentRoomId === roomId) return;
+
     setCurrentRoomId(roomId);
+
     try {
-      const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
+      const response = await fetch(
+        `http://localhost:3001/api/room/joinRoom/${roomId}`,
+        {
+          method: "POST",
+          body: JSON.stringify({ userId: user._id }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
       const resData = await response.json();
+      socket.emit("joinRoom", roomId, user._id);
       setSelRoom(resData.room);
     } catch (err) {
       console.log(err);
@@ -44,10 +57,6 @@ const MainPage = () => {
     };
     sendRequest(); // calling the func above
   }, []);
-
-  useEffect(() => {
-    console.log(selectedRoom);
-  }, [selectedRoom]);
 
   return (
     <main className="h-screen bg-gray-200">

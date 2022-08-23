@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
+import { socket } from "../../../MainPage";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const ProfilesSideBar = (props) => {
@@ -10,6 +11,20 @@ const ProfilesSideBar = (props) => {
   useEffect(() => {
     if (!pop) return;
     setPeople(pop);
+  }, []);
+
+  useEffect(() => {
+    socket.on("userJoinedRoom", (userId) => {
+      setPeople((prev) => {
+        return [...prev, userId];
+      });
+    });
+
+    socket.on("userLeftRoom", (userId) => {
+      setPeople((prev) => {
+        return prev.filter((user) => user !== userId);
+      });
+    });
   }, []);
 
   const removeUser = (user) => {
