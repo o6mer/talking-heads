@@ -1,8 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import useForm from "../../hooks/useForm";
 import LabeledInput from "../General/LabeledInput";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { TextField, Tooltip, Button } from "@mui/material";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 const SignupPage = () => {
   const {
@@ -16,6 +19,8 @@ const SignupPage = () => {
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
+  const [loading, setLoading] = useState(false);
+
   const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
@@ -29,6 +34,7 @@ const SignupPage = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    setLoading(true);
     let data;
     try {
       const response = await fetch("http://localhost:3001/api/user/signup", {
@@ -56,48 +62,85 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <form
-        action=""
-        className="flex flex-col gap-4 bg-gray-400 p-8 rounded-md"
-        onSubmit={submitHandler}
-      >
-        <LabeledInput
-          labelText="Email Address"
-          type="email"
-          handleChange={handleChange}
-          state={email}
-          name="email"
-        />
-        <LabeledInput
-          labelText="Password"
-          type="password"
-          handleChange={handleChange}
-          state={password}
-          name="password"
-        />
-        <LabeledInput
-          labelText="User Name"
-          type="text"
-          handleChange={handleChange}
-          state={userName}
-          name="userName"
-        />
-        <LabeledInput
-          labelText="Profie Picture"
-          type="file"
-          handleChange={handleChange}
-          state={profilePictureUrl}
-          name="profilePictureUrl"
-        />
-        <button
-          type="submit"
-          className="bg-blue-700 text-white font-bold p-1 text-center disabled:bg-blue-400"
-          disabled={!formValid}
-          // onClick={}
+      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[30%] max-w-[1000px]">
+        <Link to="/login" className="w-min">
+          <Tooltip title="Back to Login">
+            <ArrowBackIcon className="hover:fill-gray-500" />
+          </Tooltip>
+        </Link>
+        <p className="font-bold text-3xl text-center">Signup</p>
+        <form
+          action=""
+          onSubmit={submitHandler}
+          className="flex flex-col gap-2"
         >
-          Signup
-        </button>
-      </form>
+          <TextField
+            autoFocus
+            margin="dense"
+            onChange={handleChange}
+            type="email"
+            name="email"
+            label="Email"
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            onChange={handleChange}
+            type="password"
+            name="password"
+            label="Password"
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            onChange={handleChange}
+            type="text"
+            name="userName"
+            label="User Name"
+            fullWidth
+            variant="standard"
+          />
+
+          <TextField
+            autoFocus
+            margin="dense"
+            onChange={handleChange}
+            type="file"
+            name="profilePictureUrl"
+            label="Profile Picture"
+            fullWidth
+            variant="standard"
+          />
+
+          {loading ? (
+            <LoadingButton
+              onClick={() => {}}
+              loading={true}
+              variant="outlined"
+              disabled
+            >
+              disabled
+            </LoadingButton>
+          ) : (
+            <Button
+              margin="normal"
+              variant="contained"
+              type="submit"
+              disabled={!formValid}
+              fullWidth
+              // onClick={submitHandler}
+            >
+              SIGNUP
+            </Button>
+          )}
+        </form>
+      </div>
     </div>
   );
 };
