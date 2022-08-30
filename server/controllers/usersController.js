@@ -80,7 +80,27 @@ const login = async (req, res, next) => {
   });
 };
 
+const forgotPassword = async (req, res, next) => {
+  const { email } = req.body;
+
+  try {
+    const userExists = await User.exists({ email });
+    console.log(userExists);
+
+    if (userExists)
+      return res.status(200).json({ message: "user exists and email sent" });
+    else {
+      console.log(email + "doesnt exists");
+      return res.status(400).json({ message: "user doesnt exists" });
+    }
+  } catch (err) {
+    console.log(err + "error");
+    return res.status(400).json({ message: "user doesnt exists" });
+  }
+};
+
 exports.getUsers = getUsers;
 exports.signup = signup;
 exports.login = login;
 exports.getUserById = getUserById;
+exports.forgotPassword = forgotPassword;

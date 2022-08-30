@@ -11,6 +11,7 @@ import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
 import { createContext, useState } from "react";
 import UserContextProvider from "./contexts/UserContextProvider";
+import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LandingPage />} />
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route path="/main/:roomId" element={<MainPage />} />
           <Route path="/signup" element={<SignupPage />} />
           {/* <Route path="/main" element={<MainPage />} /> */}

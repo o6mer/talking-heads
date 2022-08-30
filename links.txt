@@ -1,2 +1,3 @@
 https://developers.soundcloud.com/docs/api/guide#playing
 https://www.youtube.com/watch?v=Xcet6msf3eE&t=1721s&ab_channel=WebDevSimplified
+https://www.w3schools.com/nodejs/nodejs_email.asp

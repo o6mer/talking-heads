@@ -62,7 +62,7 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[30%] max-w-[1000px]">
+      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px]">
         <Link to="/login" className="w-min">
           <Tooltip title="Back to Login">
             <ArrowBackIcon className="hover:fill-gray-500" />
@@ -74,6 +74,21 @@ const SignupPage = () => {
           onSubmit={submitHandler}
           className="flex flex-col gap-2"
         >
+          <div>
+            <img src={profilePictureUrl} alt="" />
+          </div>
+
+          <TextField
+            autoFocus
+            margin="dense"
+            onChange={handleChange}
+            type="file"
+            name="profilePictureUrl"
+            label="Profile Picture"
+            fullWidth
+            variant="standard"
+          />
+
           <TextField
             autoFocus
             margin="dense"
@@ -103,17 +118,6 @@ const SignupPage = () => {
             type="text"
             name="userName"
             label="User Name"
-            fullWidth
-            variant="standard"
-          />
-
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="file"
-            name="profilePictureUrl"
-            label="Profile Picture"
             fullWidth
             variant="standard"
           />
