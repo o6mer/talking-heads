@@ -1,20 +1,19 @@
 import React from "react";
 import RoomList from "./Components/RoomList";
-import RoomSearch from "../General/SearchBar";
+import SearchBar from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
 
+import colorConfg from "../../../colorConfg.json";
+
 const SideBar = (props) => {
-  const { roomList, joinRoom } = props;
+  const { roomList, joinRoom, setRoomList } = props;
 
   return (
-    <aside className="flex flex-col h-[90vh] max-w-xs border-black border-solid border-2">
-      <RoomSearch />
+    <aside className={`flex flex-col h-[90vh] max-w-xs bg-secondary`}>
+      <SearchBar query="room" />
       <RoomList roomList={roomList} joinRoom={joinRoom} />
-      {/* <button className="mt-auto border-black border-solid border-2 p-2">
-        create room
-      </button> */}
       <div className="mt-auto mx-auto">
-        <AddRoomBtn />
+        <AddRoomBtn roomList={roomList} setRoomList={setRoomList} />
       </div>
     </aside>
   );

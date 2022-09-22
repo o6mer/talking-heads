@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 
 import Button from "@mui/material/Button";
@@ -9,12 +9,19 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-const AddRoomBtn = () => {
+const AddRoomBtn = ({ roomList, setRoomList }) => {
   const [open, setOpen] = useState(false);
-  const [newRoom, setNewRoom] = useState({
-    roomName: "newRoom",
+  const defaultRoom = {
+    name: "newRoom",
     maxPop: 10,
-  });
+    pop: [],
+    messages: [],
+    currentSong: "drake",
+  };
+
+  const [roomId, setRoomId] = useState("");
+
+  const [newRoom, setNewRoom] = useState(defaultRoom);
 
   const onTyping = (event) => {
     const { name, value } = event.target;
@@ -24,6 +31,7 @@ const AddRoomBtn = () => {
         [name]: value,
       };
     });
+    console.log(newRoom);
   };
 
   const handleClickOpen = () => {
@@ -31,9 +39,17 @@ const AddRoomBtn = () => {
   };
 
   const handleClose = () => {
+    // setNewRoom(defaultRoom);
     setOpen(false);
   };
 
+  const addRoomFront = (addedRoom) => {
+    setRoomList((prev) => {
+      return [...prev, addedRoom];
+    });
+  };
+
+  //to get the new room id from mongo
   const handleSubmit = async () => {
     try {
       const response = await fetch(`http://localhost:3001/api/room`, {
@@ -43,10 +59,16 @@ const AddRoomBtn = () => {
         },
         body: JSON.stringify({ ...newRoom }),
       });
+      const resData = await response.json(); //the room id
+      const finalFinalTheLastRoom = {
+        ...newRoom,
+        _id: resData,
+      };
+      addRoomFront(finalFinalTheLastRoom);
+      handleClose();
     } catch (error) {
       console.log(error);
     }
-    handleClose();
   };
 
   return (
@@ -61,7 +83,7 @@ const AddRoomBtn = () => {
             autoFocus
             margin="dense"
             onChange={onTyping}
-            name="roomName"
+            name="name"
             label="Name"
             fullWidth
             variant="standard"

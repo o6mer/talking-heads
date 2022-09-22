@@ -6,11 +6,13 @@ import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
+import colorConfg from "../colorConfg.json";
 
 export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
+  console.log(roomList);
   const { setCurrentRoomId } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const { roomId } = useParams();
@@ -45,22 +47,21 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
 
-  useEffect(() => {
-    console.log(selectedRoom);
-  }, [selectedRoom]);
-
   return (
-    <main className="h-screen bg-gray-200">
+    <main className={`h-screen bg-primary`}>
       <NavBar />
-      {roomList && (
+      {roomList ? (
         <div className="flex h-[90vh]">
-          <SideBar roomList={roomList} joinRoom={joinRoom} />
+          <SideBar
+            roomList={roomList}
+            setRoomList={setRoomList}
+            joinRoom={joinRoom}
+          />
           <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
         </div>
-      )}
+      ) : null}
     </main>
   );
 };
 
 export default MainPage;
-// export { socket };

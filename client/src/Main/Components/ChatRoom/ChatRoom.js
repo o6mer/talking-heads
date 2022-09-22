@@ -9,8 +9,6 @@ const code = new URLSearchParams(window.location.search).get("code");
 const ChatRoom = ({ selectedRoom }) => {
   const { _id, messages, pop } = selectedRoom;
 
-  console.log(selectedRoom);
-
   return (
     <>
       {_id ? (

@@ -3,6 +3,8 @@ import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
+import colorConfg from "../../../../colorConfg.json";
+
 const ProfilesSideBar = (props) => {
   const { pop } = props;
   const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
@@ -27,9 +29,11 @@ const ProfilesSideBar = (props) => {
   };
 
   return (
-    <aside className="flex flex-col max-w-max h-full">
-      <SearchBar />
-      <section className="flex flex-col gap-2 p-3 border-2 border-solid border-black h-full">
+    <aside
+      className={`flex flex-col max-w-max h-full border-0 border-solid border-black bg-secondary`}
+    >
+      <SearchBar query="user" />
+      <section className="flex flex-col gap-2 p-3  h-full">
         {people.map((element) => {
           return <ProfilesSideBarItem user={element} />;
         })}

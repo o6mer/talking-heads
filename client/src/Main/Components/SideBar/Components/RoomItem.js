@@ -5,7 +5,7 @@ const RoomItem = (props) => {
   const { joinRoom } = props;
   const { _id, name, maxPop, pop, messages, currentSong } = props.room;
 
-  const rowContainerStyle = "flex gap-3 p-2 items-center justify-between ";
+  const rowContainerStyle = "flex p-1 items-center justify-between ";
 
   return (
     <Link
@@ -15,14 +15,21 @@ const RoomItem = (props) => {
       }}
     >
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-2  hover:bg-blue-300 cursor-pointer p-4 box-border text-xl font-bold`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 bg-gray-500 hover:bg-primary cursor-pointer p-4 box-border text-xl`}
       >
         <div className={rowContainerStyle}>
-          <p>{name}</p>
-          <p>{`${pop.length}/${maxPop}`}</p>
+          <p className="text-2xl font-bold">{name}</p>
+          <p className="font-bold">
+            <span
+              className={
+                maxPop === pop.length ? "text-red-600" : "text-gray-800"
+              }
+            >{`${pop.length}`}</span>
+            <span className="">{`/${maxPop}`}</span>
+          </p>
         </div>
         <div className={rowContainerStyle}>
-          <p>{currentSong}</p>
+          <p className="text-lg">{`${currentSong}`}</p>
           <button //Room button!
             className="border-black border-solid border-2 p-2
             hover:bg-gray-5"

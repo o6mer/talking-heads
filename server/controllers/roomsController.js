@@ -28,19 +28,28 @@ const getAllRooms = async (req, res, next) => {
 };
 
 const addRoom = async (req, res, next) => {
-  const { roomName, maxPop } = req.body; // getting the room details from the request body
+  const { name, maxPop } = req.body; // getting the room details from the request body
   const newRoom = new Room({
-    name: roomName,
+    name,
     maxPop,
     pop: [],
     messages: [],
     currentSong: "drake",
   });
-
   try {
     await newRoom.save();
+    res.json(newRoom._id);
   } catch (err) {
     return next(err);
+  }
+};
+
+const deleteRoom = async (req, res, next) => {
+  const { _id } = req.body;
+  try {
+    Room.findByIdAndDelete(_id);
+  } catch (error) {
+    console.log(error);
   }
 };
 

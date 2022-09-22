@@ -6,7 +6,7 @@ const RoomList = (props) => {
   const { roomList, joinRoom } = props;
 
   return (
-    <section className="overflow-scroll overflow-x-hidden">
+    <section className="overflow-scroll overflow-x-hidden ">
       {roomList.map((element) => (
         <RoomItem room={element} joinRoom={joinRoom} />
       ))}
