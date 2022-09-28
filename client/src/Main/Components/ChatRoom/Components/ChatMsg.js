@@ -11,7 +11,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime }) => {
   return (
     <div
       className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-black border-solid rounded-md ${
-        isLoggedInUser ? "self-end bg-blue-200" : "bg-gray-400"
+        isLoggedInUser ? "self-end bg-secondary" : "bg-thirdy"
       }`}
     >
       <div>

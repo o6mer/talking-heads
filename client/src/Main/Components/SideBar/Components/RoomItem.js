@@ -15,7 +15,7 @@ const RoomItem = (props) => {
       }}
     >
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 bg-gray-500 hover:bg-primary cursor-pointer p-4 box-border text-xl`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 hover:bg-primary cursor-pointer p-4 box-border text-xl`}
       >
         <div className={rowContainerStyle}>
           <p className="text-2xl font-bold">{name}</p>

@@ -1,6 +1,7 @@
 import React from "react";
 import RoomItem from "./RoomItem";
 import { rooms } from "../../ChatRoom/ChatRoom";
+import { useState } from "react";
 
 const RoomList = (props) => {
   const { roomList, joinRoom } = props;
