@@ -1,5 +1,12 @@
 const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
+const sgMail = require("@sendgrid/mail");
+const passGenerator = require("generate-password");
+
+const SENDGRID_API_KEY =
+  "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";
+
+sgMail.setApiKey(SENDGRID_API_KEY);
 
 const getUsers = async (req, res, next) => {
   res.json({ users: DUMMY_USERS });
@@ -84,12 +91,39 @@ const forgotPassword = async (req, res, next) => {
   const { email } = req.body;
 
   try {
-    const userExists = await User.exists({ email });
-    console.log(userExists);
+    const user = await User.find({ email });
+    console.log(user[0]);
 
-    if (userExists)
+    if (user.length) {
+      const newPassword = passGenerator.generate({
+        length: 8,
+        numbers: true,
+      });
+
+      user[0].password = newPassword;
+
+      const emailMessage = {
+        to: email,
+        from: {
+          name: "Music Chat App",
+          email: "namemusicchatapp@gmail.com",
+        },
+        templateId: "d-8ab61f4847ae4e798f644d794c7ed151",
+        dynamicTemplateData: {
+          name: `${user[0].userName}`,
+          newPassword,
+        },
+      };
+      try {
+        const res = await sgMail.send(emailMessage);
+        const resUser = await user[0].save();
+        console.log(res, resUser);
+      } catch (err) {
+        console.log(err);
+      }
+
       return res.status(200).json({ message: "user exists and email sent" });
-    else {
+    } else {
       console.log(email + "doesnt exists");
       return res.status(400).json({ message: "user doesnt exists" });
     }
