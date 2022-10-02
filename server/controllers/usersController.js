@@ -2,11 +2,9 @@ const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
 const sgMail = require("@sendgrid/mail");
 const passGenerator = require("generate-password");
+require("dotenv").config();
 
-const SENDGRID_API_KEY =
-  "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";
-
-sgMail.setApiKey(SENDGRID_API_KEY);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const getUsers = async (req, res, next) => {
   res.json({ users: DUMMY_USERS });
