@@ -30,7 +30,7 @@ const SideBar = (props) => {
       />
       <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
       <div className="mt-auto mx-auto">
-        <AddRoomBtn roomList={roomList} setRoomList={setRoomList} />
+        <AddRoomBtn roomList={filteredRoomList} setRoomList={editList} />
       </div>
     </aside>
   );

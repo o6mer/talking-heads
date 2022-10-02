@@ -6,6 +6,7 @@ const {
   sendMessage,
   getAllRooms,
   deleteMessages,
+  deleteMessage,
   joinRoom,
   addRoom,
 } = require("../controllers/roomsController");
@@ -21,5 +22,6 @@ router.get("/deletMessages/:roomId", deleteMessages);
 router.post("/joinRoom/:roomId", joinRoom); // join to a room
 router.post("/", addRoom); // add a new room
 router.post("/:roomId", sendMessage); // send a message in a specific room id
+router.post("/deleteOneMsg/:roomId", deleteMessage);
 
 module.exports = router;

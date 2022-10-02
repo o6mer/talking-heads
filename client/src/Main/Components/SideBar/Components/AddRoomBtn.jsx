@@ -72,7 +72,7 @@ const AddRoomBtn = ({ roomList, setRoomList }) => {
   };
 
   return (
-    <div>
+    <div className="bg-primary">
       <Button variant="outlined" onClick={handleClickOpen}>
         Create new room
       </Button>

@@ -1,5 +1,6 @@
 const { Room } = require("../models/roomModel.js");
 const bodyParser = require("body-parser");
+const uniqid = require("uniqid");
 
 const jsonParser = bodyParser.json();
 var urlencodedParser = bodyParser.urlencoded({ extended: false });
@@ -56,10 +57,12 @@ const deleteRoom = async (req, res, next) => {
 const sendMessage = async (req, res, next) => {
   const roomId = req.params.roomId;
   const { msgWriter, msgContent, msgTime } = req.body;
+  msgId = uniqid();
   const newMsg = {
     msgWriter,
     msgContent,
     msgTime,
+    msgId,
   };
   try {
     await Room.findByIdAndUpdate(roomId, { $push: { messages: newMsg } });
@@ -76,6 +79,18 @@ const deleteMessages = async (req, res, next) => {
     res.status(200).json({ message: "messages deleted" });
   } catch (err) {
     console.log(err);
+  }
+};
+const deleteMessage = async (req, res, next) => {
+  try {
+    const roomId = req.params.roomId;
+    const { msgId } = req.body;
+    console.log(req.body);
+    await Room.findByIdAndUpdate(roomId, {
+      $pull: { messages: { msgId: msgId } },
+    }); //pulling the message with the required msgId out of the msgArray
+  } catch (error) {
+    console.log(error);
   }
 };
 
@@ -125,6 +140,7 @@ module.exports = {
   sendMessage,
   getAllRooms,
   deleteMessages,
+  deleteMessage,
   joinRoom,
   addRoom,
 };

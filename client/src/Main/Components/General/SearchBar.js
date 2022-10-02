@@ -14,16 +14,25 @@ const SearchBar = ({ query, filterRooms, clearFilter }) => {
 
   return (
     <div className={`flex gap-2 p-4`}>
-      <button
-        onClick={() => {
+      <form
+        className={`flex gap-2`}
+        onSubmit={(e) => {
+          e.preventDefault();
           filterRooms(filter);
         }}
       >
-        <SearchIcon />
-      </button>
-      <TextField placeholder={`search ${query}`} onChange={typing} />
+        <button type="submit">
+          <SearchIcon />
+        </button>
+        <TextField
+          placeholder={`search ${query}`}
+          onChange={typing}
+          value={filter}
+        />
+      </form>
       <button
         onClick={() => {
+          changeFilter("");
           clearFilter();
         }}
       >
