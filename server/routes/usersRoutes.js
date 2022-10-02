@@ -28,4 +28,6 @@ router.post(
   usersController.login
 );
 
+router.post("/forgotPassword", usersController.forgotPassword);
+
 module.exports = router;
