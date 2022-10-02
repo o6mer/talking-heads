@@ -4,7 +4,7 @@ const sgMail = require("@sendgrid/mail");
 const passGenerator = require("generate-password");
 
 const SENDGRID_API_KEY =
-  "";
+  "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";
 
 sgMail.setApiKey(SENDGRID_API_KEY);
 
