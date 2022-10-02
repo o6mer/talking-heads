@@ -41,7 +41,7 @@ const ForgotPassword = () => {
 
   return (
     <div className="flex justify-center items-center h-screen w-screen">
-      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px]">
+      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
         {emailExists ? (
           <>
             <p className="font-bold text-3xl text-center">Password Reset</p>

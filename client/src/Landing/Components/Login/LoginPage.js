@@ -38,7 +38,7 @@ const LoginPage = () => {
   };
   return (
     <div className="flex justify-center items-center h-screen w-screen">
-      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px]">
+      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
         <p className="font-bold text-3xl">Please login to start chatting</p>
 
         <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>

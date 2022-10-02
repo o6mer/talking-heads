@@ -62,7 +62,7 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px]">
+      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
         <Link to="/login" className="w-min">
           <Tooltip title="Back to Login">
             <ArrowBackIcon className="hover:fill-gray-500" />
