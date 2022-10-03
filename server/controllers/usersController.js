@@ -106,7 +106,8 @@ const forgotPassword = async (req, res, next) => {
           name: "Music Chat App",
           email: "namemusicchatapp@gmail.com",
         },
-        templateId: "d-8ab61f4847ae4e798f644d794c7ed151",
+        templateId: "d-ece3601d1b8248369d1f3e75e816a972",
+
         dynamicTemplateData: {
           name: `${user[0].userName}`,
           newPassword,
