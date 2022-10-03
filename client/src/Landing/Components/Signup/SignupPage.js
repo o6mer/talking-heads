@@ -21,7 +21,7 @@ const SignupPage = () => {
   const [errorMessage, setErrorMessage] = useState("error");
   const [loading, setLoading] = useState(false);
 
-  const setUser = useContext(UserContext).setUser;
+  const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
 
@@ -46,7 +46,8 @@ const SignupPage = () => {
       });
       data = await response.json();
       if (response.ok) {
-        setUser(data);
+        console.log(data);
+        setUser(data.user);
         navigate("/main/1");
       } else {
         alert(data.message);
@@ -57,7 +58,7 @@ const SignupPage = () => {
       return;
     }
 
-    setUser(data);
+    // setUser(data);
   };
 
   return (

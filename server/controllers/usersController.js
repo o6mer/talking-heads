@@ -47,18 +47,13 @@ const signup = async (req, res, next) => {
       password,
       profilePictureUrl,
     });
-    await newUser.save();
+    newUser = await newUser.save();
   } catch (err) {
     console.log(err);
   }
 
-  res.status(201).json({
-    userId: newUser._id,
-    // userName: newUser.userName,
-    // email: newUser.email,
-    // password: newUser.password,
-    // imageUrl: newUser.imageUrl,
-  });
+  console.log("new user: " + newUser);
+  res.status(201).json({ user: newUser });
 };
 
 const login = async (req, res, next) => {
