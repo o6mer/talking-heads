@@ -60,23 +60,15 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
-const sendMessage = async (req, res, next) => {
-  const roomId = req.params.roomId;
-  const { msgWriter, msgContent, msgTime } = req.body;
-  msgId = uniqid();
-  const newMsg = {
-    msgWriter,
-    msgContent,
-    msgTime,
-    msgId,
-  };
+const sendMessageDB = async (msg, roomId) => {
   try {
-    await Room.findByIdAndUpdate(roomId, { $push: { messages: newMsg } });
+    await Room.findByIdAndUpdate(roomId, { $push: { messages: msg } });
   } catch (err) {
     console.log(err);
   }
-  res.json({ ...newMsg });
 };
+
+const sendMessage = async () => {};
 
 const deleteMessages = async (req, res, next) => {
   try {
@@ -156,10 +148,12 @@ const joinRoom = async (req, res, next) => {
 module.exports = {
   getRoomById,
   sendMessage,
+  sendMessageDB,
   getAllRooms,
   deleteMessages,
   deleteMessage,
   joinRoom,
+  joinRoomDB,
   addRoom,
   getRoomByIdDB,
 };

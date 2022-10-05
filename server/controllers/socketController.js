@@ -1,19 +1,20 @@
-const { joinRoom, getRoomByIdDB } = require("../controllers/roomsController");
-const { Room } = require("../models/roomModel.js");
+const { sendMessageDB, joinRoomDB } = require("./roomsController");
 
-const onSocketConection = (socket) => {
-  const rooms = [];
-  socket.on("getMsg", onGetMsg);
+const onSocketConection = (socket, io) => {
+  socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
 
-  function onGetMsg(msg, room) {
+  async function onSendMessage(msg, room) {
+    await sendMessageDB(msg, room);
+
     if (room === "") socket.broadcast.emit("receiveMsg", msg);
     else {
       socket.to(room).emit("receiveMsg", msg);
     }
   }
 
-  async function onJoinRoom(roomId, userId) {
+  const rooms = [];
+  async function onJoinRoom(roomId, userId, callback) {
     rooms.forEach((room) => {
       socket.to(room).emit("userLeftRoom", userId);
       socket.leave(room);
@@ -23,8 +24,12 @@ const onSocketConection = (socket) => {
     try {
       // await joinRoom(room, userId);
       if (!roomId || !userId) return;
+
+      const room = await joinRoomDB(roomId, userId);
       socket.join(roomId);
-      socket.to(roomId).emit("userJoinedRoom", userId);
+
+      socket.to(roomId).emit("userJoinedRoom", userId, room);
+      callback(room);
       rooms.push(roomId);
       console.log("rooms: " + rooms);
     } catch (err) {

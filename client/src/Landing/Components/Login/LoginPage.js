@@ -6,12 +6,13 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { Button, Link, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import SignupPage from "../Signup/SignupPage";
+import useAuth from "../../../Landing/hooks/useAuth";
 
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm("login");
 
   const [loading, setLoading] = useState(false);
-
+  const { login } = useAuth();
   const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
@@ -29,7 +30,7 @@ const LoginPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        setUser(data.user);
+        login(data.user);
         navigate("/main/1");
       } else throw new Error(data.message);
     } catch (error) {

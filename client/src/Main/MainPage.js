@@ -7,6 +7,7 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import colorConfg from "../colorConfg.json";
+import useAuth from "../Landing/hooks/useAuth";
 
 export const socket = io("http://localhost:8080");
 
@@ -15,6 +16,7 @@ const MainPage = () => {
   const { currentRoomId, setCurrentRoomId, user } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const { roomId } = useParams();
+  useAuth();
 
   useEffect(() => {
     if (!roomId) return;
@@ -25,25 +27,9 @@ const MainPage = () => {
     if (currentRoomId === roomId) return;
 
     setCurrentRoomId(roomId);
-
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/room/joinRoom/${roomId}`,
-        {
-          method: "POST",
-          body: JSON.stringify({ userId: user._id }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const resData = await response.json();
-      socket.emit("joinRoom", roomId, user._id);
-      setSelRoom(resData.room);
-    } catch (err) {
-      console.log(err);
-    }
+    socket.emit("joinRoom", roomId, user._id, (response) => {
+      setSelRoom(response);
+    });
   };
 
   useEffect(() => {
