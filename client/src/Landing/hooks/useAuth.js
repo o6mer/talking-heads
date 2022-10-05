@@ -9,7 +9,7 @@ const useAuth = () => {
 
   const login = useCallback((user) => {
     setUser(user);
-    const tokenExpoDate = new Date(new Date().getTime() + 1000 * 60 * 60);
+    const tokenExpoDate = new Date(new Date().getTime() + 1000 * 3600);
     setTokenExpoDate(tokenExpoDate);
     localStorage.setItem(
       "userData",
