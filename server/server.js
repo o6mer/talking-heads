@@ -22,7 +22,7 @@ const app = express();
 app.use(cors({ origin: "http://localhost:3000" }));
 app.use(bodyParser.json());
 
-io.on("connection", onSocketConection);
+io.on("connection", (socket) => onSocketConection(socket, io));
 
 const routerLand = express.Router();
 routerLand.get("/", (req, res, next) => {});

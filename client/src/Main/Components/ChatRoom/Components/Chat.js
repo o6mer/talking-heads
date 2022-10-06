@@ -17,12 +17,13 @@ const Chat = (props) => {
 
   useEffect(() => {
     socket.on("receiveMsg", (msg) => {
-      sendMessage(msg);
+      addMessage(msg);
     });
   }, []);
 
   const delMsg = async (msgId) => {
     try {
+      console.log(msgId, roomId);
       const response = await fetch(
         `http://localhost:3001/api/room/deleteOneMsg/${roomId}`,
         {
@@ -39,36 +40,24 @@ const Chat = (props) => {
   };
 
   //post a message to the backend
-  const postMsg = async (msgContent) => {
+  const sendMessage = async (msgContent) => {
+    if (!socket) return;
     const time = new Date();
-    const newMsg = {
+    let newMsg = {
       msgWriter: user.userName,
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
-    console.log("fuck");
 
-    try {
-      const response = await fetch(`http://localhost:3001/api/room/${roomId}`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ...newMsg }),
-      });
-      const resData = await response.json();
-      console.log("@@@@@@@@@@@@@");
-      console.log(resData);
-      sendMessage(resData); //updating the msg array in the front so the chat window will reRender
-    } catch (error) {
-      console.log(error);
-    }
-    if (!socket) return;
-    socket.emit("getMsg", newMsg, currentRoomId);
+    socket.emit("sendMsg", newMsg, currentRoomId, (msgId) => {
+      newMsg.msgId = msgId;
+      addMessage(newMsg);
+      console.log(newMsg);
+    });
   };
 
   //send a message in the frontend
-  const sendMessage = (msg) => {
+  const addMessage = (msg) => {
     //front arr
     const { msgWriter, msgContent, msgTime, msgId } = msg;
     setMsg((prev) => {
@@ -100,7 +89,7 @@ const Chat = (props) => {
       </div>
 
       <Keyboard
-        postMsg={postMsg}
+        postMsg={sendMessage}
         roomId={props.roomId}
         deleteAllMessages={deleteAllMessages}
       />
