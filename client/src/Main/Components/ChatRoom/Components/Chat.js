@@ -23,6 +23,7 @@ const Chat = (props) => {
 
   const delMsg = async (msgId) => {
     try {
+      console.log(msgId, roomId);
       const response = await fetch(
         `http://localhost:3001/api/room/deleteOneMsg/${roomId}`,
         {
@@ -40,16 +41,19 @@ const Chat = (props) => {
 
   //post a message to the backend
   const sendMessage = async (msgContent) => {
+    if (!socket) return;
     const time = new Date();
-    const newMsg = {
+    let newMsg = {
       msgWriter: user.userName,
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
 
-    if (!socket) return;
-    socket.emit("sendMsg", newMsg, currentRoomId);
-    addMessage(newMsg);
+    socket.emit("sendMsg", newMsg, currentRoomId, (msgId) => {
+      newMsg.msgId = msgId;
+      addMessage(newMsg);
+      console.log(newMsg);
+    });
   };
 
   //send a message in the frontend

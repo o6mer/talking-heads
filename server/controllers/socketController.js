@@ -1,16 +1,19 @@
 const { sendMessageDB, joinRoomDB } = require("./roomsController");
+const uniqid = require("uniqid");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
 
-  async function onSendMessage(msg, room) {
-    await sendMessageDB(msg, room);
+  async function onSendMessage(msg, room, callback) {
+    const newMsg = { ...msg, msgId: uniqid() };
+    await sendMessageDB(newMsg, room);
 
     if (room === "") socket.broadcast.emit("receiveMsg", msg);
     else {
       socket.to(room).emit("receiveMsg", msg);
     }
+    callback(newMsg.msgId);
   }
 
   const rooms = [];

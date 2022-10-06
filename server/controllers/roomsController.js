@@ -62,9 +62,12 @@ const deleteRoom = async (req, res, next) => {
 
 const sendMessageDB = async (msg, roomId) => {
   try {
-    await Room.findByIdAndUpdate(roomId, { $push: { messages: msg } });
+    console.log(msg);
+    await Room.findByIdAndUpdate(roomId, {
+      $push: { messages: msg },
+    });
   } catch (err) {
-    console.log(err);
+    console.log(err + " sending msg");
   }
 };
 
@@ -83,7 +86,7 @@ const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const { msgId } = req.body;
-    console.log(req.body);
+    console.log(`id: ${msgId} room: ${roomId}`);
     await Room.findByIdAndUpdate(roomId, {
       $pull: { messages: { msgId: msgId } },
     }); //pulling the message with the required msgId out of the msgArray

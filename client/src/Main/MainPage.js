@@ -27,15 +27,16 @@ const MainPage = () => {
 
   const joinRoom = async (roomId) => {
     if (paramsRoomId === roomId) {
+      setLoadingRoom(true);
       const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
       const data = await response.json();
+      setCurrentRoomId(roomId);
       setSelRoom(data.room);
       setLoadingRoom(false);
       return;
     }
 
     setLoadingRoom(true);
-    setCurrentRoomId(roomId);
     socket.emit("joinRoom", roomId, user._id, (response) => {
       setSelRoom(response);
       setLoadingRoom(false);
