@@ -15,6 +15,13 @@ const ProfilesSideBar = (props) => {
     setPeople(pop);
   }, []);
 
+  const filterUser = () => {
+    console.log("filter user");
+  };
+  const clearFilter = () => {
+    console.log("clear filter");
+  };
+
   useEffect(() => {
     socket.on("userJoinedRoom", (userId) => {
       setPeople((prev) => {
@@ -47,7 +54,11 @@ const ProfilesSideBar = (props) => {
     <aside
       className={`flex flex-col max-w-max h-full border-0 border-solid border-black bg-secondary`}
     >
-      <SearchBar query="user" />
+      <SearchBar
+        query="user"
+        filterFunc={filterUser}
+        clearFilter={clearFilter}
+      />
       <section className="flex flex-col gap-2 p-3  h-full">
         {people.map((element) => {
           return <ProfilesSideBarItem user={element} />;
