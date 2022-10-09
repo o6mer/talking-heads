@@ -16,6 +16,9 @@ const MainPage = () => {
   const [selectedRoom, setSelRoom] = useState({});
   const { roomId } = useParams();
 
+  console.log("#####USER$$$$");
+  console.log(user);
+
   useEffect(() => {
     if (!roomId) return;
     joinRoom(roomId);
@@ -31,7 +34,7 @@ const MainPage = () => {
         `http://localhost:3001/api/room/joinRoom/${roomId}`,
         {
           method: "POST",
-          body: JSON.stringify({ userId: user._id }),
+          body: JSON.stringify({ user: user, currentRoomId: currentRoomId }),
           headers: {
             "Content-Type": "application/json",
           },
@@ -41,6 +44,8 @@ const MainPage = () => {
       const resData = await response.json();
       socket.emit("joinRoom", roomId, user._id);
       setSelRoom(resData.room);
+      console.log("@@@RES DATA@@@");
+      console.log(resData);
     } catch (err) {
       console.log(err);
     }

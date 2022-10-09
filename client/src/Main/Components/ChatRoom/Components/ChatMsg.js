@@ -68,12 +68,6 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
             handleClose();
             setbgBool(true);
             delMsg(msgId);
-            // setMsg((prev) => {
-            //   return prev.filter((e) => {
-            //     return e.msgTime !== msgTime;
-            //   });
-            // });
-            //need to add backend deletion with msg id
           }}
         >
           Delete message
