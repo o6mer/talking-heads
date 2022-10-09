@@ -6,6 +6,7 @@ import { Alert } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import UserModal from "../../General/UserModal";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const { user } = useContext(UserContext);
@@ -15,12 +16,22 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const open = Boolean(anchorEl);
   const [bgBool, setbgBool] = useState(false);
 
+  const artist = {
+    userName: msgWriter,
+    email: "wtf",
+    profilePictureUrl: "wtf2",
+  };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
+
+  const [openModal, setOpen] = React.useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
 
   console.log(`msg id is ${msgId}`);
 
@@ -30,9 +41,9 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         isLoggedInUser ? "self-end bg-secondary" : "bg-thirdy"
       } ${!bgBool ? null : "bg-red-600"}`}
     >
-      <div>
-        <Link href="#">{msgWriter}</Link>
-      </div>
+      <button onClick={handleOpenModal}>
+        <Link>{msgWriter}</Link>
+      </button>
 
       <div
         className={`flex gap-4 text-xl ${
@@ -75,6 +86,11 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         <MenuItem onClick={handleClose}>Edit message </MenuItem>
         <MenuItem onClick={handleClose}>Get 1,000,000$</MenuItem>
       </Menu>
+      <UserModal
+        open={openModal}
+        userInfo={artist}
+        handleClose={handleCloseModal}
+      />
     </div>
   );
 };
