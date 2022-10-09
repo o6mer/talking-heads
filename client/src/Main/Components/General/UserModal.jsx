@@ -5,8 +5,10 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
+import Link from "@mui/material/Link";
+import theStone from "../ChatRoom/pics/theStone.gif";
 
-const UserModal = ({ open, handleClose }) => {
+const UserModal = ({ open, handleClose, userInfo }) => {
   const style = {
     position: "absolute",
     top: "50%",
@@ -33,11 +35,13 @@ const UserModal = ({ open, handleClose }) => {
       <Fade in={open}>
         <Box sx={style}>
           <Typography id="transition-modal-title" variant="h6" component="h2">
-            Text in a modal
+            {`${userInfo.userName}`}
           </Typography>
           <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+            {`email: `}
+            <Link>{userInfo.email}</Link>
           </Typography>
+          <img src={theStone} />
         </Box>
       </Fade>
     </Modal>

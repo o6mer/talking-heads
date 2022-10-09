@@ -9,7 +9,7 @@ const UserPorivder = ({ children }) => {
     password: "12345678",
     profilePictureUrl: "C:",
   });
-  const [currentRoomId, setCurrentRoomId] = useState("");
+  const [currentRoomId, setCurrentRoomId] = useState(undefined);
 
   return (
     <UserContext.Provider

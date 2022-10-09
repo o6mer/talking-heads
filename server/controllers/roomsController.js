@@ -102,12 +102,12 @@ const deleteMessage = async (req, res, next) => {
 
 const joinRoomDB = async (roomId, user, currentRoomId) => {
   const userId = user._id;
-
   try {
     const currentRoom = await Room.findById(roomId);
 
-    if (currentRoom.length !== 0) {
+    if (currentRoom.length !== 0 && currentRoomId !== "1") {
       //check if user already in a room
+      //need to define what a "connection" is. with true/false and change it depends on some stuff lmao
 
       if (currentRoomId === roomId) {
         //check if the room he is trying to join is his current room
@@ -117,16 +117,24 @@ const joinRoomDB = async (roomId, user, currentRoomId) => {
         return new Error("already joined the room");
       }
 
-      await Room.findByIdAndUpdate(currentRoomId, {
-        //delete user from his current room by id
-        $pull: { pop: { _id: userId } },
-      });
+      await Room.findByIdAndUpdate(
+        currentRoomId,
+        {
+          //delete user from his current room by id
+          $pull: { pop: { _id: userId } },
+        },
+        console.log(`user ${user} has left the room :(`)
+      );
     }
 
-    await Room.findByIdAndUpdate(roomId, {
-      //add user to the new room
-      $push: { pop: user },
-    });
+    await Room.findByIdAndUpdate(
+      roomId,
+      {
+        //add user to the new room
+        $push: { pop: user },
+      },
+      console.log(`user ${user.userName} has logged to room: ${roomId}`)
+    );
 
     return await Room.findById(roomId);
   } catch (err) {
