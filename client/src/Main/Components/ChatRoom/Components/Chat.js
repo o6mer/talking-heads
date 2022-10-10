@@ -21,8 +21,7 @@ const Chat = (props) => {
     });
   }, []);
 
-  const delMsg = async (msgId, userInfo, msgWriter) => {
-    console.log(userInfo);
+  const delMsg = async (msgId) => {
     try {
       console.log(msgId, roomId);
       const response = await fetch(
@@ -32,10 +31,9 @@ const Chat = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ msgId, userInfo, msgWriter }),
+          body: JSON.stringify({ msgId }),
         }
       );
-      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -45,9 +43,8 @@ const Chat = (props) => {
   const sendMessage = async (msgContent) => {
     if (!socket) return;
     const time = new Date();
-    const newMsg = {
-      msgWriter: user,
-
+    let newMsg = {
+      msgWriter: user.userName,
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };

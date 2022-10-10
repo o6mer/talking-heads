@@ -3,6 +3,8 @@ import RoomList from "./Components/RoomList";
 import SearchBar from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
 
+import colorConfg from "../../../colorConfg.json";
+
 const SideBar = (props) => {
   const { roomList, joinRoom, setRoomList } = props;
   const [filteredRoomList, editList] = useState(roomList);
@@ -10,8 +12,9 @@ const SideBar = (props) => {
   //passing that function to the search bar component
   const filterRooms = (filter) => {
     editList(() => {
-      return roomList.filter((e) => e.name.includes(filter));
+      return roomList.filter((e) => e.name === filter);
     });
+    console.log(roomList);
   };
 
   const clearFilter = () => {
@@ -22,7 +25,7 @@ const SideBar = (props) => {
     <aside className={`flex flex-col h-[90vh] max-w-xs bg-secondary`}>
       <SearchBar
         query="room"
-        filterFunc={filterRooms}
+        filterRooms={filterRooms}
         clearFilter={clearFilter}
       />
       <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
