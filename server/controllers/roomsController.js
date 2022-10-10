@@ -60,23 +60,18 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
-const sendMessage = async (req, res, next) => {
-  const roomId = req.params.roomId;
-  const { msgWriter, msgContent, msgTime } = req.body;
-  msgId = uniqid();
-  const newMsg = {
-    msgWriter,
-    msgContent,
-    msgTime,
-    msgId,
-  };
+const sendMessageDB = async (msg, roomId) => {
   try {
-    await Room.findByIdAndUpdate(roomId, { $push: { messages: newMsg } });
+    console.log(msg);
+    await Room.findByIdAndUpdate(roomId, {
+      $push: { messages: msg },
+    });
   } catch (err) {
-    console.log(err);
+    console.log(err + " sending msg");
   }
-  res.json({ ...newMsg });
 };
+
+const sendMessage = async () => {};
 
 const deleteMessages = async (req, res, next) => {
   try {
@@ -91,10 +86,6 @@ const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
     const { msgId, userInfo, msgWriter } = req.body;
-    console.log("this is user:");
-    console.log(userInfo);
-    console.log("this is msgWriter");
-    console.log(msgWriter);
     if (`${msgWriter._id}` === `${userInfo._id}`) {
       await Room.findByIdAndUpdate(roomId, {
         $pull: { messages: { msgId: msgId } },
@@ -104,6 +95,7 @@ const deleteMessage = async (req, res, next) => {
         message: "Bad request, you cant delete other people messages",
       });
     }
+
   } catch (error) {
     console.log(error);
   }
@@ -173,10 +165,12 @@ const joinRoom = async (req, res, next) => {
 module.exports = {
   getRoomById,
   sendMessage,
+  sendMessageDB,
   getAllRooms,
   deleteMessages,
   deleteMessage,
   joinRoom,
+  joinRoomDB,
   addRoom,
   getRoomByIdDB,
 };

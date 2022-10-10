@@ -4,9 +4,12 @@ import { AiOutlineSetting } from "react-icons/ai";
 import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import axios from "axios";
+import useAuth from "../../../Landing/hooks/useAuth";
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
+
+  const { logout } = useAuth();
 
   const clickHandler = async (e) => {
     e.preventDefault();
@@ -26,7 +29,7 @@ const NavBar = () => {
         <img src="" alt="logo" />
       </Link>
       <div className="flex ml-auto gap-4">
-        <Link to="/">
+        <Link to="/" onClick={logout}>
           <AiOutlineSetting />{" "}
         </Link>
         <button onClick={clickHandler}>

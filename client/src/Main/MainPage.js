@@ -6,7 +6,8 @@ import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
-import colorConfg from "../colorConfg.json";
+import useAuth from "../Landing/hooks/useAuth";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export const socket = io("http://localhost:8080");
 
@@ -14,41 +15,35 @@ const MainPage = () => {
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
-  const { roomId } = useParams();
+  const [loadingRoom, setLoadingRoom] = useState(false);
+  const { roomId: paramsRoomId } = useParams();
+  useAuth();
 
   console.log("#####USER$$$$");
   console.log(user);
 
   useEffect(() => {
-    if (!roomId) return;
-    joinRoom(roomId);
+    if (!paramsRoomId) return;
+
+    joinRoom(paramsRoomId);
   }, []);
 
   const joinRoom = async (roomId) => {
-    if (currentRoomId === roomId) return;
-
-    setCurrentRoomId(roomId);
-
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/room/joinRoom/${roomId}`,
-        {
-          method: "POST",
-          body: JSON.stringify({ user: user, currentRoomId: currentRoomId }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const resData = await response.json();
-      socket.emit("joinRoom", roomId, user._id);
-      setSelRoom(resData.room);
-      console.log("@@@RES DATA@@@");
-      console.log(resData);
-    } catch (err) {
-      console.log(err);
+    if (paramsRoomId === roomId) {
+      setLoadingRoom(true);
+      const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
+      const data = await response.json();
+      setCurrentRoomId(roomId);
+      setSelRoom(data.room);
+      setLoadingRoom(false);
+      return;
     }
+
+    setLoadingRoom(true);
+    socket.emit("joinRoom", roomId, user._id, (response) => {
+      setSelRoom(response);
+      setLoadingRoom(false);
+    });
   };
 
   useEffect(() => {
@@ -74,7 +69,14 @@ const MainPage = () => {
             setRoomList={setRoomList}
             joinRoom={joinRoom}
           />
-          <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
+
+          {loadingRoom ? (
+            <div className="flex w-full h-full justify-center items-center">
+              <CircularProgress />
+            </div>
+          ) : (
+            <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
+          )}
         </div>
       ) : null}
     </main>
