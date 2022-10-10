@@ -10,17 +10,11 @@ import UserModal from "../../General/UserModal";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const { user } = useContext(UserContext);
-  const loggedUserName = user.userName;
-  const isLoggedInUser = loggedUserName === msgWriter; //boolean value represents if the message is written by the logged in user
+  const loggedUserName = user.userName; // need to check with id instead
+  const isLoggedInUser = loggedUserName === msgWriter.userName; //boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [bgBool, setbgBool] = useState(false);
-
-  const artist = {
-    userName: msgWriter,
-    email: "wtf",
-    profilePictureUrl: "wtf2",
-  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -33,8 +27,6 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const handleOpenModal = () => setOpen(true);
   const handleCloseModal = () => setOpen(false);
 
-  console.log(`msg id is ${msgId}`);
-
   return (
     <div
       className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-black border-solid rounded-md hover:bg-primary ${
@@ -42,7 +34,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
       } ${!bgBool ? null : "bg-red-600"}`}
     >
       <button onClick={handleOpenModal}>
-        <Link>{msgWriter}</Link>
+        <Link>{msgWriter.userName}</Link>
       </button>
 
       <div
@@ -77,8 +69,13 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         <MenuItem // delete message
           onClick={() => {
             handleClose();
-            setbgBool(true);
-            delMsg(msgId);
+            if (msgWriter._id === user._id) {
+              // checking if the deleter is the message "owner"
+              setbgBool(true);
+              delMsg(msgId, user, msgWriter);
+            } else {
+              alert("bruh you can just delete other people messages...");
+            }
           }}
         >
           Delete message
@@ -88,7 +85,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
       </Menu>
       <UserModal
         open={openModal}
-        userInfo={artist}
+        userInfo={msgWriter}
         handleClose={handleCloseModal}
       />
     </div>

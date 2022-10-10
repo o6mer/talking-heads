@@ -21,7 +21,8 @@ const Chat = (props) => {
     });
   }, []);
 
-  const delMsg = async (msgId) => {
+  const delMsg = async (msgId, userInfo, msgWriter) => {
+    console.log(userInfo);
     try {
       const response = await fetch(
         `http://localhost:3001/api/room/deleteOneMsg/${roomId}`,
@@ -30,9 +31,10 @@ const Chat = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ msgId }),
+          body: JSON.stringify({ msgId, userInfo, msgWriter }),
         }
       );
+      console.log(response);
     } catch (error) {
       console.log(error);
     }
@@ -42,7 +44,7 @@ const Chat = (props) => {
   const postMsg = async (msgContent) => {
     const time = new Date();
     const newMsg = {
-      msgWriter: user.userName,
+      msgWriter: user,
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
