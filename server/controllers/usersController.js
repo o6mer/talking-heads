@@ -75,8 +75,14 @@ const login = async (req, res, next) => {
     res.status(400).json({ message: "Invalid username or password" });
     return next();
   }
+  //responding with a user info WITHOUT password!
   res.status(200).json({
-    user: user[0],
+    user: {
+      _id: user[0]._id,
+      userName: user[0].userName,
+      email: user[0].email,
+      profilePictureUrl: user[0].profilePictureUrl,
+    },
   });
 };
 

@@ -85,24 +85,30 @@ const deleteMessages = async (req, res, next) => {
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
-    const { msgId } = req.body;
-    console.log(`id: ${msgId} room: ${roomId}`);
-    await Room.findByIdAndUpdate(roomId, {
-      $pull: { messages: { msgId: msgId } },
-    }); //pulling the message with the required msgId out of the msgArray
+    const { msgId, userInfo, msgWriter } = req.body;
+    if (`${msgWriter._id}` === `${userInfo._id}`) {
+      await Room.findByIdAndUpdate(roomId, {
+        $pull: { messages: { msgId: msgId } },
+      }); //pulling the message with the required msgId out of the msgArray
+    } else {
+      res.status(400).json({
+        message: "Bad request, you cant delete other people messages",
+      });
+    }
+
   } catch (error) {
     console.log(error);
   }
 };
 
-const joinRoomDB = async (roomId, userId) => {
+const joinRoomDB = async (roomId, user, currentRoomId) => {
+  const userId = user._id;
   try {
-    const currentRoom = await Room.find({ pop: userId });
+    const currentRoom = await Room.findById(roomId);
 
-    if (currentRoom.length !== 0) {
+    if (currentRoom.length !== 0 && currentRoomId !== "1") {
       //check if user already in a room
-
-      const currentRoomId = currentRoom[0]._id.toString();
+      //need to define what a "connection" is. with true/false and change it depends on some stuff lmao
 
       if (currentRoomId === roomId) {
         //check if the room he is trying to join is his current room
@@ -112,16 +118,24 @@ const joinRoomDB = async (roomId, userId) => {
         return new Error("already joined the room");
       }
 
-      await Room.findByIdAndUpdate(currentRoomId, {
-        //delete user from his current room
-        $pull: { pop: userId },
-      });
+      await Room.findByIdAndUpdate(
+        currentRoomId,
+        {
+          //delete user from his current room by id
+          $pull: { pop: { _id: userId } },
+        },
+        console.log(`user ${user} has left the room :(`)
+      );
     }
 
-    await Room.findByIdAndUpdate(roomId, {
-      //add user to the new room
-      $push: { pop: userId },
-    });
+    await Room.findByIdAndUpdate(
+      roomId,
+      {
+        //add user to the new room
+        $push: { pop: user },
+      },
+      console.log(`user ${user.userName} has logged to room: ${roomId}`)
+    );
 
     return await Room.findById(roomId);
   } catch (err) {
@@ -131,14 +145,14 @@ const joinRoomDB = async (roomId, userId) => {
 
 const joinRoom = async (req, res, next) => {
   const roomId = req.params.roomId;
-  const { userId } = req.body;
+  const { user, currentRoomId } = req.body;
 
   try {
-    const updatedRoom = await joinRoomDB(roomId, userId);
+    const updatedRoom = await joinRoomDB(roomId, user, currentRoomId);
     console.log(updatedRoom.pop);
     res.status(200).json({
       //find the room the user joined and return its new pop
-      message: `${userId} joined the room: ${roomId}`,
+      message: `${user.userName} joined the room: ${roomId}`,
       room: updatedRoom,
     });
   } catch (err) {
