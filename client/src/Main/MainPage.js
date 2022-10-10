@@ -19,9 +19,6 @@ const MainPage = () => {
   const { roomId: paramsRoomId } = useParams();
   useAuth();
 
-  console.log("#####USER$$$$");
-  console.log(user);
-
   useEffect(() => {
     if (!paramsRoomId) return;
 
