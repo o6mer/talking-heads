@@ -1,21 +1,6 @@
 const { Room } = require("../models/roomModel.js");
+const { getRoomByIdDB, sendMessageDB, joinRoomDB } = require("./dbController");
 const bodyParser = require("body-parser");
-const uniqid = require("uniqid");
-
-const jsonParser = bodyParser.json();
-var urlencodedParser = bodyParser.urlencoded({ extended: false });
-
-//API methods
-
-const getRoomByIdDB = async (roomId) => {
-  let room;
-  try {
-    room = await Room.findById(roomId);
-  } catch (err) {
-    return new Error(err);
-  }
-  return room;
-};
 
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
@@ -60,19 +45,6 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
-const sendMessageDB = async (msg, roomId) => {
-  try {
-    console.log(msg);
-    await Room.findByIdAndUpdate(roomId, {
-      $push: { messages: msg },
-    });
-  } catch (err) {
-    console.log(err + " sending msg");
-  }
-};
-
-const sendMessage = async () => {};
-
 const deleteMessages = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
@@ -92,40 +64,6 @@ const deleteMessage = async (req, res, next) => {
     }); //pulling the message with the required msgId out of the msgArray
   } catch (error) {
     console.log(error);
-  }
-};
-
-const joinRoomDB = async (roomId, userId) => {
-  try {
-    const currentRoom = await Room.find({ pop: userId });
-
-    if (currentRoom.length !== 0) {
-      //check if user already in a room
-
-      const currentRoomId = currentRoom[0]._id.toString();
-
-      if (currentRoomId === roomId) {
-        //check if the room he is trying to join is his current room
-        console.log(
-          currentRoomId + " already joined the room | roomdId: " + roomId
-        );
-        return new Error("already joined the room");
-      }
-
-      await Room.findByIdAndUpdate(currentRoomId, {
-        //delete user from his current room
-        $pull: { pop: userId },
-      });
-    }
-
-    await Room.findByIdAndUpdate(roomId, {
-      //add user to the new room
-      $push: { pop: userId },
-    });
-
-    return await Room.findById(roomId);
-  } catch (err) {
-    return new Error(err);
   }
 };
 
@@ -150,13 +88,9 @@ const joinRoom = async (req, res, next) => {
 
 module.exports = {
   getRoomById,
-  sendMessage,
-  sendMessageDB,
   getAllRooms,
   deleteMessages,
   deleteMessage,
   joinRoom,
-  joinRoomDB,
   addRoom,
-  getRoomByIdDB,
 };

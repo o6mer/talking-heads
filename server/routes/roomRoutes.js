@@ -3,7 +3,7 @@
 const express = require("express");
 const {
   getRoomById,
-  sendMessage,
+  // sendMessage,
   getAllRooms,
   deleteMessages,
   deleteMessage,
@@ -21,7 +21,7 @@ router.get("/deletMessages/:roomId", deleteMessages);
 //post
 router.post("/joinRoom/:roomId", joinRoom); // join to a room
 router.post("/", addRoom); // add a new room
-router.post("/:roomId", sendMessage); // send a message in a specific room id
+// router.post("/:roomId", sendMessage); // send a message in a specific room id
 router.post("/deleteOneMsg/:roomId", deleteMessage);
 
 module.exports = router;
