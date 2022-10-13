@@ -11,21 +11,24 @@ const ProfilesSideBar = (props) => {
   const { pop } = props;
   const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
 
+  console.log(pop);
+
   useEffect(() => {
     if (!pop) return;
     setPeople(pop);
-  }, []);
 
-  useEffect(() => {
-    socket.on("userJoinedRoom", (userId) => {
-      setPeople((prev) => {
-        return [...prev, userId];
-      });
+    socket.on("userJoinedRoom", (userId, room) => {
+      // setPeople((prev) => {
+      //   return [...prev, userId];
+      // });
+      console.log(room);
+      setPeople(room.usersInfo);
     });
 
     socket.on("userLeftRoom", (userId) => {
+      console.log("user disconnected " + userId);
       setPeople((prev) => {
-        return prev.filter((user) => user !== userId);
+        return prev.filter((user) => user._id.toString() !== userId.toString());
       });
     });
   }, []);
@@ -62,7 +65,7 @@ const ProfilesSideBar = (props) => {
       />
       <section className="flex flex-col gap-2 h-full">
         {people.map((element) => {
-          return <ProfilesSideBarItem user={element.toString()} />;
+          return <ProfilesSideBarItem user={element} />;
         })}
       </section>
     </aside>

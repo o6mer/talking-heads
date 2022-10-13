@@ -10,16 +10,10 @@ import UserModal from "../../General/UserModal";
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const { user } = useContext(UserContext);
   const loggedUserName = user.userName;
-  const isLoggedInUser = loggedUserName === msgWriter.userName; //boolean value represents if the message is written by the logged in user
+  const isLoggedInUser = loggedUserName === msgWriter; //.userName   boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [bgBool, setbgBool] = useState(false);
-
-  const artist = {
-    userName: msgWriter,
-    email: "wtf",
-    profilePictureUrl: "wtf2",
-  };
 
   const handleClose = () => {
     setAnchorEl(null);

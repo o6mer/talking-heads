@@ -4,6 +4,12 @@ const uniqid = require("uniqid");
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
+  socket.on("userDisconnected", onUserDisconnected);
+
+  function onUserDisconnected(userId) {
+    console.log("user disssss");
+    socket.emit("userLeftRoom", userId);
+  }
 
   async function onSendMessage(msg, room, callback) {
     msg.msgId = uniqid();

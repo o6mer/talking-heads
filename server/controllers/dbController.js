@@ -34,11 +34,11 @@ const joinRoomDB = async (roomId, userId) => {
     if (currentRoom) {
       //check if user already in a room
 
-      if (currentRoom._id.toString() === roomId) {
-        //check if the room he is trying to join is his current room
-        console.log("already joined the room | roomdId: " + roomId);
-        return new Error("already joined the room");
-      }
+      // if (currentRoom._id.toString() === roomId) {
+      //   //check if the room he is trying to join is his current room
+      //   console.log("already joined the room | roomdId: " + roomId);
+      //   return new Error("already joined the room");
+      // }
 
       //remove the user from his current room
       const filteredPop = currentRoom.pop.filter((id) => {
