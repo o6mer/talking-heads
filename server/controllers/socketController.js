@@ -25,13 +25,10 @@ const onSocketConection = (socket, io) => {
     });
 
     try {
-      // await joinRoom(room, userId);
       if (!roomId || !userId) return;
 
       const room = await joinRoomDB(roomId, userId);
       socket.join(roomId);
-
-      console.log(room);
 
       socket.to(roomId).emit("userJoinedRoom", userId, room);
       callback(room);

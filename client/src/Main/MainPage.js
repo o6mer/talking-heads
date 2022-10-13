@@ -38,7 +38,6 @@ const MainPage = () => {
 
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
-      console.log(response);
       setCurrentRoomId(roomId);
       setSelRoom(response);
       setLoadingRoom(false);

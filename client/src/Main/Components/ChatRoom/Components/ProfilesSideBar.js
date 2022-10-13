@@ -50,7 +50,7 @@ const ProfilesSideBar = (props) => {
       <SearchBar query="user" />
       <section className="flex flex-col gap-2 p-3  h-full">
         {people.map((element) => {
-          return <ProfilesSideBarItem user={element} />;
+          return <ProfilesSideBarItem user={element.toString()} />;
         })}
       </section>
     </aside>
