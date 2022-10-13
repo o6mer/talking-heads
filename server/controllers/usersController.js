@@ -76,7 +76,12 @@ const login = async (req, res, next) => {
     return next();
   }
   res.status(200).json({
-    user: user[0],
+    user: {
+      _id: user[0]._id,
+      userName: user[0].userName,
+      email: user[0].email,
+      profilePictureUrl: user[0].profilePictureUrl,
+    },
   });
 };
 
