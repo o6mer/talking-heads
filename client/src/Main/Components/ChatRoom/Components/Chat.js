@@ -21,7 +21,7 @@ const Chat = (props) => {
     });
   }, []);
 
-  const delMsg = async (msgId) => {
+  const delMsg = async (msgId, userInfo, msgWriter) => {
     try {
       console.log(msgId, roomId);
       const response = await fetch(
@@ -31,7 +31,7 @@ const Chat = (props) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ msgId }),
+          body: JSON.stringify({ msgId, userInfo, msgWriter }),
         }
       );
     } catch (error) {
@@ -44,13 +44,13 @@ const Chat = (props) => {
     if (!socket) return;
     const time = new Date();
     let newMsg = {
-      msgWriter: user.userName,
+      msgWriter: user.userName, //need to be user Id (and then needed to be converted to user when coming to the front-end)
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
 
     socket.emit("sendMsg", newMsg, currentRoomId, (msgId) => {
-      newMsg.msgId = msgId;
+      newMsg.msgId = msgId; // defining an id to the msg
       addMessage(newMsg);
       console.log(newMsg);
     });

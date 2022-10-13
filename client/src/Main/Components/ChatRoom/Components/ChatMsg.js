@@ -2,18 +2,24 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 import Link from "@mui/material/Link";
-import { Alert } from "@mui/material";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import UserModal from "../../General/UserModal";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const { user } = useContext(UserContext);
   const loggedUserName = user.userName;
-  const isLoggedInUser = loggedUserName === msgWriter; //boolean value represents if the message is written by the logged in user
+  const isLoggedInUser = loggedUserName === msgWriter.userName; //boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [bgBool, setbgBool] = useState(false);
+
+  const artist = {
+    userName: msgWriter,
+    email: "wtf",
+    profilePictureUrl: "wtf2",
+  };
 
   const handleClose = () => {
     setAnchorEl(null);
@@ -22,7 +28,9 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
     setAnchorEl(event.currentTarget);
   };
 
-  console.log(`msg id is ${msgId}`);
+  const [openModal, setOpen] = React.useState(false);
+  const handleOpenModal = () => setOpen(true);
+  const handleCloseModal = () => setOpen(false);
 
   return (
     <div
@@ -30,9 +38,10 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         isLoggedInUser ? "self-end bg-secondary" : "bg-thirdy"
       } ${!bgBool ? null : "bg-red-600"}`}
     >
-      <div>
-        <Link href="#">{msgWriter}</Link>
-      </div>
+      <button onClick={handleOpenModal}>
+        <Link>{msgWriter}</Link>
+        {/* should be msgWriter.userName (expected object) */}
+      </button>
 
       <div
         className={`flex gap-4 text-xl ${
@@ -66,14 +75,13 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         <MenuItem // delete message
           onClick={() => {
             handleClose();
-            setbgBool(true);
-            delMsg(msgId);
-            // setMsg((prev) => {
-            //   return prev.filter((e) => {
-            //     return e.msgTime !== msgTime;
-            //   });
-            // });
-            //need to add backend deletion with msg id
+            if (msgWriter._id === user._id) {
+              // checking if the deleter is the message "owner"
+              setbgBool(true);
+              delMsg(msgId, user, msgWriter);
+            } else {
+              alert("bruh you can just delete other people messages...");
+            }
           }}
         >
           Delete message
@@ -81,6 +89,11 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
         <MenuItem onClick={handleClose}>Edit message </MenuItem>
         <MenuItem onClick={handleClose}>Get 1,000,000$</MenuItem>
       </Menu>
+      <UserModal
+        open={openModal}
+        userInfo={msgWriter}
+        handleClose={handleCloseModal}
+      />
     </div>
   );
 };
