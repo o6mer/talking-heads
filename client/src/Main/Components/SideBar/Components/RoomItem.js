@@ -10,9 +10,9 @@ const RoomItem = (props) => {
   return (
     <Link
       to={`/main/${_id}`}
-      onClick={(e) => {
-        joinRoom(_id);
-      }}
+      // onClick={(e) => {
+      //   joinRoom(_id);
+      // }}
     >
       <div
         className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 hover:bg-primary cursor-pointer p-4 box-border text-xl`}

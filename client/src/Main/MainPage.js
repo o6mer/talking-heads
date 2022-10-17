@@ -20,32 +20,6 @@ const MainPage = () => {
   useAuth();
 
   useEffect(() => {
-    if (!paramsRoomId) return;
-
-    joinRoom(paramsRoomId);
-  }, []);
-
-  const joinRoom = async (roomId) => {
-    if (paramsRoomId === roomId) {
-      setLoadingRoom(true);
-      const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
-      const data = await response.json();
-      setCurrentRoomId(roomId);
-      setSelRoom(data.room);
-      setLoadingRoom(false);
-      return;
-    }
-
-    setLoadingRoom(true);
-    socket.emit("joinRoom", roomId, user._id, (response) => {
-      console.log(response);
-      setCurrentRoomId(roomId);
-      setSelRoom(response);
-      setLoadingRoom(false);
-    });
-  };
-
-  useEffect(() => {
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
@@ -56,7 +30,40 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
+
+    window.addEventListener("beforeunload", (ev) => {
+      ev.preventDefault();
+      alert("user disconnected " + user._id);
+      socket.emit("userDisconnected", user._id);
+    });
   }, []);
+
+  useEffect(() => {
+    if (!paramsRoomId) return;
+
+    joinRoom(paramsRoomId);
+  }, [paramsRoomId]);
+
+  const joinRoom = async (roomId) => {
+    // if (paramsRoomId === roomId) {
+    //   setLoadingRoom(true);
+    //   const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
+    //   const data = await response.json();
+    //   setCurrentRoomId(roomId);
+    //   setSelRoom(data.room);
+    //   setLoadingRoom(false);
+    //   return;
+    // }
+
+    // if (roomId === paramsRoomId)
+
+    setLoadingRoom(true);
+    socket.emit("joinRoom", roomId, user._id, (response) => {
+      setCurrentRoomId(roomId);
+      setSelRoom(response);
+      setLoadingRoom(false);
+    });
+  };
 
   return (
     <main className={`h-screen bg-primary`}>

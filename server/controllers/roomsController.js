@@ -57,11 +57,16 @@ const deleteMessages = async (req, res, next) => {
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
-    const { msgId } = req.body;
-    console.log(`id: ${msgId} room: ${roomId}`);
-    await Room.findByIdAndUpdate(roomId, {
-      $pull: { messages: { msgId: msgId } },
-    }); //pulling the message with the required msgId out of the msgArray
+    const { msgId, userInfo, msgWriter } = req.body;
+    if (`${msgWriter._id}` === `${userInfo._id}`) {
+      await Room.findByIdAndUpdate(roomId, {
+        $pull: { messages: { msgId: msgId } },
+      }); //pulling the message with the required msgId out of the msgArray
+    } else {
+      res.status(400).json({
+        message: "Bad request, you cant delete other people messages",
+      });
+    }
   } catch (error) {
     console.log(error);
   }
