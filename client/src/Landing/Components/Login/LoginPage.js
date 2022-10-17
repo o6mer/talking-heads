@@ -34,6 +34,7 @@ const LoginPage = () => {
         navigate("/main/1");
       } else throw new Error(data.message);
     } catch (error) {
+      setLoading(false);
       alert(error);
     }
   };

@@ -12,8 +12,6 @@ const getRoomByIdDB = async (roomId) => {
 };
 
 const sendMessageDB = async (msg, roomId) => {
-  console.log("####");
-  console.log(msg, roomId);
   try {
     console.log(msg);
     await Room.findByIdAndUpdate(roomId, {
