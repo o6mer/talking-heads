@@ -1,11 +1,13 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
-
 let logoutTimer;
 
 const useAuth = () => {
   const { setUser } = useContext(UserContext);
   const [tokenExpoDate, setTokenExpoDate] = useState();
+
+  const navigate = useNavigate();
 
   const login = useCallback((user) => {
     setUser(user);
@@ -24,6 +26,7 @@ const useAuth = () => {
     setTokenExpoDate(null);
     setUser(null);
     localStorage.removeItem("userData");
+    navigate("/");
   }, []);
 
   useEffect(() => {
