@@ -66,10 +66,10 @@ const MainPage = () => {
   };
 
   return (
-    <main className={`h-screen bg-primary`}>
+    <main className={`h-screen max-h-screen bg-primary flex flex-col`}>
       <NavBar />
       {roomList ? (
-        <div className="flex h-[90vh]">
+        <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar
             roomList={roomList}
             setRoomList={setRoomList}

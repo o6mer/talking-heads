@@ -32,7 +32,7 @@ const NavBar = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <nav className="w-full flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl h-max bg-thirdy">
+    <nav className="w-full h-12 flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl  bg-thirdy">
       <Link to="/">
         <img src="" alt="logo" />
       </Link>
@@ -62,8 +62,8 @@ const NavBar = () => {
           <MenuItem
             onClick={(e) => {
               console.log("open modal");
-              handleOpenModal();
               handleCloseMenu();
+              handleOpenModal();
             }}
           >
             <ListItemIcon>

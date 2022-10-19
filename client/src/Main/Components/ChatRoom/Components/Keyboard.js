@@ -14,10 +14,10 @@ const Keyboard = (props) => {
   }
 
   return (
-    <div className="justify-self-end mt-auto">
+    <div className="justify-self-end mt-auto h-min">
       <form
         action=""
-        className="flex gap-x-1"
+        className="flex gap-x-1 h-full"
         method="POST"
         onSubmit={(e) => {
           e.preventDefault();
@@ -25,7 +25,7 @@ const Keyboard = (props) => {
           setMsg("");
         }}
       >
-        <div className="w-full mt-1">
+        <div className="w-full mt-1 h-full">
           <TextField
             type="text"
             className="w-full"

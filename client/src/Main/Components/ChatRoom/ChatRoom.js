@@ -12,7 +12,7 @@ const ChatRoom = ({ selectedRoom }) => {
   return (
     <>
       {_id ? (
-        <section className="w-full flex">
+        <section className="w-full h-full flex">
           <Chat msgsArr={messages} roomId={_id} key={_id} />
           <ProfilesSideBar pop={usersInfo} key={_id} />
         </section>
