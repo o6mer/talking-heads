@@ -17,7 +17,9 @@ const ChatRoom = ({ selectedRoom }) => {
           <ProfilesSideBar pop={usersInfo} key={_id} />
         </section>
       ) : (
-        <div>{/* <img src={theStone} /> */}</div>
+        <div>
+          <img src={theStone} />
+        </div>
       )}
     </>
   );
