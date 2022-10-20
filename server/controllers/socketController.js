@@ -13,9 +13,10 @@ const onSocketConection = (socket, io) => {
 
   async function onSendMessage(msg, room, callback) {
     msg.msgId = uniqid();
-    await sendMessageDB(msg, room);
 
-    if (room === "") socket.broadcast.emit("receiveMsg", msg);
+    msg = await sendMessageDB(msg, room);
+
+    if (room === "") socket.emit("receiveMsg", msg);
     else {
       socket.to(room).emit("receiveMsg", msg);
     }
@@ -39,7 +40,6 @@ const onSocketConection = (socket, io) => {
       socket.to(roomId).emit("userJoinedRoom", userId, room);
       callback(room);
       rooms.push(roomId);
-      console.log("rooms: " + rooms);
     } catch (err) {
       console.log(err);
     }

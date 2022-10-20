@@ -13,8 +13,6 @@ const Chat = (props) => {
   const [messages, setMsg] = useState(msgsArr); //keeping track on the messages
   const { user, currentRoomId } = useContext(UserContext);
 
-  console.log(msgsArr);
-
   useEffect(() => {
     socket.on("receiveMsg", (msg) => {
       addMessage(msg);
@@ -23,7 +21,6 @@ const Chat = (props) => {
 
   const delMsg = async (msgId, userInfo, msgWriter) => {
     try {
-      console.log(msgId, roomId);
       const response = await fetch(
         `http://localhost:3001/api/room/deleteOneMsg/${roomId}`,
         {
@@ -39,20 +36,18 @@ const Chat = (props) => {
     }
   };
 
-  //post a message to the backend
+  //post a message to the backend (with socket.io)
   const sendMessage = async (msgContent) => {
     if (!socket) return;
     const time = new Date();
     let newMsg = {
-      msgWriter: user.userName, //need to be user Id (and then needed to be converted to user when coming to the front-end)
+      msgWriter: user._id, //need to be user Id (and then needed to be converted to user when coming to the front-end)
       msgTime: `${time.getHours()}:${time.getMinutes()}`,
       msgContent,
     };
 
-    socket.emit("sendMsg", newMsg, currentRoomId, (msgId) => {
-      newMsg.msgId = msgId; // defining an id to the msg
-      addMessage(newMsg);
-      console.log(newMsg);
+    socket.emit("sendMsg", newMsg, currentRoomId, (resMsg) => {
+      addMessage(resMsg);
     });
   };
 
@@ -72,7 +67,6 @@ const Chat = (props) => {
       );
       window.location.reload(false);
       setMsg([]);
-      console.log("reload");
     } catch (error) {
       console.log(error);
     }

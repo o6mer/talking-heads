@@ -9,8 +9,8 @@ import UserModal from "../../General/UserModal";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
   const { user } = useContext(UserContext);
-  const loggedUserName = user.userName;
-  const isLoggedInUser = loggedUserName === msgWriter; //.userName   boolean value represents if the message is written by the logged in user
+  const loggedUserId = user._id;
+  const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const [bgBool, setbgBool] = useState(false);
@@ -33,8 +33,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
       } ${!bgBool ? null : "bg-red-600"}`}
     >
       <button onClick={handleOpenModal}>
-        <Link>{msgWriter}</Link>
-        {/* should be msgWriter.userName (expected object) */}
+        <Link>{msgWriter.userName}</Link>
       </button>
 
       <div
