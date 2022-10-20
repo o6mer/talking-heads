@@ -34,7 +34,6 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
     >
       <button onClick={handleOpenModal}>
         <Link>{msgWriter.userName}</Link>
-        {/* should be msgWriter.userName (expected object) */}
       </button>
 
       <div

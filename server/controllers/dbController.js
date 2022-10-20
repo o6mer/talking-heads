@@ -10,6 +10,11 @@ const passFilter = ({ _id, userName, email, profilePictureUrl }) => ({
   profilePictureUrl,
 });
 
+const getUserNoPass = async (userId) => {
+  const user = await User.findOne({ _id: userId }, { password: 0 });
+  return user;
+};
+
 const getRoomByIdDB = async (roomId) => {
   let room;
   try {
@@ -30,7 +35,7 @@ const sendMessageDB = async (msg, roomId) => {
     console.log(err + " sending msg");
   }
   //returning the message with user info to the socket controller
-  msg.msgWriter = passFilter(await User.findById(msg.msgWriter));
+  msg.msgWriter = await getUserNoPass(msg.msgWriter);
   return msg;
 };
 
@@ -42,14 +47,6 @@ const joinRoomDB = async (roomId, userId) => {
     let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
 
     if (currentRoom) {
-      //check if user already in a room
-
-      // if (currentRoom._id.toString() === roomId) {
-      //   //check if the room he is trying to join is his current room
-      //   console.log("already joined the room | roomdId: " + roomId);
-      //   return new Error("already joined the room");
-      // }
-
       //remove the user from his current room
       const filteredPop = currentRoom.pop.filter((id) => {
         return id.toString() !== userIdAsObjectId.toString();
@@ -88,9 +85,9 @@ const joinRoomDB = async (roomId, userId) => {
       selectedRoom.messages.map(async (message) => {
         const userId = message.msgWriter;
 
-        const user = await User.findById(userId);
+        const user = await getUserNoPass(userId);
 
-        message.msgWriter = passFilter(user);
+        message.msgWriter = user;
       })
     );
 

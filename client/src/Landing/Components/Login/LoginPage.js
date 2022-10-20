@@ -82,7 +82,6 @@ const LoginPage = () => {
               type="submit"
               disabled={!formValid}
               fullWidth
-              // onClick={submitHandler}
             >
               Login
             </Button>
