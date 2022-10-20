@@ -1,10 +1,15 @@
-const { sendMessageDB, joinRoomDB } = require("./dbController");
+const {
+  sendMessageDB,
+  joinRoomDB,
+  deleteMessageDB,
+} = require("./dbController");
 const uniqid = require("uniqid");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
   socket.on("userDisconnected", onUserDisconnected);
+  socket.on("delMsg", onDeleteMessage);
 
   function onUserDisconnected(userId) {
     console.log("user disssss");
@@ -21,6 +26,14 @@ const onSocketConection = (socket, io) => {
       socket.to(room).emit("receiveMsg", msg);
     }
     callback(msg);
+  }
+
+  async function onDeleteMessage(roomId, msgId, userId, msgWriterId, callback) {
+    if (userId.toString() === msgWriterId.toString()) {
+      deleteMessageDB(roomId, msgId); // deleting the message on the db
+      socket.broadcast.emit("removeMsg", msgId);
+      callback("message deleted!"); // supposed to remove msg in the front
+    } else callback("message deletion denied!");
   }
 
   const rooms = [];

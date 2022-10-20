@@ -45,6 +45,7 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
+//delete all messages (useless...)
 const deleteMessages = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
@@ -54,6 +55,7 @@ const deleteMessages = async (req, res, next) => {
     console.log(err);
   }
 };
+
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;

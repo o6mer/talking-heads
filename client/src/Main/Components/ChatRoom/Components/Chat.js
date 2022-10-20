@@ -17,23 +17,17 @@ const Chat = (props) => {
     socket.on("receiveMsg", (msg) => {
       addMessage(msg);
     });
+    socket.on("removeMsg", (msgId) => {
+      removeMsg(msgId);
+    });
   }, []);
 
-  const delMsg = async (msgId, userInfo, msgWriter) => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/room/deleteOneMsg/${roomId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ msgId, userInfo, msgWriter }),
-        }
-      );
-    } catch (error) {
-      console.log(error);
-    }
+  const delMsg = async (msgId, userId, msgWriterId) => {
+    socket.emit("delMsg", roomId, msgId, userId, msgWriterId, (socketRes) => {
+      removeMsg(msgId); // delete the message in the front
+      // can do something with socketRes
+    });
+    removeMsg(msgId);
   };
 
   //post a message to the backend (with socket.io)
@@ -57,6 +51,16 @@ const Chat = (props) => {
     const { msgWriter, msgContent, msgTime, msgId } = msg;
     setMsg((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime, msgId }];
+    });
+  };
+
+  //removes a message in the frontend
+  const removeMsg = (msgId) => {
+    setMsg((prev) => {
+      return prev.filter((msgElement) => {
+        //.msgId is the message object field, msgId is the msgId which we want to delete
+        return msgElement.msgId.toString() !== msgId.toString();
+      });
     });
   };
 
