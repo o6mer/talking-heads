@@ -18,7 +18,7 @@ const ChatRoom = ({ selectedRoom }) => {
         </section>
       ) : (
         <div>
-          <img src={theStone} />
+          
         </div>
       )}
     </>
