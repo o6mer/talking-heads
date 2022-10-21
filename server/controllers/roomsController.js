@@ -80,7 +80,6 @@ const joinRoom = async (req, res, next) => {
 
   try {
     const updatedRoom = await joinRoomDB(roomId, userId);
-    console.log(updatedRoom.pop);
     res.status(200).json({
       //find the room the user joined and return its new pop
       message: `${userId} joined the room: ${roomId}`,

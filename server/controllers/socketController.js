@@ -32,7 +32,7 @@ const onSocketConection = (socket, io) => {
     if (userId.toString() === msgWriterId.toString()) {
       deleteMessageDB(roomId, msgId); // deleting the message on the db
       socket.broadcast.emit("removeMsg", msgId);
-      callback("message deleted!"); // supposed to remove msg in the front
+      callback("message deleted!");
     } else callback("message deletion denied!");
   }
 

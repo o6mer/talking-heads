@@ -28,17 +28,21 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
 
   return (
     <div
-      className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-black border-solid rounded-md hover:bg-primary ${
-        isLoggedInUser ? "self-end bg-secondary" : "bg-thirdy"
+      className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-fourthy border-solid rounded-md ${
+        isLoggedInUser
+          ? "self-end bg-secondary hover:bg-primary"
+          : "bg-thirdy hover:bg-fourthy"
       }`}
     >
       <button onClick={handleOpenModal}>
-        <Link>{msgWriter.userName}</Link>
+        <p className={`${isLoggedInUser ? "text-thirdy" : "text-secondary"}`}>
+          {msgWriter.userName}
+        </p>
       </button>
 
       <div
         className={`flex gap-4 text-xl ${
-          isLoggedInUser ? "text-black" : "text-white"
+          isLoggedInUser ? "text-black" : "text-black"
         }`}
       >
         <p>{msgContent}</p>
