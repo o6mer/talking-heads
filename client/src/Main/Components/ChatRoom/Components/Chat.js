@@ -77,9 +77,9 @@ const Chat = (props) => {
   };
 
   return (
-    <section className="flex flex-col w-full h-full p-4">
+    <section className="flex flex-col w-full h-full ">
       {code ? <Dashboard code={code} /> : <SpotifyAuth />}
-      <div className="flex flex-col gap-2 overflow-y-scroll p-0 h-full">
+      <div className="flex flex-col gap-2 overflow-y-scroll p-4 h-full">
         {messages.map((element) => {
           // making ChatMsg components from the messages array
           return <ChatMsg {...element} setMsg={setMsg} delMsg={delMsg} />;

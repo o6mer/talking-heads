@@ -9,7 +9,7 @@ import UserModal from "../../General/UserModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
-  const { user } = useContext(UserContext);
+  const { user, darkMode } = useContext(UserContext);
   const loggedUserId = user._id;
   const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -30,12 +30,22 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
     <div
       className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-fourthy border-solid rounded-md ${
         isLoggedInUser
-          ? "self-end bg-secondary hover:bg-primary"
+          ? `self-end  ${
+              darkMode
+                ? "bg-secondaryDark hover:bg-primaryDark"
+                : "bg-secondary hover:bg-primary"
+            }`
           : "bg-thirdy hover:bg-fourthy"
       }`}
     >
       <button onClick={handleOpenModal}>
-        <p className={`${isLoggedInUser ? "text-thirdy" : "text-secondary"}`}>
+        <p
+          className={`${
+            isLoggedInUser
+              ? `${darkMode ? "text-thirdyDark" : "text-thirdy"}`
+              : `${darkMode ? "text-secondaryDark" : "text-secondary"}`
+          }`}
+        >
           {msgWriter.userName}
         </p>
       </button>

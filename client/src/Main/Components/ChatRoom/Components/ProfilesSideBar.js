@@ -11,6 +11,8 @@ const ProfilesSideBar = (props) => {
   const { pop } = props;
   const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
 
+  const { darkMode } = useContext(UserContext);
+
   useEffect(() => {
     if (!pop) return;
     setPeople(pop);
@@ -38,7 +40,9 @@ const ProfilesSideBar = (props) => {
 
   return (
     <aside
-      className={`flex flex-col max-w-max h-full border-0 border-solid border-black bg-secondary`}
+      className={`flex flex-col max-w-max h-full border-0 border-solid border-black ${
+        darkMode ? "bg-secondaryDark" : "bg-secondary"
+      }`}
     >
       <SearchBar
         query="user"
@@ -55,6 +59,8 @@ const ProfilesSideBar = (props) => {
 };
 
 const ProfilesSideBarItem = (props) => {
+  const { darkMode } = useContext(UserContext);
+
   //modal stuff
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
@@ -62,7 +68,12 @@ const ProfilesSideBarItem = (props) => {
   const { user } = props;
   return (
     <div>
-      <Button onClick={handleOpen} className="flex bg-primary pl-4">
+      <Button
+        onClick={handleOpen}
+        className={`flex pl-4 ${
+          darkMode ? "hover:bg-primaryDark" : "hover:bg-primary"
+        }`}
+      >
         {user.userName}
       </Button>
       <UserModal open={open} userInfo={user} handleClose={handleClose} />

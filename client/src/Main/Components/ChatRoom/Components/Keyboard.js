@@ -14,7 +14,7 @@ const Keyboard = (props) => {
   }
 
   return (
-    <div className="justify-self-end mt-auto h-min">
+    <div className="justify-self-end mt-auto h-min p-2 bg-primary">
       <form
         action=""
         className="flex gap-x-1 h-full"
@@ -28,7 +28,7 @@ const Keyboard = (props) => {
         <div className="w-full mt-1 h-full">
           <TextField
             type="text"
-            className="w-full"
+            className="w-full "
             name="message"
             placeholder="Write a message"
             value={msg}
