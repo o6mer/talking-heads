@@ -20,8 +20,8 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`w-full h-13 flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl ${
-        darkMode ? "bg-thirdyDark" : "bg-thirdy"
+      className={`w-full h-13 flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl ${
+        darkMode ? "bg-[#090909]" : "bg-thirdy"
       } `}
     >
       <Link to="/">

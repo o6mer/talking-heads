@@ -1,46 +1,71 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
+import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const Keyboard = (props) => {
   const { sendMsg, roomId, postMsg, deleteAllMessages } = props;
   const [msg, setMsg] = useState("");
 
+  const { darkMode } = useContext(UserContext);
+
   function typing(event) {
     setMsg(event.target.value);
   }
 
+  const submitHandler = (e) => {
+    e.preventDefault();
+
+    if (!msg) return;
+
+    postMsg(msg);
+    setMsg("");
+  };
+
   return (
-    <div className="justify-self-end mt-auto h-min p-2 bg-primary">
+    <div
+      className={`justify-self-end mt-auto h-min p-2 ${
+        darkMode ? "bg-[#50626e]" : "bg-white"
+      }`}
+    >
       <form
         action=""
-        className="flex gap-x-1 h-full"
+        className="flex justify-center items-center gap-x-1 h-full"
         method="POST"
-        onSubmit={(e) => {
-          e.preventDefault();
-          postMsg(msg);
-          setMsg("");
-        }}
+        onSubmit={submitHandler}
       >
-        <div className="w-full mt-1 h-full">
-          <TextField
-            type="text"
-            className="w-full "
-            name="message"
-            placeholder="Write a message"
-            value={msg}
-            onChange={typing}
+        <TextField
+          type="text"
+          className={`w-full ${
+            darkMode ? "bg-[#a6bbc8]" : "bg-white"
+          } rounded-lg`}
+          name="message"
+          placeholder="Write a message"
+          value={msg}
+          onChange={typing}
+        />
+        <button type="submit">
+          <SendIcon
+            fontSize="large"
+            sx={{
+              color: "#5b9af8",
+              transition: "300ms all",
+              borderRadius: "50%",
+              padding: "0.3rem",
+              "&:hover": {
+                color: "#7daffa",
+                scale: "1.1",
+                // backgroundColor: "#",
+              },
+            }}
           />
-        </div>
-        <IconButton type="submit">
-          <SendIcon color="primary" />
-        </IconButton>
-        <IconButton onClick={deleteAllMessages}>
+        </button>
+        {/* <IconButton onClick={deleteAllMessages}>
           <DeleteForeverIcon color="primary" />
-        </IconButton>
+        </IconButton> */}
       </form>
     </div>
   );

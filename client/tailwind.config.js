@@ -9,8 +9,8 @@ module.exports = {
         thirdy: "#225795",
         fourthy: "#112D4E",
 
-        primaryDark: "#1B262C",
-        secondaryDark: "#0F4C75",
+        primaryDark: "#1a2329",
+        secondaryDark: "#0a0f12",
         thirdyDark: "#3282B8",
         fourthyDark: "#BBE1FA",
       },
