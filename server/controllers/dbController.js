@@ -2,14 +2,6 @@ const { Room } = require("../models/roomModel.js");
 const mongoose = require("mongoose");
 const { User } = require("../models/userModel.js");
 
-//filters password from the user
-const passFilter = ({ _id, userName, email, profilePictureUrl }) => ({
-  _id,
-  userName,
-  email,
-  profilePictureUrl,
-});
-
 const getUserNoPass = async (userId) => {
   const user = await User.findOne({ _id: userId }, { password: 0 });
   return user;
@@ -37,6 +29,17 @@ const sendMessageDB = async (msg, roomId) => {
   //returning the message with user info to the socket controller
   msg.msgWriter = await getUserNoPass(msg.msgWriter);
   return msg;
+};
+
+//deleting the message from the room inside the db
+const deleteMessageDB = async (roomId, msgId) => {
+  try {
+    await Room.findByIdAndUpdate(roomId, {
+      $pull: { messages: { msgId: msgId } },
+    }); //pulling the message with the required msgId out of the msgArray
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const joinRoomDB = async (roomId, userId) => {
@@ -103,4 +106,4 @@ const joinRoomDB = async (roomId, userId) => {
   }
 };
 
-module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB };
+module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB };

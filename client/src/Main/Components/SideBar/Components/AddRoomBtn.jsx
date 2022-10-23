@@ -31,7 +31,6 @@ const AddRoomBtn = ({ roomList, setRoomList }) => {
         [name]: value,
       };
     });
-    console.log(newRoom);
   };
 
   const handleClickOpen = () => {

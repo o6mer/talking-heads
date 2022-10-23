@@ -11,8 +11,6 @@ const ProfilesSideBar = (props) => {
   const { pop } = props;
   const [people, setPeople] = useState(pop); // might not need that use state and only use "pop"
 
-  console.log(pop);
-
   useEffect(() => {
     if (!pop) return;
     setPeople(pop);
@@ -21,12 +19,10 @@ const ProfilesSideBar = (props) => {
       // setPeople((prev) => {
       //   return [...prev, userId];
       // });
-      console.log(room);
       setPeople(room.usersInfo);
     });
 
     socket.on("userLeftRoom", (userId) => {
-      console.log("user disconnected " + userId);
       setPeople((prev) => {
         return prev.filter((user) => user._id.toString() !== userId.toString());
       });
@@ -38,20 +34,6 @@ const ProfilesSideBar = (props) => {
   };
   const clearFilter = () => {
     console.log("clear filter");
-  };
-
-  const removeUser = (user) => {
-    setPeople((prev) => {
-      const newArr = prev.filter((element) => {
-        return element.id !== user.id; // keeps all the users which their id is not the given one
-      });
-    });
-  };
-
-  const addUser = (user) => {
-    setPeople(
-      (prev) => prev.push(user) // adding the user to the array
-    );
   };
 
   return (

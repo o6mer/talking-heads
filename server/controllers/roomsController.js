@@ -45,6 +45,7 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
+//delete all messages (useless...)
 const deleteMessages = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
@@ -54,6 +55,7 @@ const deleteMessages = async (req, res, next) => {
     console.log(err);
   }
 };
+
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
@@ -78,7 +80,6 @@ const joinRoom = async (req, res, next) => {
 
   try {
     const updatedRoom = await joinRoomDB(roomId, userId);
-    console.log(updatedRoom.pop);
     res.status(200).json({
       //find the room the user joined and return its new pop
       message: `${userId} joined the room: ${roomId}`,
