@@ -3,10 +3,7 @@ import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
 import { socket } from "../../../MainPage";
 
-import Button from "@mui/material/Button";
 import UserModal from "../../../Components/General/UserModal.jsx";
-import { UserContext } from "../../../../contexts/UserContextProvider";
-import Link from "@mui/material/Link";
 
 const ProfilesSideBar = (props) => {
   const { pop } = props;
@@ -63,13 +60,16 @@ const ProfilesSideBarItem = (props) => {
   const handleClose = () => setOpen(false);
   const { user } = props;
   return (
-    <div>
-      <p
-        onClick={handleOpen}
-        className={`flex pl-4 my-0 py-2.5 hover:cursor-pointer hover:bg-primary text-xl bg-secondary`}
-      >
+    <div
+      className={`hover:cursor-pointer hover:bg-primary bg-secondary flex pr-4`}
+    >
+      <p onClick={handleOpen} className={`flex pl-4 my-0 py-2.5 text-xl`}>
         {user.userName}
       </p>
+      <img
+        className="w-8 h-8 my-auto ml-auto rounded-full"
+        src={`@@@name chat logo here@@@`}
+      ></img>
       <UserModal open={open} userInfo={user} handleClose={handleClose} />
     </div>
   );
