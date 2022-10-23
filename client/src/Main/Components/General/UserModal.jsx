@@ -6,8 +6,7 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Link from "@mui/material/Link";
-import theStone from "../ChatRoom/pics/theStone.gif";
-
+import Picture from "../../Media/NameLogo.png";
 const UserModal = ({ open, handleClose, userInfo }) => {
   const style = {
     position: "absolute",
@@ -41,7 +40,7 @@ const UserModal = ({ open, handleClose, userInfo }) => {
             {`email: `}
             <Link>{userInfo.email}</Link>
           </Typography>
-          <img src={theStone} />
+          <img src={Picture} />
         </Box>
       </Fade>
     </Modal>

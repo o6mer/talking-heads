@@ -13,6 +13,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import UserModal from "./UserModal";
 import { Tooltip } from "@mui/material";
 import Drawer from "@mui/material/Drawer";
+import Logo from "../../Media/NameChatLogo3.png";
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
@@ -34,9 +35,12 @@ const NavBar = () => {
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <nav className="w-full h-12 flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl  bg-thirdy">
+    <nav className="w-full h-13 flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl  bg-thirdy">
       <Link to="/">
-        <img src="" alt="logo" />
+        <span className="flex items-center justify-center gap-2 text-white font-bold">
+          <img src={Logo} alt="Name logo" className="w-12" />
+          <p className=""> Name Chat </p>
+        </span>
       </Link>
       <div className="flex ml-auto gap-4">
         <Tooltip title="Your Profile">
