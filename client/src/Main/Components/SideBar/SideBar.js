@@ -19,7 +19,7 @@ const SideBar = (props) => {
   };
 
   return (
-    <aside className={`flex flex-col h-[90vh] max-w-xs bg-secondary`}>
+    <aside className={`flex flex-col h-full max-w-xs bg-secondary pb-4`}>
       <SearchBar
         query="room"
         filterFunc={filterRooms}

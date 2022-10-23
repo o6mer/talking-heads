@@ -1,7 +1,5 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import { AiOutlineSetting } from "react-icons/ai";
-import { CgProfile } from "react-icons/cg";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import useAuth from "../../../Landing/hooks/useAuth";
 import Menu from "@mui/material/Menu";
@@ -12,59 +10,77 @@ import Settings from "@mui/icons-material/Settings";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import Divider from "@mui/material/Divider";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
+import UserModal from "./UserModal";
+import { Tooltip } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
   const { logout } = useAuth();
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-  const handleClick = (event) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+  const [openModal, setOpenModal] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
+
+  const opemMenu = Boolean(anchorEl);
+  const handleClickMenu = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   return (
-    <nav className="w-full flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl h-max bg-thirdy">
+    <nav className="w-full h-12 flex items-center border-b-2 border-b-black border-solid px-6 py-2 text-3xl  bg-thirdy">
       <Link to="/">
         <img src="" alt="logo" />
       </Link>
       <div className="flex ml-auto gap-4">
-        <button
-          className="flex  items-center w-min"
-          onClick={handleClick}
-          id="profile-button"
-          aria-controls={open ? "basic-menu" : undefined}
-          aria-haspopup="true"
-          aria-expanded={open ? "true" : undefined}
-        >
-          <AccountCircleIcon
-            sx={{ color: "white" }}
-            fontSize="large"
-            className="self-end"
-          />
-          <ArrowDropDownIcon sx={{ color: "white" }} className="slef-start" />
-        </button>
+        <Tooltip title="Your Profile">
+          <button
+            className="flex  items-center w-min text-white hover:text-gray-200"
+            onClick={handleClickMenu}
+            id="profile-button"
+            aria-controls={opemMenu ? "basic-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={opemMenu ? "true" : undefined}
+          >
+            <AccountCircleIcon sx={{ color: "inherit" }} fontSize="large" />
+            <ArrowDropDownIcon sx={{ color: "inherit" }} />
+          </button>
+        </Tooltip>
         <Menu
           id="basic-menu"
           anchorEl={anchorEl}
-          open={open}
-          onClose={handleClose}
+          open={opemMenu}
+          onClose={handleCloseMenu}
           MenuListProps={{
             "aria-labelledby": "basic-button",
           }}
         >
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon onClick={handleClose}>
+          <MenuItem
+            onClick={(e) => {
+              console.log("open modal");
+              handleCloseMenu();
+              handleOpenModal();
+            }}
+          >
+            <ListItemIcon>
               <AccountCircleIcon />
             </ListItemIcon>
             Profile
           </MenuItem>
-          <MenuItem onClick={handleClose}>
-            <ListItemIcon onClick={handleClose}>
+
+          <MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              setOpenDrawer(true);
+            }}
+          >
+            <ListItemIcon onClick={handleCloseMenu}>
               <Settings fontSize="small" />
             </ListItemIcon>
             Settings
@@ -72,7 +88,7 @@ const NavBar = () => {
 
           <Divider />
 
-          <MenuItem onClick={handleClose}>
+          <MenuItem onClick={logout}>
             <ListItemIcon>
               <Logout />
             </ListItemIcon>
@@ -80,6 +96,18 @@ const NavBar = () => {
           </MenuItem>
         </Menu>
       </div>
+      <UserModal
+        open={openModal}
+        userInfo={user}
+        handleClose={handleCloseModal}
+      />
+      <Drawer
+        anchor={"right"}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
+        settings
+      </Drawer>
     </nav>
   );
 };
