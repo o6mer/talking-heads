@@ -12,6 +12,7 @@ import Divider from "@mui/material/Divider";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import UserModal from "./UserModal";
 import { Tooltip } from "@mui/material";
+import Drawer from "@mui/material/Drawer";
 
 const NavBar = () => {
   const { user } = useContext(UserContext);
@@ -19,6 +20,7 @@ const NavBar = () => {
 
   const [anchorEl, setAnchorEl] = useState(null);
   const [openModal, setOpenModal] = useState(false);
+  const [openDrawer, setOpenDrawer] = useState(false);
 
   const opemMenu = Boolean(anchorEl);
   const handleClickMenu = (event) => {
@@ -39,7 +41,7 @@ const NavBar = () => {
       <div className="flex ml-auto gap-4">
         <Tooltip title="Your Profile">
           <button
-            className="flex  items-center w-min text-white hover:text-gray-100"
+            className="flex  items-center w-min text-white hover:text-gray-200"
             onClick={handleClickMenu}
             id="profile-button"
             aria-controls={opemMenu ? "basic-menu" : undefined}
@@ -72,7 +74,12 @@ const NavBar = () => {
             Profile
           </MenuItem>
 
-          <MenuItem onClick={handleCloseMenu}>
+          <MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              setOpenDrawer(true);
+            }}
+          >
             <ListItemIcon onClick={handleCloseMenu}>
               <Settings fontSize="small" />
             </ListItemIcon>
@@ -94,6 +101,13 @@ const NavBar = () => {
         userInfo={user}
         handleClose={handleCloseModal}
       />
+      <Drawer
+        anchor={"right"}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
+        settings
+      </Drawer>
     </nav>
   );
 };
