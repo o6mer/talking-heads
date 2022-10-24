@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
 import { socket } from "../../../MainPage";
-
+import Logo from "../../../Media/NameLogo.png";
 import UserModal from "../../../Components/General/UserModal.jsx";
+import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const ProfilesSideBar = (props) => {
   const { pop } = props;
@@ -48,7 +49,11 @@ const ProfilesSideBar = (props) => {
         filterFunc={filterUser}
         clearFilter={clearFilter}
       />
-      <section className="flex flex-col gap-0 h-full">
+      <section
+        className={`flex flex-col  h-full overflow-y-auto ${
+          darkMode ? "scrollbar-dark" : "scrollbar"
+        }`}
+      >
         {people.map((element) => {
           return <ProfilesSideBarItem user={element} />;
         })}
@@ -66,18 +71,21 @@ const ProfilesSideBarItem = (props) => {
   const handleClose = () => setOpen(false);
   const { user } = props;
   return (
-    <div
-      className={`hover:cursor-pointer   
-      ${darkMode ? "bg-secondaryDark hover:bg-primaryDark" : "bg-secondary hover:bg-primary"} flex pr-4`}>
-      <p onClick={handleOpen} className={`flex pl-4 my-0 py-2.5 text-xl`}>
-        {user.userName}
-      </p>
-      <img
-        className="w-8 h-8 my-auto ml-auto rounded-full"
-        src={`@@@name chat logo here@@@`}
-      ></img>
+    <>
+      <div
+        className={`hover:cursor-pointer   
+      ${
+        darkMode
+          ? "bg-secondaryDark hover:bg-primaryDark"
+          : "bg-secondary hover:bg-primary"
+      } flex py-2 px-3 items-center justify-start gap-3 `}
+        onClick={handleOpen}
+      >
+        <img className="w-8 h-8 rounded-md" src={Logo} alt="Profile Pic"></img>
+        <p className={`flex  text-xl`}>{user.userName}</p>
+      </div>
       <UserModal open={open} userInfo={user} handleClose={handleClose} />
-    </div>
+    </>
   );
 };
 
