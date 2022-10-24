@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { useState } from "react";
 
 import Button from "@mui/material/Button";
@@ -8,6 +8,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const AddRoomBtn = ({ roomList, setRoomList }) => {
   const [open, setOpen] = useState(false);
@@ -20,8 +21,9 @@ const AddRoomBtn = ({ roomList, setRoomList }) => {
   };
 
   const [roomId, setRoomId] = useState("");
-
   const [newRoom, setNewRoom] = useState(defaultRoom);
+
+  const { darkMode } = useContext(UserContext);
 
   const onTyping = (event) => {
     const { name, value } = event.target;
@@ -71,7 +73,7 @@ const AddRoomBtn = ({ roomList, setRoomList }) => {
   };
 
   return (
-    <div className="bg-primary">
+    <div className={`${darkMode ? "bg-primaryDark" : "bg-primary"}`}>
       <Button variant="outlined" onClick={handleClickOpen}>
         Create new room
       </Button>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
 import Dashboard from "../SpotifyApi/Dashboard";
-import theStone from "./pics/theStone.gif";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
@@ -17,9 +16,7 @@ const ChatRoom = ({ selectedRoom }) => {
           <ProfilesSideBar pop={usersInfo} key={_id} />
         </section>
       ) : (
-        <div>
-          
-        </div>
+        <div></div>
       )}
     </>
   );

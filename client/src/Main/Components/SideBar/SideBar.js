@@ -1,11 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import RoomList from "./Components/RoomList";
 import SearchBar from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
+import { UserContext } from "../../../contexts/UserContextProvider";
 
 const SideBar = (props) => {
   const { roomList, joinRoom, setRoomList } = props;
   const [filteredRoomList, editList] = useState(roomList);
+
+  const { darkMode } = useContext(UserContext);
 
   //passing that function to the search bar component
   const filterRooms = (filter) => {
@@ -19,7 +22,11 @@ const SideBar = (props) => {
   };
 
   return (
-    <aside className={`flex flex-col h-full max-w-xs bg-secondary pb-4`}>
+    <aside
+      className={`flex flex-col h-full max-w-xs ${
+        darkMode ? "bg-secondaryDark" : "bg-secondary"
+      } pb-4`}
+    >
       <SearchBar
         query="room"
         filterFunc={filterRooms}

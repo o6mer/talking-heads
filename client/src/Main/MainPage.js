@@ -13,7 +13,8 @@ export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user } = useContext(UserContext);
+  const { currentRoomId, setCurrentRoomId, user, darkMode } =
+    useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
@@ -66,7 +67,11 @@ const MainPage = () => {
   };
 
   return (
-    <main className={`h-screen max-h-screen bg-primary flex flex-col`}>
+    <main
+      className={`h-screen max-h-screen ${
+        darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
+      } flex flex-col`}
+    >
       <NavBar />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
