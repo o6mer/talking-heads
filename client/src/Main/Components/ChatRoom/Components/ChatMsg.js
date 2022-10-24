@@ -96,10 +96,12 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
             }
           }}
         >
-          <p className="text-sm">
-            Delete message
-            <DeleteIcon fontSize="inherit" />
-          </p>
+          <div className="text-sm gap-1 flex">
+            <div>
+              <DeleteIcon fontSize="inherit" />
+            </div>
+            <div>Delete message</div>
+          </div>
         </MenuItem>
       </Menu>
       <UserModal
