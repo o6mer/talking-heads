@@ -36,7 +36,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
                 : "bg-secondary hover:bg-primary"
             }`
           : "bg-[#3262b2] hover:bg-fourthy"
-      } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)]`}
+      } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}
     >
       <button onClick={handleOpenModal}>
         <p

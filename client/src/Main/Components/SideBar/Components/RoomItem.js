@@ -27,7 +27,9 @@ const RoomItem = (props) => {
           <p className="font-bold">
             <span
               className={
-                maxPop === pop.length ? "text-red-600" : "text-gray-800"
+                maxPop === pop.length
+                  ? "text-red-600"
+                  : `${darkMode ? "text-white" : "text-black"}`
               }
             >{`${pop.length}`}</span>
             <span className="">{`/${maxPop}`}</span>

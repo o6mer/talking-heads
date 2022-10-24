@@ -11,7 +11,7 @@ const code = new URLSearchParams(window.location.search).get("code");
 const Chat = (props) => {
   const { roomId, msgsArr } = props;
   const [messages, setMsg] = useState(msgsArr); //keeping track on the messages
-  const { user, currentRoomId } = useContext(UserContext);
+  const { user, currentRoomId, darkMode } = useContext(UserContext);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg) => {
@@ -79,7 +79,11 @@ const Chat = (props) => {
   return (
     <section className="flex flex-col w-full h-full ">
       {code ? <Dashboard code={code} /> : <SpotifyAuth />}
-      <div className="flex flex-col gap-2 overflow-y-scroll p-4 h-full">
+      <div
+        className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
+          darkMode ? "scrollbar-dark" : "scrollbar"
+        }`}
+      >
         {messages.map((element) => {
           // making ChatMsg components from the messages array
           return <ChatMsg {...element} setMsg={setMsg} delMsg={delMsg} />;

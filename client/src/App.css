@@ -7,3 +7,47 @@
   padding: 0;
   margin: 0;
 }
+
+@layer utilities {
+  .scrollbar::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  /* light mode */
+
+  .scrollbar::-webkit-scrollbar-track {
+    background: #f7f4ed;
+    border: 1px solid #dbe2ef57;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb {
+    background: #225795;
+    border-radius: 100vh;
+    border: 1px solid #dbe2ef57;
+  }
+
+  .scrollbar::-webkit-scrollbar-thumb:hover {
+    background: #1b4677;
+  }
+
+  /* dark mode */
+
+  .scrollbar-dark::-webkit-scrollbar {
+    width: 0.5rem;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-track {
+    background: #3f3f3f;
+    border: 1px solid #43454957;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb {
+    background: #141414;
+    border-radius: 100vh;
+    border: 1px solid #43454957;
+  }
+
+  .scrollbar-dark::-webkit-scrollbar-thumb:hover {
+    background: #1f1e1e;
+  }
+}
