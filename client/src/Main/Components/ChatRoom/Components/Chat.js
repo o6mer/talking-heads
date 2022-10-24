@@ -36,7 +36,11 @@ const Chat = (props) => {
     const time = new Date();
     let newMsg = {
       msgWriter: user._id, //need to be user Id (and then needed to be converted to user when coming to the front-end)
-      msgTime: `${time.getHours()}:${time.getMinutes()}`,
+      msgTime: `${
+        time.getHours() < 10 ? `0${time.getHours()}` : time.getHours()
+      }:${
+        time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
+      }`,
       msgContent,
     };
 
