@@ -9,7 +9,7 @@ import UserModal from "../../General/UserModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
 const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
-  const { user } = useContext(UserContext);
+  const { user, darkMode } = useContext(UserContext);
   const loggedUserId = user._id;
   const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -28,28 +28,42 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
 
   return (
     <div
-      className={`max-w-max p-3 gap-3 font-bold justify-around border-2 border-fourthy border-solid rounded-md ${
+      className={`max-w-max p-3 gap-3 font-bold justify-around rounded-md text-white ${
         isLoggedInUser
-          ? "self-end bg-secondary hover:bg-primary"
-          : "bg-thirdy hover:bg-fourthy"
-      }`}
+          ? `self-end  ${
+              darkMode
+                ? "bg-[#18364d] hover:bg-primaryDark"
+                : "bg-secondary hover:bg-primary"
+            }`
+          : "bg-[#3262b2] hover:bg-fourthy"
+      } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}
     >
       <button onClick={handleOpenModal}>
-        <p className={`${isLoggedInUser ? "text-thirdy" : "text-secondary"}`}>
+        <p
+          className={`${
+            isLoggedInUser
+              ? `${darkMode ? "text-thirdyDark" : "text-thirdy"}`
+              : `${darkMode ? "text-secondaryDark" : "text-secondary"}`
+          }`}
+        >
           {msgWriter.userName}
         </p>
       </button>
 
-      <div
-        className={`flex gap-4 text-xl ${
-          isLoggedInUser ? "text-black" : "text-black"
-        }`}
-      >
-        <p>{msgContent}</p>
+      <div className={`flex gap-4 text-xl `}>
+        <p
+          className={`${
+            isLoggedInUser
+              ? `${darkMode ? "text-white" : "text-black "}`
+              : "text-white"
+          }`}
+        >
+          {msgContent}
+        </p>
       </div>
 
       <div className="flex">
-        <p className="text-sm text-right">{msgTime}</p>
+        <p className="text-sm text-right text-[#a6bbc8]">{msgTime}</p>
         {isLoggedInUser && (
           <button
             id="basic-button"

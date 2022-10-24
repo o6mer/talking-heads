@@ -11,10 +11,18 @@ const UserPorivder = ({ children }) => {
     profilePictureUrl: "C:",
   });
   const [currentRoomId, setCurrentRoomId] = useState(undefined);
+  const [darkMode, setDarkMode] = useState(false);
 
   return (
     <UserContext.Provider
-      value={{ user, setUser, currentRoomId, setCurrentRoomId }}
+      value={{
+        user,
+        setUser,
+        currentRoomId,
+        setCurrentRoomId,
+        darkMode,
+        setDarkMode,
+      }}
     >
       {children}
     </UserContext.Provider>

@@ -1,12 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { BsFilter } from "react-icons/bs";
 
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
+import { UserContext } from "../../../contexts/UserContextProvider";
 
 const SearchBar = ({ query, filterFunc, clearFilter }) => {
   const [filter, changeFilter] = useState("");
+
+  const { darkMode } = useContext(UserContext);
 
   const typing = (event) => {
     changeFilter(event.target.value);
@@ -32,6 +35,8 @@ const SearchBar = ({ query, filterFunc, clearFilter }) => {
           placeholder={`search ${query}`}
           onChange={typing}
           value={filter}
+          // sx={{}}
+          className={`${darkMode ? "bg-[#a6bbc8]" : "bg-white"} rounded-lg`}
         />
       </form>
       <button
