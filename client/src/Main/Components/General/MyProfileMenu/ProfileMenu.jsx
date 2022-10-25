@@ -12,7 +12,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const { user } = useContext(UserContext);
+  const { user, darkMode } = useContext(UserContext);
 
   const { logout } = useAuth();
 
@@ -35,6 +35,12 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
+        sx={{
+          "& .MuiPaper-root": {
+            backgroundColor: `${darkMode ? "black" : "white"}`,
+            color: `${darkMode ? "white" : "black"}`,
+          },
+        }}
       >
         <MenuItem
           onClick={(e) => {
@@ -43,7 +49,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
             handleOpenModal();
           }}
         >
-          <ListItemIcon>
+          <ListItemIcon className={`${darkMode ? "white" : "black"}`}>
             <AccountCircleIcon />
           </ListItemIcon>
           Profile
