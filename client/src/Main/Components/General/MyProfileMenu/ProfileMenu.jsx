@@ -23,8 +23,6 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-  console.log(openMenu);
-
   return (
     <div className="">
       <Menu
@@ -35,12 +33,6 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
         MenuListProps={{
           "aria-labelledby": "basic-button",
         }}
-        sx={{
-          "& .MuiPaper-root": {
-            backgroundColor: `${darkMode ? "black" : "white"}`,
-            color: `${darkMode ? "white" : "black"}`,
-          },
-        }}
       >
         <MenuItem
           onClick={(e) => {
@@ -49,7 +41,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
             handleOpenModal();
           }}
         >
-          <ListItemIcon className={`${darkMode ? "white" : "black"}`}>
+          <ListItemIcon>
             <AccountCircleIcon />
           </ListItemIcon>
           Profile

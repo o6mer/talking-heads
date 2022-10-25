@@ -11,7 +11,6 @@ const MainPageProtected = ({ children }) => {
   useAuth();
 
   useEffect(() => {
-    console.log(user);
     if (!user) return;
 
     setIsLoggedCorrectly(true);
