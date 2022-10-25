@@ -1,11 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import useForm from "../../hooks/useForm";
-import LabeledInput from "../General/LabeledInput";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
-import { Button, Link, TextField } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
-import SignupPage from "../Signup/SignupPage";
 import useAuth from "../../../Landing/hooks/useAuth";
 
 const LoginPage = () => {

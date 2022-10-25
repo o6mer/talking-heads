@@ -13,8 +13,7 @@ export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user, darkMode } =
-    useContext(UserContext);
+  const { setCurrentRoomId, user, darkMode } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
@@ -46,18 +45,6 @@ const MainPage = () => {
   }, [paramsRoomId]);
 
   const joinRoom = async (roomId) => {
-    // if (paramsRoomId === roomId) {
-    //   setLoadingRoom(true);
-    //   const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
-    //   const data = await response.json();
-    //   setCurrentRoomId(roomId);
-    //   setSelRoom(data.room);
-    //   setLoadingRoom(false);
-    //   return;
-    // }
-
-    // if (roomId === paramsRoomId)
-
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
       setCurrentRoomId(roomId);

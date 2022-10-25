@@ -1,15 +1,8 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import LandingPage from "./Landing/LandingPage";
 import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
-import { createContext, useState } from "react";
 import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
 

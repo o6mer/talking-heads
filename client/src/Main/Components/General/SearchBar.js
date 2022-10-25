@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { BsFilter } from "react-icons/bs";
 
 import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
