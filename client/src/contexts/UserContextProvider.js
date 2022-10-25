@@ -3,13 +3,7 @@ import React, { createContext, useState } from "react";
 export const UserContext = createContext({});
 
 const UserPorivder = ({ children }) => {
-  const [user, setUser] = useState({
-    _id: "noId12345678",
-    userName: "notLoggedIn",
-    email: "unLog@gmail.com",
-    password: "12345678",
-    profilePictureUrl: "C:",
-  });
+  const [user, setUser] = useState();
   const [currentRoomId, setCurrentRoomId] = useState(undefined);
   const [darkMode, setDarkMode] = useState(false);
 

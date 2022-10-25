@@ -34,11 +34,11 @@ const UserModal = ({ open, handleClose, userInfo }) => {
       <Fade in={open}>
         <Box sx={style}>
           <Typography id="transition-modal-title" variant="h6" component="h2">
-            {`${userInfo.userName}`}
+            {`${userInfo?.userName}`}
           </Typography>
           <Typography id="transition-modal-description" sx={{ mt: 2 }}>
             {`email: `}
-            <Link>{userInfo.email}</Link>
+            <Link>{userInfo?.email}</Link>
           </Typography>
           <img src={Picture} />
         </Box>

@@ -38,15 +38,19 @@ const useAuth = () => {
     }
   }, [logout, tokenExpoDate]);
 
-  useEffect(() => {
+  const relogin = useCallback(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
-    console.log(storedData);
+    // console.log(storedData);
     if (storedData) {
       login(storedData, new Date(storedData.expiration));
     }
   }, []);
 
-  return { login, logout };
+  useEffect(() => {
+    relogin();
+  }, []);
+
+  return { login, logout, relogin };
 };
 
 export default useAuth;

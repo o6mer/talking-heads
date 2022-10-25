@@ -17,9 +17,12 @@ const MainPage = () => {
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  useAuth();
+  // const { relogin } = useAuth();
 
   useEffect(() => {
+    // if (!user) relogin();
+
+    // console.log("on render", user);
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
@@ -30,13 +33,11 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
-
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      alert("user disconnected " + user._id);
-      socket.emit("userDisconnected", user._id);
-    });
   }, []);
+
+  // useEffect(() => {
+  //   console.log("on user change", user);
+  // }, [user]);
 
   useEffect(() => {
     if (!paramsRoomId) return;
@@ -45,6 +46,10 @@ const MainPage = () => {
   }, [paramsRoomId]);
 
   const joinRoom = async (roomId) => {
+    // console.log(user, roomId);
+
+    if (!user) return;
+
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
       setCurrentRoomId(roomId);
@@ -55,7 +60,7 @@ const MainPage = () => {
 
   return (
     <main
-      className={`h-screen max-h-screen ${
+      className={`h-full max-h-screen w-full ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
