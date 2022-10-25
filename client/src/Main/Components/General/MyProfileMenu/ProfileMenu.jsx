@@ -8,7 +8,7 @@ import useAuth from "../../../../Landing/hooks/useAuth";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import SettingsDrawer from "./SettingsDrawer";
 
-const ProfileMenu = ({ setAnchorEl, anchorEl, opemMenu }) => {
+const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
@@ -23,14 +23,14 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, opemMenu }) => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-  const { darkMode } = useContext(UserContext);
+  console.log(openMenu);
 
   return (
     <div className="">
       <Menu
-        id="basic-menu"
+        id="profile-menu"
         anchorEl={anchorEl}
-        open={opemMenu}
+        open={openMenu}
         onClose={handleCloseMenu}
         MenuListProps={{
           "aria-labelledby": "basic-button",
