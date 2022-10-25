@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import useAuth from "../Landing/hooks/useAuth";
+import MainPage from "./MainPage";
 
 const MainPageProtected = ({ children }) => {
   const [isLoggedCorrectly, setIsLoggedCorrectly] = useState(false);
@@ -17,9 +18,10 @@ const MainPageProtected = ({ children }) => {
   }, [user]);
 
   return (
-    <div className="h-screen w-screen flex justify-center items-center">
-      {isLoggedCorrectly ? children : <LoadingPage />}
-    </div>
+    // <div >
+    //   {isLoggedCorrectly ? children : <LoadingPage />}
+    // </div>
+    <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>
   );
 };
 
@@ -36,7 +38,7 @@ const LoadingPage = () => {
   }, []);
 
   return (
-    <div>
+    <div className="h-screen w-screen flex justify-center items-center">
       <CircularProgress />
     </div>
   );
