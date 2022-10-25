@@ -1,7 +1,5 @@
 import React, { useContext } from "react";
 import RoomItem from "./RoomItem";
-import { rooms } from "../../ChatRoom/ChatRoom";
-import { useState } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const RoomList = (props) => {

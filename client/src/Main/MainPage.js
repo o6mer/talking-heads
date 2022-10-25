@@ -13,14 +13,16 @@ export const socket = io("http://localhost:8080");
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user, darkMode } =
-    useContext(UserContext);
+  const { setCurrentRoomId, user, darkMode } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  useAuth();
+  // const { relogin } = useAuth();
 
   useEffect(() => {
+    // if (!user) relogin();
+
+    // console.log("on render", user);
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
@@ -31,13 +33,11 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
-
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      alert("user disconnected " + user._id);
-      socket.emit("userDisconnected", user._id);
-    });
   }, []);
+
+  // useEffect(() => {
+  //   console.log("on user change", user);
+  // }, [user]);
 
   useEffect(() => {
     if (!paramsRoomId) return;
@@ -46,17 +46,9 @@ const MainPage = () => {
   }, [paramsRoomId]);
 
   const joinRoom = async (roomId) => {
-    // if (paramsRoomId === roomId) {
-    //   setLoadingRoom(true);
-    //   const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
-    //   const data = await response.json();
-    //   setCurrentRoomId(roomId);
-    //   setSelRoom(data.room);
-    //   setLoadingRoom(false);
-    //   return;
-    // }
+    // console.log(user, roomId);
 
-    // if (roomId === paramsRoomId)
+    if (!user) return;
 
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
@@ -68,7 +60,7 @@ const MainPage = () => {
 
   return (
     <main
-      className={`h-screen max-h-screen ${
+      className={`h-full max-h-screen w-full ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >

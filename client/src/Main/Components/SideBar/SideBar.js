@@ -5,7 +5,7 @@ import AddRoomBtn from "./Components/AddRoomBtn";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const SideBar = (props) => {
-  const { roomList, joinRoom, setRoomList } = props;
+  const { roomList, joinRoom } = props;
   const [filteredRoomList, editList] = useState(roomList);
 
   const { darkMode } = useContext(UserContext);
