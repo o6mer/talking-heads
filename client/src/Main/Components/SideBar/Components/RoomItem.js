@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const RoomItem = (props) => {
-  const { _id, name, maxPop, pop, currentSong } = props.room;
+  const { _id, name, maxPop, pop, messages } = props.room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
 
   const { darkMode } = useContext(UserContext);
@@ -34,14 +34,13 @@ const RoomItem = (props) => {
             <span className="">{`/${maxPop}`}</span>
           </p>
         </div>
-        <div className={rowContainerStyle}>
-          <p className="text-lg">{`${currentSong}`}</p>
-          <button //Room button!
-            className="border-black border-solid border-2 p-2
-            hover:bg-gray-5"
-          >
-            play
-          </button>
+        <div
+          className={
+            "flex text-xl text-gray-500 w-full justify-center items-center gap-4"
+          }
+        >
+          <p>{messages?.at(-1)?.msgContent}</p>
+          <p className="">{messages?.at(-1)?.msgTime}</p>
         </div>
       </div>
     </Link>

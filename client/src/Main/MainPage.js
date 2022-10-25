@@ -6,7 +6,6 @@ import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
-import useAuth from "../Landing/hooks/useAuth";
 import CircularProgress from "@mui/material/CircularProgress";
 
 export const socket = io("http://localhost:8080");
@@ -17,12 +16,8 @@ const MainPage = () => {
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  // const { relogin } = useAuth();
 
   useEffect(() => {
-    // if (!user) relogin();
-
-    // console.log("on render", user);
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
@@ -35,10 +30,6 @@ const MainPage = () => {
     sendRequest(); // calling the func above
   }, []);
 
-  // useEffect(() => {
-  //   console.log("on user change", user);
-  // }, [user]);
-
   useEffect(() => {
     if (!paramsRoomId) return;
 
@@ -46,8 +37,6 @@ const MainPage = () => {
   }, [paramsRoomId]);
 
   const joinRoom = async (roomId) => {
-    // console.log(user, roomId);
-
     if (!user) return;
 
     setLoadingRoom(true);
