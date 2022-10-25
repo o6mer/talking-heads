@@ -2,9 +2,7 @@ import React, { useContext } from "react";
 import RoomItem from "./RoomItem";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomList = (props) => {
-  const { roomList, joinRoom } = props;
-
+const RoomList = ({ roomList, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
 
   return (
@@ -14,7 +12,7 @@ const RoomList = (props) => {
       }`}
     >
       {roomList.map((element) => (
-        <RoomItem room={element} joinRoom={joinRoom} />
+        <RoomItem room={element} selectedRoom={selectedRoom} />
       ))}
     </section>
   );

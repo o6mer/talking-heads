@@ -1,19 +1,25 @@
-import React, { useContext } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomItem = (props) => {
-  const { _id, name, maxPop, pop, messages } = props.room;
+const RoomItem = ({ selectedRoom, room }) => {
+  const { _id, name, maxPop, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
-
+  const [isSelectedRoom, setIsSelectedRoom] = useState(false);
   const { darkMode } = useContext(UserContext);
 
+  useEffect(() => {
+    console.log(selectedRoom, _id);
+    if (selectedRoom?._id === _id) return setIsSelectedRoom(true);
+    setIsSelectedRoom(false);
+  }, [selectedRoom]);
+
   return (
-    <Link className={` `} to={`/main/${_id}`}>
+    <Link className={``} to={`/main/${_id}`}>
       <div
         className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
           darkMode ? "hover:bg-primaryDark" : "hover:bg-primary"
-        }`}
+        } ${isSelectedRoom ? "bg-white" : "bg-secondary"}`}
       >
         <div className={rowContainerStyle}>
           <p className="text-2xl font-bold">{name}</p>

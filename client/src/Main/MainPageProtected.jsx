@@ -16,12 +16,7 @@ const MainPageProtected = ({ children }) => {
     setIsLoggedCorrectly(true);
   }, [user]);
 
-  return (
-    // <div >
-    //   {isLoggedCorrectly ? children : <LoadingPage />}
-    // </div>
-    <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>
-  );
+  return <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>;
 };
 
 const LoadingPage = () => {

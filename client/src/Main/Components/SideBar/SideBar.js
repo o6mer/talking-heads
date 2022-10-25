@@ -5,7 +5,7 @@ import AddRoomBtn from "./Components/AddRoomBtn";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const SideBar = (props) => {
-  const { roomList, joinRoom } = props;
+  const { roomList, joinRoom, selectedRoom } = props;
   const [filteredRoomList, editList] = useState(roomList);
 
   const { darkMode } = useContext(UserContext);
@@ -32,7 +32,11 @@ const SideBar = (props) => {
         filterFunc={filterRooms}
         clearFilter={clearFilter}
       />
-      <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
+      <RoomList
+        roomList={filteredRoomList}
+        joinRoom={joinRoom}
+        selectedRoom={selectedRoom}
+      />
       <div className="mt-auto mx-auto">
         <AddRoomBtn roomList={filteredRoomList} setRoomList={editList} />
       </div>
