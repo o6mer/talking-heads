@@ -11,10 +11,10 @@ const SideBar = (props) => {
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
-    //getting leftRoon and joinedRoom from backend and modifying the list
+    //getting leftRoom and joinedRoom from backend and modifying the list
     socket.on("userChangedRoom", (joinedRoom, leftRoom) => {
-      setList(() => {
-        return roomList.map((e) => {
+      setList((prev) => {
+        return prev.map((e) => {
           if (e._id === joinedRoom._id) e = joinedRoom;
           if (leftRoom) {
             if (e._id === leftRoom._id) e = leftRoom;

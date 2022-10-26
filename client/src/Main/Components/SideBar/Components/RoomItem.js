@@ -7,7 +7,7 @@ const RoomItem = (props) => {
   const { _id, name, maxPop, pop, messages, currentSong } = props.room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
 
-  const { darkMode } = useContext(UserContext);
+  const { darkMode, currentRoomId } = useContext(UserContext);
 
   return (
     <Link
@@ -19,7 +19,13 @@ const RoomItem = (props) => {
     >
       <div
         className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
-          darkMode ? "hover:bg-primaryDark" : "hover:bg-primary"
+          darkMode ? `hover:bg-primaryDark` : "hover:bg-primary"
+        } ${
+          currentRoomId === _id
+            ? darkMode
+              ? "bg-primaryDark"
+              : "bg-primary"
+            : null
         }`}
       >
         <div className={rowContainerStyle}>
