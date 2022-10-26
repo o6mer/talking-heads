@@ -100,7 +100,7 @@ const joinRoomDB = async (roomId, userId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
-    return newRoom;
+    return [newRoom, currentRoom];
   } catch (err) {
     return new Error(err);
   }
