@@ -7,7 +7,7 @@ const RoomList = ({ roomList, selectedRoom }) => {
 
   return (
     <section
-      className={`overflow-auto overflow-x-hidden h-full ${
+      className={`flex flex-col gap-0.5 overflow-auto overflow-x-hidden h-full ${
         darkMode ? "scrollbar-dark" : "scrollbar"
       }`}
     >

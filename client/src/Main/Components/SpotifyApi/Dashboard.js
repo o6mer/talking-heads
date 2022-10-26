@@ -20,12 +20,6 @@ const Dashboard = ({ code }) => {
   };
 
   useEffect(() => {
-    return () => {
-      console.log("dismount");
-    };
-  }, []);
-
-  useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
@@ -61,8 +55,14 @@ const Dashboard = ({ code }) => {
   }, [search, accessToken]);
 
   return (
-    <div className="flex p-2 w-full  max-h-full flex-col">
-      <form action="" className="w-full">
+    <div className="flex p-2 h-max flex-col w-[25rem]">
+      <form
+        action=""
+        className="w-full"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <input
           className="w-full"
           type="serach"
@@ -82,9 +82,8 @@ const Dashboard = ({ code }) => {
           />
         ))}
       </div>
-      <div>
-        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
-      </div>
+
+      <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
     </div>
   );
 };

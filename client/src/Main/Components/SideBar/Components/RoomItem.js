@@ -11,14 +11,28 @@ const RoomItem = ({ selectedRoom, room }) => {
   useEffect(() => {
     if (selectedRoom?._id === _id) return setIsSelectedRoom(true);
     setIsSelectedRoom(false);
-  }, [selectedRoom]);
+  }, [selectedRoom, _id]);
+
+  // ${
+  //           darkMode
+  //             ? " bg-secondaryDark hover:bg-primaryDark"
+  //             : "bg-secondary hover:bg-primary"
+  //         }
 
   return (
     <Link className={``} to={`/main/${_id}`}>
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
-          darkMode ? "hover:bg-primaryDark" : "hover:bg-primary"
-        } ${isSelectedRoom ? "bg-white" : "bg-secondary"}`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl 
+        
+         ${
+           isSelectedRoom
+             ? `${darkMode ? "bg-primaryDark" : "bg-primary"}`
+             : `${
+                 darkMode
+                   ? "bg-secondaryDark hover:bg-primaryDark"
+                   : "bg-secondary hover:bg-primary"
+               }`
+         }`}
       >
         <div className={rowContainerStyle}>
           <p className="text-2xl font-bold">{name}</p>

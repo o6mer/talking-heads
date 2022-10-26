@@ -9,16 +9,25 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import Dashboard from "../SpotifyApi/Dashboard";
 import MusicMenu from "./MusicMenu/MusicMenu";
-
-const code = new URLSearchParams(window.location.search).get("code");
+import { useEffect } from "react";
 
 const NavBar = () => {
   const [anchorElProfile, setAnchorElProfile] = useState(null);
   const [anchorElMusic, setAnchorElMusic] = useState(null);
+  const [code, setCode] = useState(
+    new URLSearchParams(window.location.search).get("code")
+  );
   const openMenuProfile = Boolean(anchorElProfile);
   const openMenuMusic = Boolean(anchorElMusic);
 
   const { darkMode } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!code) setCode(new URLSearchParams(window.location.search).get("code"));
+
+    return () => {};
+  }, []);
+
   return (
     <nav
       className={`w-full h-13 flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl ${
