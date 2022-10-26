@@ -3,8 +3,7 @@ import { Link } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const RoomItem = (props) => {
-  const { joinRoom } = props;
-  const { _id, name, maxPop, pop, messages, currentSong } = props.room;
+  const { _id, name, maxPop, pop, currentSong } = props.room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
 
   const { darkMode, currentRoomId } = useContext(UserContext);

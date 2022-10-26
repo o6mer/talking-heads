@@ -6,8 +6,10 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { socket } from "../../MainPage";
 
 const SideBar = (props) => {
-  const { roomList, joinRoom, setRoomList } = props;
+
+  const { roomList, joinRoom } = props;
   const [filteredRoomList, setList] = useState(roomList);
+
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
