@@ -11,18 +11,12 @@ const MainPageProtected = ({ children }) => {
   useAuth();
 
   useEffect(() => {
-    console.log(user);
     if (!user) return;
 
     setIsLoggedCorrectly(true);
   }, [user]);
 
-  return (
-    // <div >
-    //   {isLoggedCorrectly ? children : <LoadingPage />}
-    // </div>
-    <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>
-  );
+  return <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>;
 };
 
 const LoadingPage = () => {

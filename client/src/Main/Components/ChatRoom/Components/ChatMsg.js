@@ -32,7 +32,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
           ? `self-end  ${
               darkMode
                 ? "bg-[#18364d] hover:bg-primaryDark"
-                : "bg-secondary hover:bg-primary"
+                : "bg-secondary hover:bg-[#c9d0dc]"
             }`
           : "bg-[#3262b2] hover:bg-fourthy"
       } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}

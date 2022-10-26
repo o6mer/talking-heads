@@ -28,7 +28,6 @@ const ProfilesSideBar = (props) => {
   }, []);
 
   const filterUser = (filter) => {
-    console.log(filter);
     setPeople(() => {
       return pop.filter((e) => e.userName.includes(filter));
     });

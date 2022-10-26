@@ -5,8 +5,11 @@ const AUTH_URL =
 
 export default function SpotifyAuth() {
   return (
-    <div className="flex justify-center align-center">
-      <a className="btn btn-success btn-lg" href={AUTH_URL}>
+    <div className="flex justify-center align-center p-2 bg-transparent">
+      <a
+        className="btn btn-success btn-lg bg-[#1DB954] hover:bg-[#1a9c47] transition-all p-3 font-bold text-black rounded-full"
+        href={AUTH_URL}
+      >
         Login With Spotify
       </a>
     </div>
