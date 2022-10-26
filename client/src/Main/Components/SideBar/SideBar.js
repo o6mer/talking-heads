@@ -1,24 +1,40 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import RoomList from "./Components/RoomList";
 import SearchBar from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
 import { UserContext } from "../../../contexts/UserContextProvider";
+import { socket } from "../../MainPage";
 
 const SideBar = (props) => {
   const { roomList, joinRoom, selectedRoom } = props;
-  const [filteredRoomList, editList] = useState(roomList);
+  const [filteredRoomList, setList] = useState(roomList);
 
   const { darkMode } = useContext(UserContext);
 
+  useEffect(() => {
+    //getting leftRoom and joinedRoom from backend and modifying the list
+    socket.on("userChangedRoom", (joinedRoom, leftRoom) => {
+      setList((prev) => {
+        return prev.map((e) => {
+          if (e._id === joinedRoom._id) e = joinedRoom;
+          if (leftRoom) {
+            if (e._id === leftRoom._id) e = leftRoom;
+          }
+          return e;
+        });
+      });
+    });
+  }, []);
+
   //passing that function to the search bar component
   const filterRooms = (filter) => {
-    editList(() => {
+    setList(() => {
       return roomList.filter((e) => e.name.includes(filter));
     });
   };
 
   const clearFilter = () => {
-    editList(roomList);
+    setList(roomList);
   };
 
   return (
@@ -38,7 +54,7 @@ const SideBar = (props) => {
         selectedRoom={selectedRoom}
       />
       <div className="mt-auto mx-auto">
-        <AddRoomBtn roomList={filteredRoomList} setRoomList={editList} />
+        <AddRoomBtn roomList={filteredRoomList} setRoomList={setList} />
       </div>
     </aside>
   );

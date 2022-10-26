@@ -5,34 +5,25 @@ import { UserContext } from "../../../../contexts/UserContextProvider";
 const RoomItem = ({ selectedRoom, room }) => {
   const { _id, name, maxPop, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
-  const [isSelectedRoom, setIsSelectedRoom] = useState(false);
-  const { darkMode } = useContext(UserContext);
+  const { darkMode, currentRoomId } = useContext(UserContext);
 
   useEffect(() => {
     if (selectedRoom?._id === _id) return setIsSelectedRoom(true);
     setIsSelectedRoom(false);
   }, [selectedRoom, _id]);
 
-  // ${
-  //           darkMode
-  //             ? " bg-secondaryDark hover:bg-primaryDark"
-  //             : "bg-secondary hover:bg-primary"
-  //         }
-
   return (
     <Link className={``} to={`/main/${_id}`}>
       <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl 
-        
-         ${
-           isSelectedRoom
-             ? `${darkMode ? "bg-primaryDark" : "bg-primary"}`
-             : `${
-                 darkMode
-                   ? "bg-secondaryDark hover:bg-primaryDark"
-                   : "bg-secondary hover:bg-primary"
-               }`
-         }`}
+        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
+          darkMode ? `hover:bg-primaryDark` : "hover:bg-primary"
+        } ${
+          currentRoomId === _id
+            ? darkMode
+              ? "bg-primaryDark"
+              : "bg-primary"
+            : null
+        }`}
       >
         <div className={rowContainerStyle}>
           <p className="text-2xl font-bold">{name}</p>

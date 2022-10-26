@@ -47,10 +47,11 @@ const onSocketConection = (socket, io) => {
     try {
       if (!roomId || !userId) return;
 
-      const room = await joinRoomDB(roomId, userId);
+      const [room, currentRoom] = await joinRoomDB(roomId, userId);
       socket.join(roomId);
 
       socket.to(roomId).emit("userJoinedRoom", userId, room);
+      io.emit("userChangedRoom", room, currentRoom);
       callback(room);
       rooms.push(roomId);
     } catch (err) {
