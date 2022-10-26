@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuthSpotify";
 import SpotifyWebApi from "spotify-web-api-node";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
@@ -20,6 +20,12 @@ const Dashboard = ({ code }) => {
   };
 
   useEffect(() => {
+    return () => {
+      console.log("dismount");
+    };
+  }, []);
+
+  useEffect(() => {
     if (!accessToken) return;
     spotifyApi.setAccessToken(accessToken);
   }, [accessToken]);
@@ -27,7 +33,6 @@ const Dashboard = ({ code }) => {
   useEffect(() => {
     if (!search) return setSearchResults([]);
     if (!accessToken) return;
-    console.log("search");
 
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {

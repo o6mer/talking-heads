@@ -17,9 +17,10 @@ const MusicMenu = ({ setAnchorEl, anchorEl, openMenu, code }) => {
 
   return (
     <Menu
+      className={`${openMenu ? "" : "hidden"}`}
       id="music-menu"
       anchorEl={anchorEl}
-      open={openMenu}
+      open={true}
       onClose={handleCloseMenu}
       MenuListProps={{
         "aria-labelledby": "basic-button",

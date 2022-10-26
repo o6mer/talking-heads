@@ -9,7 +9,6 @@ const RoomItem = ({ selectedRoom, room }) => {
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
-    console.log(selectedRoom, _id);
     if (selectedRoom?._id === _id) return setIsSelectedRoom(true);
     setIsSelectedRoom(false);
   }, [selectedRoom]);

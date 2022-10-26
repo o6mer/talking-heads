@@ -38,10 +38,9 @@ const NavBar = () => {
             className="text-white hover:text-gray-200"
           >
             <button
-              className="text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center"
+              className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
               onClick={(e) => {
                 setAnchorElMusic(e.currentTarget);
-                console.log(e.currentTarget);
               }}
               id="music-button"
               aria-controls={openMenuMusic ? "music-menu" : undefined}
@@ -67,7 +66,7 @@ const NavBar = () => {
 
         <Tooltip title="Your Profile">
           <button
-            className="flex  items-center w-min text-white hover:text-gray-200"
+            className={`flex  items-center w-min text-white hover:text-gray-200 `}
             onClick={(e) => {
               setAnchorElProfile(e.currentTarget);
             }}

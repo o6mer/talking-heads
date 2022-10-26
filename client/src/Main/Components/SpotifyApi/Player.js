@@ -8,6 +8,10 @@ const Player = ({ accessToken, trackUri }) => {
     setPlay(true);
   }, [trackUri]);
 
+  useEffect(() => {
+    console.log(play);
+  }, [play]);
+
   if (!accessToken) return null;
   return (
     <SpotifyPlayer
