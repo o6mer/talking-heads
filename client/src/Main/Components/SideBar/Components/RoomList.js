@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import RoomItem from "./RoomItem";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomList = ({ roomList, selectedRoom }) => {
+const RoomList = ({ roomList }) => {
   const { darkMode } = useContext(UserContext);
 
   return (
@@ -12,7 +12,7 @@ const RoomList = ({ roomList, selectedRoom }) => {
       }`}
     >
       {roomList.map((element) => (
-        <RoomItem room={element} selectedRoom={selectedRoom} />
+        <RoomItem room={element} />
       ))}
     </section>
   );

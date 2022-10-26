@@ -6,7 +6,7 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { socket } from "../../MainPage";
 
 const SideBar = (props) => {
-  const { roomList, joinRoom, selectedRoom } = props;
+  const { roomList, joinRoom } = props;
   const [filteredRoomList, setList] = useState(roomList);
 
   const { darkMode } = useContext(UserContext);
@@ -48,11 +48,7 @@ const SideBar = (props) => {
         filterFunc={filterRooms}
         clearFilter={clearFilter}
       />
-      <RoomList
-        roomList={filteredRoomList}
-        joinRoom={joinRoom}
-        selectedRoom={selectedRoom}
-      />
+      <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
       <div className="mt-auto mx-auto">
         <AddRoomBtn roomList={filteredRoomList} setRoomList={setList} />
       </div>

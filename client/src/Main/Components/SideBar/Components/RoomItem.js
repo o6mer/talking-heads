@@ -2,15 +2,10 @@ import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomItem = ({ selectedRoom, room }) => {
+const RoomItem = ({ room }) => {
   const { _id, name, maxPop, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
-
-  useEffect(() => {
-    if (selectedRoom?._id === _id) return setIsSelectedRoom(true);
-    setIsSelectedRoom(false);
-  }, [selectedRoom, _id]);
 
   return (
     <Link className={``} to={`/main/${_id}`}>
