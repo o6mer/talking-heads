@@ -2,19 +2,17 @@ import React, { useContext } from "react";
 import RoomItem from "./RoomItem";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomList = (props) => {
-  const { roomList, joinRoom } = props;
-
+const RoomList = ({ roomList }) => {
   const { darkMode } = useContext(UserContext);
 
   return (
     <section
-      className={`overflow-auto overflow-x-hidden h-full ${
+      className={`flex flex-col gap-0.5 overflow-auto overflow-x-hidden h-full ${
         darkMode ? "scrollbar-dark" : "scrollbar"
       }`}
     >
       {roomList.map((element) => (
-        <RoomItem room={element} joinRoom={joinRoom} />
+        <RoomItem room={element} />
       ))}
     </section>
   );

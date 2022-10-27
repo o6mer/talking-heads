@@ -6,7 +6,6 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { socket } from "../../MainPage";
 
 const SideBar = (props) => {
-
   const { roomList, joinRoom } = props;
   const [filteredRoomList, setList] = useState(roomList);
 

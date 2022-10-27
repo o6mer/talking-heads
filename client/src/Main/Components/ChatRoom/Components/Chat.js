@@ -73,7 +73,7 @@ const Chat = ({ roomId, msgsArr }) => {
 
   return (
     <section className="flex flex-col w-full h-full ">
-      {code ? <Dashboard code={code} /> : <SpotifyAuth />}
+      {/* {code ? <Dashboard code={code} /> : <SpotifyAuth />} */}
       <div
         className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
           darkMode ? "scrollbar-dark" : "scrollbar"
