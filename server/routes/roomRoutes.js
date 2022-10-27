@@ -5,7 +5,6 @@ const {
   getRoomById,
   // sendMessage,
   getAllRooms,
-  deleteMessages,
   deleteMessage,
   joinRoom,
   addRoom,
@@ -16,7 +15,6 @@ const router = express.Router();
 //get
 router.get("/", getAllRooms); // get all the rooms as an array
 router.get("/:roomId", getRoomById); // get room details
-router.get("/deletMessages/:roomId", deleteMessages);
 
 //post
 router.post("/joinRoom/:roomId", joinRoom); // join to a room
