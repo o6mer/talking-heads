@@ -33,7 +33,6 @@ const login = async (req, res) => {
   if (code === currentCode)
     return res.status(405).json({ accessToken, refreshToken, expiresIn });
 
-  console.log(currentCode === code);
   currentCode = code;
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/main/1",

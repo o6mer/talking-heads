@@ -26,7 +26,6 @@ const NavBar = () => {
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("spotifyCode"));
-    console.log(storedData);
 
     if (!storedData) {
       setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
@@ -83,7 +82,6 @@ const NavBar = () => {
             <a
               href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
               className="flex items-center justify-center"
-              ref={musicRef}
             >
               <HeadphonesIcon fontSize="large" />
             </a>

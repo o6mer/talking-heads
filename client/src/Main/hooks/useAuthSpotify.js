@@ -23,10 +23,11 @@ export default function useAuth(code) {
       .catch((err) => {
         if (err.response.status === 405) {
           const { data } = err.response;
-          console.log(data);
           setAccessToken(data.accessToken);
           setRefreshToken(data.refreshToken);
           setExpiresIn(data.expiresIn);
+        } else {
+          console.log(err);
         }
       });
   }, [code]);
