@@ -61,9 +61,6 @@ const Keyboard = (props) => {
             }}
           />
         </button>
-        {/* <IconButton onClick={deleteAllMessages}>
-          <DeleteForeverIcon color="primary" />
-        </IconButton> */}
       </form>
     </div>
   );
