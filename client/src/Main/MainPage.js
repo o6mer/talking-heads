@@ -7,12 +7,16 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
+import { useBeforeunload } from "react-beforeunload";
 
-export const socket = io("http://localhost:8080");
+export const socket = io("http://localhost:8080", {
+  "sync disconnect on unload": true,
+});
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
-  const { setCurrentRoomId, user, darkMode } = useContext(UserContext);
+  const { currentRoomId, setCurrentRoomId, user, darkMode } =
+    useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
@@ -28,6 +32,12 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
+
+    // socket.on("disconnect", () => {
+    //   console.log(socket.id); // undefined
+    //   if (!currentRoomId) return;
+    //   socket.emit("userDisconnected", currentRoomId, user?._id);
+    // });
   }, []);
 
   useEffect(() => {
@@ -36,16 +46,43 @@ const MainPage = () => {
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
+  // useEffect(() => {
+  //   window.addEventListener("beforeunload", alertUser);
+  //   window.addEventListener("unload", handleTabClosing);
+  //   return () => {
+  //     window.removeEventListener("beforeunload", alertUser);
+  //     window.removeEventListener("unload", handleTabClosing);
+  //   };
+  // });
+
+  // const handleTabClosing = () => {
+  //   socket.emit("userDisconnected", currentRoomId, user?._id);
+  //   // socket.disconnect();
+  // };
+
+  // const alertUser = (event) => {
+  //   event.preventDefault();
+  //   event.returnValue = "";
+  // };
+
   const joinRoom = async (roomId) => {
     if (!user) return;
 
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
       setCurrentRoomId(roomId);
+
+      if (!response) return;
       setSelRoom(response);
       setLoadingRoom(false);
     });
   };
+
+  socket.on("connect", function () {
+    socket.on("disconnect", function () {
+      socket.emit("userDisconnected");
+    });
+  });
 
   return (
     <main

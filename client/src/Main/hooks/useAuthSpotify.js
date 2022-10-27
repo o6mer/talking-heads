@@ -8,6 +8,8 @@ export default function useAuth(code) {
 
   useEffect(() => {
     // if (!refreshToken || !expiresIn || !accessToken) return;
+    if (!code) return;
+
     axios
       .post("http://localhost:3001/api/spotify/login", {
         code,
@@ -18,24 +20,31 @@ export default function useAuth(code) {
         setExpiresIn(res.data.expiresIn);
         window.history.pushState({}, null, "/main/1");
       })
-      .catch(() => {
-        // window.location = "/main";
+      .catch((err) => {
+        if (err.response.status === 405) {
+          const { data } = err.response;
+          console.log(data);
+          setAccessToken(data.accessToken);
+          setRefreshToken(data.refreshToken);
+          setExpiresIn(data.expiresIn);
+        }
       });
   }, [code]);
 
   useEffect(() => {
-    if (!refreshToken || !expiresIn) return;
+    if (!refreshToken || !expiresIn || accessToken) return;
     const interval = setInterval(() => {
       axios
         .post("http://localhost:3001/api/spotify/refresh", {
           refreshToken,
         })
         .then((res) => {
+          if (!res.ok) console.log(res);
           setAccessToken(res.data.accessToken);
           setExpiresIn(res.data.expiresIn);
         })
-        .catch(() => {
-          // window.location = "/main/";
+        .catch((err) => {
+          console.log(err);
         });
     }, (expiresIn - 60) * 1000);
     return () => clearInterval(interval);

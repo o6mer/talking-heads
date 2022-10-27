@@ -4,29 +4,44 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import { Tooltip } from "@mui/material";
 import Logo from "../../Media/NameChatLogo4.png";
-import ProfileMenu from "./MyProfileMenu/ProfileMenu";
+import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import Dashboard from "../SpotifyApi/Dashboard";
 import MusicMenu from "./MusicMenu/MusicMenu";
 import { useEffect } from "react";
+import { useRef } from "react";
 
 const NavBar = () => {
   const [anchorElProfile, setAnchorElProfile] = useState(null);
   const [anchorElMusic, setAnchorElMusic] = useState(null);
-  const [code, setCode] = useState(
-    new URLSearchParams(window.location.search).get("code")
-  );
+  const [spotifyCode, setSpotifyCode] = useState(null);
+
+  const musicRef = useRef();
+
   const openMenuProfile = Boolean(anchorElProfile);
   const openMenuMusic = Boolean(anchorElMusic);
 
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
-    if (!code) setCode(new URLSearchParams(window.location.search).get("code"));
+    const storedData = JSON.parse(localStorage.getItem("spotifyCode"));
+    console.log(storedData);
 
-    return () => {};
+    if (!storedData) {
+      setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
+      return;
+    }
+    if (spotifyCode) return;
+    setSpotifyCode(storedData);
+    return () => localStorage.removeItem("spotifyCode");
   }, []);
+
+  useEffect(() => {
+    if (!spotifyCode) return;
+
+    localStorage.setItem("spotifyCode", JSON.stringify(spotifyCode));
+  }, [spotifyCode]);
 
   return (
     <nav
@@ -41,7 +56,7 @@ const NavBar = () => {
         </span>
       </Link>
       <div className="flex justify-center items-center ml-auto gap-4">
-        {code ? (
+        {spotifyCode ? (
           <Tooltip
             title="Play Music"
             className="text-white hover:text-gray-200"
@@ -55,6 +70,7 @@ const NavBar = () => {
               aria-controls={openMenuMusic ? "music-menu" : undefined}
               aria-haspopup="true"
               aria-expanded={openMenuMusic ? "true" : undefined}
+              ref={musicRef}
             >
               <HeadphonesIcon fontSize="large" />
             </button>
@@ -67,6 +83,7 @@ const NavBar = () => {
             <a
               href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
               className="flex items-center justify-center"
+              ref={musicRef}
             >
               <HeadphonesIcon fontSize="large" />
             </a>
@@ -97,7 +114,8 @@ const NavBar = () => {
           setAnchorEl={setAnchorElMusic}
           anchorEl={anchorElMusic}
           openMenu={openMenuMusic}
-          code={code}
+          code={spotifyCode}
+          musicRef={musicRef}
         />
       </div>
     </nav>

@@ -4,9 +4,14 @@ import SpotifyWebApi from "spotify-web-api-node";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: "d679667fbb3e4d9e92688887dd7e6db3",
-});
+let spotifyApi;
+try {
+  spotifyApi = new SpotifyWebApi({
+    clientId: "d679667fbb3e4d9e92688887dd7e6db3",
+  });
+} catch {
+  console.error();
+}
 
 const Dashboard = ({ code }) => {
   const accessToken = useAuth(code);

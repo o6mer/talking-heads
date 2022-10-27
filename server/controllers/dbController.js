@@ -42,6 +42,20 @@ const deleteMessageDB = async (roomId, msgId) => {
   }
 };
 
+const leaveRoomDB = async (roomId, userId) => {
+  try {
+    await Room.findByIdAndUpdate(roomId, {
+      $pull: {
+        users: {
+          _id: userId,
+        },
+      },
+    });
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const joinRoomDB = async (roomId, userId) => {
   //turns string id to ObjectId
   const userIdAsObjectId = mongoose.Types.ObjectId(userId);
@@ -100,10 +114,16 @@ const joinRoomDB = async (roomId, userId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
-    return [newRoom, currentRoom];
+    return { newRoom, currentRoom };
   } catch (err) {
     return new Error(err);
   }
 };
 
-module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB };
+module.exports = {
+  getRoomByIdDB,
+  sendMessageDB,
+  joinRoomDB,
+  deleteMessageDB,
+  leaveRoomDB,
+};
