@@ -6,6 +6,7 @@ const UserPorivder = ({ children }) => {
   const [user, setUser] = useState();
   const [currentRoomId, setCurrentRoomId] = useState(undefined);
   const [darkMode, setDarkMode] = useState(false);
+  const [accessToken, setAccessToken] = useState();
 
   return (
     <UserContext.Provider
@@ -16,6 +17,8 @@ const UserPorivder = ({ children }) => {
         setCurrentRoomId,
         darkMode,
         setDarkMode,
+        accessToken,
+        setAccessToken,
       }}
     >
       {children}

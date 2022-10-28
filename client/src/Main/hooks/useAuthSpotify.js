@@ -1,18 +1,40 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
+import { UserContext } from "../../contexts/UserContextProvider";
 
-export default function useAuth(code) {
-  const [accessToken, setAccessToken] = useState();
+export default function useAuth() {
+  // const [accessToken, setAccessToken] = useState(currentAccessToken);
+  const [spotifyCode, setSpotifyCode] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
+  const { accessToken, setAccessToken } = useContext(UserContext);
+
+  useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem("accessToken"));
+
+    if (!storedData) {
+      setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
+      return;
+    }
+    setAccessToken(storedData);
+
+    return () => localStorage.removeItem("accessToken");
+  }, []);
+
+  useEffect(() => {
+    if (!accessToken) return;
+
+    localStorage.setItem("accessToken", JSON.stringify(accessToken));
+  }, [accessToken]);
 
   useEffect(() => {
     // if (!refreshToken || !expiresIn || !accessToken) return;
-    if (!code) return;
+
+    if (!spotifyCode) return;
 
     axios
       .post("http://localhost:3001/api/spotify/login", {
-        code,
+        code: spotifyCode,
       })
       .then((res) => {
         setAccessToken(res.data.accessToken);
@@ -30,7 +52,7 @@ export default function useAuth(code) {
           console.log(err);
         }
       });
-  }, [code]);
+  }, [spotifyCode, setAccessToken]);
 
   useEffect(() => {
     if (!refreshToken || !expiresIn || accessToken) return;

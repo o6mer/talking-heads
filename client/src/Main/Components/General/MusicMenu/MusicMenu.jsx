@@ -5,27 +5,26 @@ import { UserContext } from "../../../../contexts/UserContextProvider";
 import Dashboard from "../../SpotifyApi/Dashboard";
 import CircularProgress from "@mui/material/CircularProgress";
 
-const MusicMenu = ({ setAnchorEl, anchorEl, openMenu, code, musicRef }) => {
+const MusicMenu = ({ setAnchorEl, anchorEl, openMenu, musicRef }) => {
   const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
+  if (!musicRef.current) return null;
   return (
     <>
-      {anchorEl || musicRef.current ? (
-        <Menu
-          className={`${openMenu ? "" : "hidden"}`}
-          id="music-menu"
-          anchorEl={anchorEl ? anchorEl : musicRef.current}
-          open={true}
-          onClose={handleCloseMenu}
-          MenuListProps={{
-            "aria-labelledby": "basic-button",
-          }}
-        >
-          <Dashboard code={code} />
-        </Menu>
-      ) : null}
+      <Menu
+        className={`${openMenu ? "" : "hidden"}`}
+        id="music-menu"
+        anchorEl={musicRef.current}
+        open={true}
+        onClose={handleCloseMenu}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <Dashboard />
+      </Menu>
     </>
   );
 };

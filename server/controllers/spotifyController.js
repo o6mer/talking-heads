@@ -22,18 +22,14 @@ const refresh = async (req, res) => {
     });
 };
 
-let currentCode;
-let accessToken;
-let refreshToken;
-let expiresIn;
-
 const login = async (req, res) => {
   const code = req.body.code;
+  if (!code) return res.sendStatus(404);
 
-  if (code === currentCode)
-    return res.status(405).json({ accessToken, refreshToken, expiresIn });
+  // if (code === currentCode)
+  //   return res.status(405).json({ accessToken, refreshToken, expiresIn });
 
-  currentCode = code;
+  // currentCode = code;
   const spotifyApi = new SpotifyWebApi({
     redirectUri: "http://localhost:3000/main/1",
     clientId: "d679667fbb3e4d9e92688887dd7e6db3",

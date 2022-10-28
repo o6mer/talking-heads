@@ -15,32 +15,11 @@ import { useRef } from "react";
 const NavBar = () => {
   const [anchorElProfile, setAnchorElProfile] = useState(null);
   const [anchorElMusic, setAnchorElMusic] = useState(null);
-  const [spotifyCode, setSpotifyCode] = useState(null);
-
+  const { darkMode, accessToken } = useContext(UserContext);
   const musicRef = useRef();
 
   const openMenuProfile = Boolean(anchorElProfile);
   const openMenuMusic = Boolean(anchorElMusic);
-
-  const { darkMode } = useContext(UserContext);
-
-  useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("spotifyCode"));
-
-    if (!storedData) {
-      setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
-      return;
-    }
-    if (spotifyCode) return;
-    setSpotifyCode(storedData);
-    return () => localStorage.removeItem("spotifyCode");
-  }, []);
-
-  useEffect(() => {
-    if (!spotifyCode) return;
-
-    localStorage.setItem("spotifyCode", JSON.stringify(spotifyCode));
-  }, [spotifyCode]);
 
   return (
     <nav
@@ -55,38 +34,39 @@ const NavBar = () => {
         </span>
       </Link>
       <div className="flex justify-center items-center ml-auto gap-4">
-        {spotifyCode ? (
-          <Tooltip
-            title="Play Music"
-            className="text-white hover:text-gray-200"
-          >
-            <button
-              className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
-              onClick={(e) => {
-                setAnchorElMusic(e.currentTarget);
-              }}
-              id="music-button"
-              aria-controls={openMenuMusic ? "music-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMenuMusic ? "true" : undefined}
-              ref={musicRef}
+        <div ref={musicRef}>
+          {accessToken ? (
+            <Tooltip
+              title="Play Music"
+              className="text-white hover:text-gray-200"
             >
-              <HeadphonesIcon fontSize="large" />
-            </button>
-          </Tooltip>
-        ) : (
-          <Tooltip
-            title="Login To Spotify"
-            className="text-white hover:text-gray-200"
-          >
-            <a
-              href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
-              className="flex items-center justify-center"
+              <button
+                className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
+                onClick={(e) => {
+                  setAnchorElMusic(e.currentTarget);
+                }}
+                id="music-button"
+                aria-controls={openMenuMusic ? "music-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMenuMusic ? "true" : undefined}
+              >
+                <HeadphonesIcon fontSize="large" />
+              </button>
+            </Tooltip>
+          ) : (
+            <Tooltip
+              title="Login To Spotify"
+              className="text-white hover:text-gray-200"
             >
-              <HeadphonesIcon fontSize="large" />
-            </a>
-          </Tooltip>
-        )}
+              <a
+                href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+                className="flex items-center justify-center"
+              >
+                <HeadphonesIcon fontSize="large" />
+              </a>
+            </Tooltip>
+          )}
+        </div>
 
         <Tooltip title="Your Profile">
           <button
@@ -112,7 +92,6 @@ const NavBar = () => {
           setAnchorEl={setAnchorElMusic}
           anchorEl={anchorElMusic}
           openMenu={openMenuMusic}
-          code={spotifyCode}
           musicRef={musicRef}
         />
       </div>

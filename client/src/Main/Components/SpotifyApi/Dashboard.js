@@ -13,8 +13,8 @@ try {
   console.error();
 }
 
-const Dashboard = ({ code }) => {
-  const accessToken = useAuth(code);
+const Dashboard = () => {
+  const accessToken = useAuth();
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
