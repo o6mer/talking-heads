@@ -10,22 +10,27 @@ export default function useAuth() {
   const { accessToken, setAccessToken } = useContext(UserContext);
 
   useEffect(() => {
-    const storedData = JSON.parse(localStorage.getItem("accessToken"));
+    const storedData = JSON.parse(localStorage.getItem("spotifyAccessToken"));
 
     if (!storedData) {
       setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
       return;
     }
-    setAccessToken(storedData);
 
-    return () => localStorage.removeItem("accessToken");
+    setAccessToken(storedData.accessToken);
+    setExpiresIn(storedData.expiresIn);
+
+    return () => localStorage.removeItem("spotifyAccessToken");
   }, []);
 
   useEffect(() => {
     if (!accessToken) return;
 
-    localStorage.setItem("accessToken", JSON.stringify(accessToken));
-  }, [accessToken]);
+    localStorage.setItem(
+      "spotifyAccessToken",
+      JSON.stringify({ accessToken, expiresIn })
+    );
+  }, [accessToken, expiresIn]);
 
   useEffect(() => {
     // if (!refreshToken || !expiresIn || !accessToken) return;

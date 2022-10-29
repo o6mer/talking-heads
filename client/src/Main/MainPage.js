@@ -8,12 +8,15 @@ import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import { useBeforeunload } from "react-beforeunload";
+import useAuth from "../Landing/hooks/useAuth";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
 });
 
 const MainPage = () => {
+  const { relogin } = useAuth();
+
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user, darkMode } =
     useContext(UserContext);
@@ -22,6 +25,8 @@ const MainPage = () => {
   const { roomId: paramsRoomId } = useParams();
 
   useEffect(() => {
+    relogin();
+
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API

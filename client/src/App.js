@@ -5,7 +5,7 @@ import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
 import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
-import MainPageProtected from "./Main/MainPageProtected";
+import ProtectedRoutes from "./Main/ProtectedRoutes";
 
 function App() {
   return (
@@ -14,17 +14,11 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LandingPage />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route
-            path="/main/:roomId"
-            element={
-              <MainPageProtected>
-                <MainPage />
-              </MainPageProtected>
-            }
-          />
           <Route path="/signup" element={<SignupPage />} />
-          {/* <Route path="/main" element={<MainPage />} /> */}
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="main/:roomId" element={<MainPage />} />
+          </Route>
         </Routes>
       </Router>
     </UserContextProvider>

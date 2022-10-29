@@ -1,22 +1,19 @@
 import { CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
-import useAuth from "../Landing/hooks/useAuth";
-import MainPage from "./MainPage";
 
-const MainPageProtected = ({ children }) => {
-  const [isLoggedCorrectly, setIsLoggedCorrectly] = useState(false);
+const ProtectedRoutes = () => {
   const { user } = useContext(UserContext);
-  useAuth();
+  const [isLoggedUser, setIsLoggedUser] = useState(false);
 
   useEffect(() => {
-    if (!user) return;
+    if (user) setIsLoggedUser(true);
 
-    setIsLoggedCorrectly(true);
+    // return () => setIsLoggedUser(false);
   }, [user]);
 
-  return <>{isLoggedCorrectly ? <MainPage /> : <LoadingPage />}</>;
+  return isLoggedUser ? <Outlet /> : <LoadingPage />;
 };
 
 const LoadingPage = () => {
@@ -38,4 +35,4 @@ const LoadingPage = () => {
   );
 };
 
-export default MainPageProtected;
+export default ProtectedRoutes;
