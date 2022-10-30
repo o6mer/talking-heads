@@ -73,7 +73,6 @@ const Chat = ({ roomId, msgsArr }) => {
 
   return (
     <section className="flex flex-col w-full h-full ">
-      {/* {code ? <Dashboard code={code} /> : <SpotifyAuth />} */}
       <div
         className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
           darkMode ? "scrollbar-dark" : "scrollbar"
@@ -82,7 +81,13 @@ const Chat = ({ roomId, msgsArr }) => {
         {messages.map((element) => {
           // making ChatMsg components from the messages array
           return (
-            <ChatMsg {...element} setMessages={setMessages} delMsg={delMsg} />
+            <ChatMsg
+              {...element}
+              key={element?.msgId}
+              setMsg={setMsg}
+              delMsg={delMsg}
+            />
+
           );
         })}
       </div>

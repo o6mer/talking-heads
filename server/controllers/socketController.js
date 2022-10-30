@@ -2,18 +2,21 @@ const {
   sendMessageDB,
   joinRoomDB,
   deleteMessageDB,
+  leaveRoomDB,
 } = require("./dbController");
 const uniqid = require("uniqid");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
-  socket.on("userDisconnected", onUserDisconnected);
+  // socket.on("userDisconnected", onUserDisconnected);
   socket.on("delMsg", onDeleteMessage);
 
-  function onUserDisconnected(userId) {
-    console.log("user disssss");
-    socket.emit("userLeftRoom", userId);
+  async function onUserDisconnected() {
+    console.log("user diss");
+    // console.log(roomId, userId);
+    // socket.to(roomId).emit("userLeftRoom", userId);
+    // await leaveRoomDB(roomId, userId);
   }
 
   async function onSendMessage(msg, room, callback) {
@@ -47,12 +50,12 @@ const onSocketConection = (socket, io) => {
     try {
       if (!roomId || !userId) return;
 
-      const [room, currentRoom] = await joinRoomDB(roomId, userId);
-      socket.join(roomId);
+      const { newRoom, currentRoom } = await joinRoomDB(roomId, userId);
 
-      socket.to(roomId).emit("userJoinedRoom", userId, room);
-      io.emit("userChangedRoom", room, currentRoom);
-      callback(room);
+      socket.join(roomId);
+      socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
+      io.emit("userChangedRoom", newRoom, currentRoom);
+      callback(newRoom);
       rooms.push(roomId);
     } catch (err) {
       console.log(err);

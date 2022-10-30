@@ -24,50 +24,52 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const handleCloseModal = () => setOpenModal(false);
 
   return (
-    <div className="">
-      <Menu
-        id="profile-menu"
-        anchorEl={anchorEl}
-        open={openMenu}
-        onClose={handleCloseMenu}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem
-          onClick={(e) => {
-            console.log("open modal");
-            handleCloseMenu();
-            handleOpenModal();
+    <>
+      {anchorEl ? (
+        <Menu
+          id="profile-menu"
+          anchorEl={anchorEl}
+          open={openMenu}
+          onClose={handleCloseMenu}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
         >
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
+          <MenuItem
+            onClick={(e) => {
+              console.log("open modal");
+              handleCloseMenu();
+              handleOpenModal();
+            }}
+          >
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            handleCloseMenu();
-            setOpenDrawer(true);
-          }}
-        >
-          <ListItemIcon onClick={handleCloseMenu}>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              setOpenDrawer(true);
+            }}
+          >
+            <ListItemIcon onClick={handleCloseMenu}>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
 
-        <Divider />
+          <Divider />
 
-        <MenuItem onClick={logout}>
-          <ListItemIcon>
-            <Logout />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+          <MenuItem onClick={logout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      ) : null}
       <UserModal
         open={openModal}
         userInfo={user}
@@ -80,7 +82,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
       >
         <SettingsDrawer />
       </Drawer>
-    </div>
+    </>
   );
 };
 
