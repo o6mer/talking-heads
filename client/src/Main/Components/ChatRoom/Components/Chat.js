@@ -8,9 +8,8 @@ import Dashboard from "../../SpotifyApi/Dashboard";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
-const Chat = (props) => {
-  const { roomId, msgsArr } = props;
-  const [messages, setMsg] = useState(msgsArr); //keeping track on the messages
+const Chat = ({ roomId, msgsArr }) => {
+  const [messages, setMessages] = useState(msgsArr); //keeping track on the messages
   const { user, currentRoomId, darkMode } = useContext(UserContext);
 
   useEffect(() => {
@@ -22,6 +21,9 @@ const Chat = (props) => {
     });
   }, []);
 
+  //@@@ Back-End methods @@@
+
+  //post a message to the backend (with socket.io)
   const delMsg = async (msgId, userId, msgWriterId) => {
     socket.emit("delMsg", roomId, msgId, userId, msgWriterId, (socketRes) => {
       removeMsg(msgId); // delete the message in the front
@@ -43,41 +45,30 @@ const Chat = (props) => {
       }`,
       msgContent,
     };
-
     socket.emit("sendMsg", newMsg, currentRoomId, (resMsg) => {
       addMessage(resMsg);
     });
   };
 
-  //send a message in the frontend
+  //@@@ Front-End methods @@@
+
+  //send a message in the frontend (make it appear)
   const addMessage = (msg) => {
     //front arr
     const { msgWriter, msgContent, msgTime, msgId } = msg;
-    setMsg((prev) => {
+    setMessages((prev) => {
       return [...prev, { msgWriter, msgContent, msgTime, msgId }];
     });
   };
 
-  //removes a message in the frontend
+  //removes a message in the frontend (make it disappear)
   const removeMsg = (msgId) => {
-    setMsg((prev) => {
+    setMessages((prev) => {
       return prev.filter((msgElement) => {
         //.msgId is the message object field, msgId is the msgId which we want to delete
         return msgElement.msgId.toString() !== msgId.toString();
       });
     });
-  };
-
-  const deleteAllMessages = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:3001/api/room/deletMessages/${roomId}`
-      );
-      window.location.reload(false);
-      setMsg([]);
-    } catch (error) {
-      console.log(error);
-    }
   };
 
   return (
@@ -96,15 +87,12 @@ const Chat = (props) => {
               setMsg={setMsg}
               delMsg={delMsg}
             />
+
           );
         })}
       </div>
 
-      <Keyboard
-        postMsg={sendMessage}
-        roomId={props.roomId}
-        deleteAllMessages={deleteAllMessages}
-      />
+      <Keyboard postMsg={sendMessage} roomId={roomId} />
     </section>
   );
 };

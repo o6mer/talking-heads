@@ -9,7 +9,7 @@ import DialogContent from "@mui/material/DialogContent";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import { DialogTitle } from "@mui/material";
 
-const AddRoomBtn = ({ roomList, setRoomList }) => {
+const AddRoomBtn = ({ setRoomList }) => {
   const [open, setOpen] = useState(false);
   const defaultRoom = {
     name: "newRoom",
@@ -72,37 +72,55 @@ const AddRoomBtn = ({ roomList, setRoomList }) => {
   };
 
   return (
-    <div className={`${darkMode ? "bg-primaryDark" : "bg-primary"}`}>
+    <div>
       <Button variant="outlined" onClick={handleClickOpen}>
         Create new room
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create new room</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={onTyping}
-            name="name"
-            label="Name"
-            fullWidth
-            variant="standard"
-          />
+        <div
+          className={`${
+            darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
+          }`}
+        >
+          <DialogTitle>
+            <p className={"font-bold text-2xl"}>Create new room</p>
+          </DialogTitle>
+          <DialogContent>
+            <TextField
+              id={`${darkMode && "inputNewRoomDark"}`}
+              margin="dense"
+              onChange={onTyping}
+              name="name"
+              label="Name"
+              InputLabelProps={{
+                className: `${darkMode && "newRoomInputLabelDark"}`,
+              }}
+              fullWidth
+              variant="standard"
+            />
 
-          <TextField
-            margin="dense"
-            onChange={onTyping}
-            name="maxPop"
-            label="Size"
-            type="number"
-            fullWidth
-            variant="standard"
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
-        </DialogActions>
+            <TextField
+              margin="dense"
+              id={`${darkMode && "inputNewRoomDark"}`}
+              onChange={onTyping}
+              name="maxPop"
+              label="Size"
+              InputLabelProps={{
+                className: `${darkMode && "newRoomInputLabelDark"}`,
+              }}
+              fullWidth
+              variant="standard"
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose}>
+              <p className={`${darkMode && "text-white"}`}>Cancel</p>
+            </Button>
+            <Button onClick={handleSubmit}>
+              <p className={`${darkMode && "text-white"}`}>Submit</p>
+            </Button>
+          </DialogActions>
+        </div>
       </Dialog>
     </div>
   );

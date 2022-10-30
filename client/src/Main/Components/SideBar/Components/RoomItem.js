@@ -8,7 +8,7 @@ const RoomItem = ({ room }) => {
   const { darkMode, currentRoomId } = useContext(UserContext);
 
   return (
-    <Link className={``} to={`/main/${_id}`}>
+    <Link to={`/main/${_id}`}>
       <div
         className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
           darkMode ? `hover:bg-primaryDark` : "hover:bg-primary"
