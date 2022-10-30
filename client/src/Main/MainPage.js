@@ -7,7 +7,6 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
-import { useBeforeunload } from "react-beforeunload";
 import useAuth from "../Landing/hooks/useAuth";
 
 export const socket = io("http://localhost:8080", {
@@ -21,8 +20,10 @@ const MainPage = () => {
   const { currentRoomId, setCurrentRoomId, user, darkMode } =
     useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
+  const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
+  const [textHeader, setTextHeader] = useState("");
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -35,12 +36,6 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
-
-    // socket.on("disconnect", () => {
-    //   console.log(socket.id); // undefined
-    //   if (!currentRoomId) return;
-    //   socket.emit("userDisconnected", currentRoomId, user?._id);
-    // });
   }, []);
 
   useEffect(() => {
@@ -49,35 +44,21 @@ const MainPage = () => {
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
-  // useEffect(() => {
-  //   window.addEventListener("beforeunload", alertUser);
-  //   window.addEventListener("unload", handleTabClosing);
-  //   return () => {
-  //     window.removeEventListener("beforeunload", alertUser);
-  //     window.removeEventListener("unload", handleTabClosing);
-  //   };
-  // });
-
-  // const handleTabClosing = () => {
-  //   socket.emit("userDisconnected", currentRoomId, user?._id);
-  //   // socket.disconnect();
-  // };
-
-  // const alertUser = (event) => {
-  //   event.preventDefault();
-  //   event.returnValue = "";
-  // };
-
   const joinRoom = async (roomId) => {
     if (!user) return;
 
     setLoadingRoom(true);
-    socket.emit("joinRoom", roomId, user._id, (response) => {
-      setCurrentRoomId(roomId);
-
-      if (!response) return;
-      setSelRoom(response);
+    socket.emit("joinRoom", roomId, user._id, (newRoom, response) => {
       setLoadingRoom(false);
+      console.log(response);
+      if (response.statusCode === 404) {
+        setTextHeader(response.msg);
+        setRoomFound(false);
+      } else {
+        setRoomFound(true);
+        setSelRoom(newRoom);
+        setCurrentRoomId(roomId);
+      }
     });
   };
 
@@ -106,8 +87,12 @@ const MainPage = () => {
             <div className="flex w-full h-full justify-center items-center">
               <CircularProgress />
             </div>
-          ) : (
+          ) : roomFound ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
+          ) : (
+            <div className="">
+              <p>{textHeader}</p>
+            </div>
           )}
         </div>
       ) : null}

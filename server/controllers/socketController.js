@@ -54,8 +54,12 @@ const onSocketConection = (socket, io) => {
 
       socket.join(roomId);
       socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
+
       io.emit("userChangedRoom", newRoom, currentRoom);
-      callback(newRoom);
+
+      if (!newRoom)
+        callback(newRoom, { msg: "selected room not found", statusCode: 404 });
+      else callback(newRoom, { msg: "joined room!", statusCode: 200 });
       rooms.push(roomId);
     } catch (err) {
       console.log(err);
