@@ -20,17 +20,12 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LandingPage />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route
-            path="/main/:roomId"
-            element={
-              <MainPageProtected>
-                <MainPage />
-              </MainPageProtected>
-            }
-          />
           <Route path="/signup" element={<SignupPage />} />
           {/* <Route path="/main" element={<MainPage />} /> */}
+          
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route element={<ProtectedRoutes />}>
+          <Route path="main/:roomId" element={<MainPage />} />
           <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Router>

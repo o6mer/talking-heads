@@ -15,12 +15,14 @@ const SideBar = (props) => {
     //getting leftRoom and joinedRoom from backend and modifying the list
     socket.on("userChangedRoom", (joinedRoom, leftRoom) => {
       setList((prev) => {
-        return prev.map((e) => {
-          if (e._id === joinedRoom._id) e = joinedRoom;
-          if (leftRoom) {
-            if (e._id === leftRoom._id) e = leftRoom;
-          }
-          return e;
+        return prev.map((room) => {
+          if (room?._id === joinedRoom?._id) room = joinedRoom;
+
+          if (!leftRoom || !room) return room;
+
+          if (room?._id === leftRoom?._id) room = leftRoom;
+
+          return room;
         });
       });
     });

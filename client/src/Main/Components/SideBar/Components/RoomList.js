@@ -12,7 +12,7 @@ const RoomList = ({ roomList }) => {
       }`}
     >
       {roomList.map((element) => (
-        <RoomItem room={element} />
+        <RoomItem room={element} key={element._id} />
       ))}
     </section>
   );
