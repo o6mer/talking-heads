@@ -42,24 +42,25 @@ const deleteMessageDB = async (roomId, msgId) => {
   }
 };
 
-const leaveRoomDB = async (roomId, userId) => {
+const leaveRoomDB = async (userId, roomId) => {
   try {
-    await Room.findByIdAndUpdate(roomId, {
-      $pull: {
-        users: {
-          _id: userId,
-        },
-      },
-    });
+    console.log(userId, roomId);
+    const userIdAsObjectId = mongoose.Types.ObjectId(userId);
+
+    const room = await Room.findById(roomId);
+    room.pop = room.pop.filter(
+      (id) => id.toString() !== userIdAsObjectId.toString()
+    );
+    await room.save();
+    return room;
   } catch (err) {
     console.log(err);
   }
 };
 
-const joinRoomDB = async (roomId, userId) => {
+const joinRoomDB = async (userId, roomId) => {
   //turns string id to ObjectId
   const userIdAsObjectId = mongoose.Types.ObjectId(userId);
-
   try {
     let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
 
@@ -73,7 +74,6 @@ const joinRoomDB = async (roomId, userId) => {
 
       await currentRoom.save();
     }
-
     const selectedRoom = await Room.findById(roomId);
 
     //add user to his selected room and updating db

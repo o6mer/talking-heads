@@ -23,7 +23,6 @@ const ProfilesSideBar = (props) => {
     });
 
     socket.on("userLeftRoom", (userId) => {
-      console.log(userId);
       setPeople((prev) => {
         return prev.filter((user) => user._id.toString() !== userId.toString());
       });
