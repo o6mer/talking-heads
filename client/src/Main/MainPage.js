@@ -93,7 +93,7 @@ const MainPage = () => {
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
-      <NavBar />
+      <NavBar isError={false} />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar
