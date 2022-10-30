@@ -80,15 +80,7 @@ const Chat = ({ roomId, msgsArr }) => {
       >
         {messages.map((element) => {
           // making ChatMsg components from the messages array
-          return (
-            <ChatMsg
-              {...element}
-              key={element?.msgId}
-              setMsg={setMsg}
-              delMsg={delMsg}
-            />
-
-          );
+          return <ChatMsg {...element} key={element?.msgId} delMsg={delMsg} />;
         })}
       </div>
 

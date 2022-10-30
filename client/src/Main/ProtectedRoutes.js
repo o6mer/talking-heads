@@ -2,14 +2,16 @@ import { CircularProgress } from "@mui/material";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
+import useAuth from "../Landing/hooks/useAuth";
 
 const ProtectedRoutes = () => {
-  const { user } = useContext(UserContext);
   const [isLoggedUser, setIsLoggedUser] = useState(false);
+  const { user } = useContext(UserContext);
+  const { relogin } = useAuth();
 
   useEffect(() => {
-    if (user) setIsLoggedUser(true);
-
+    if (user) return setIsLoggedUser(true);
+    relogin();
     // return () => setIsLoggedUser(false);
   }, [user]);
 

@@ -25,8 +25,6 @@ const MainPage = () => {
   const { roomId: paramsRoomId } = useParams();
 
   useEffect(() => {
-    relogin();
-
     const sendRequest = async () => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API

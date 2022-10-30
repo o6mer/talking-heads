@@ -42,6 +42,7 @@ const useAuth = () => {
 
   const relogin = useCallback(() => {
     const storedData = JSON.parse(localStorage.getItem("userData"));
+    console.log(storedData);
     if (storedData) {
       login(storedData, new Date(storedData.expiration));
     }

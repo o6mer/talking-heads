@@ -7,7 +7,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import UserModal from "../../General/UserModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
+const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
   const { user, darkMode } = useContext(UserContext);
   const loggedUserId = user._id;
   const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
