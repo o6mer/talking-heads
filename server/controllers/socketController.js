@@ -7,7 +7,6 @@ const {
 const uniqid = require("uniqid");
 
 const onSocketConection = (socket, io) => {
-  console.log("reconnect");
   socket.on("sendMsg", onSendMessage);
   socket.on("joinRoom", onJoinRoom);
   socket.on("userDisconnected", onUserDisconnected);

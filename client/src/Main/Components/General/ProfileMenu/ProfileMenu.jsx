@@ -37,7 +37,6 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
         >
           <MenuItem
             onClick={(e) => {
-              console.log("open modal");
               handleCloseMenu();
               handleOpenModal();
             }}

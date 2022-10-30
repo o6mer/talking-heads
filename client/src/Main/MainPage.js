@@ -36,7 +36,6 @@ const MainPage = () => {
 
   const handleTabClosing = (event) => {
     event.preventDefault();
-    console.log(currentRoomId);
     socket.emit("userDisconnected", user._id, currentRoomId);
 
     return;
@@ -61,7 +60,6 @@ const MainPage = () => {
 
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
-      // console.log(roomId);
       setCurrentRoomId(roomId);
 
       if (!response) return;

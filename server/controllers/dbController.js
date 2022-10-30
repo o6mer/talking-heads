@@ -44,7 +44,6 @@ const deleteMessageDB = async (roomId, msgId) => {
 
 const leaveRoomDB = async (userId, roomId) => {
   try {
-    console.log(userId, roomId);
     const userIdAsObjectId = mongoose.Types.ObjectId(userId);
 
     const room = await Room.findById(roomId);
