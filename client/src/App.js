@@ -10,7 +10,6 @@ import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
 import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
-import MainPageProtected from "./Main/MainPageProtected";
 import ErrorPage from "./Main/ErrorPage.jsx";
 import ProtectedRoutes from "./Main/ProtectedRoutes";
 
