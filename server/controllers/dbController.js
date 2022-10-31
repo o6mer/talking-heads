@@ -133,4 +133,4 @@ const joinRoomDB = async (userId, roomId) => {
   }
 };
 
-module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB };
+module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB, leaveRoomDB };
