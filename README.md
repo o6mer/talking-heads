@@ -1,6 +1,6 @@
 # music-chat-app
 
-### A chat appliction using React, Socket.io, Node.js, MongoDB. 
+### An online, easy to use, chat application.  
 
 ## Table of Contents
 * [General info](#general-info)
