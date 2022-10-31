@@ -3,7 +3,6 @@
 const express = require("express");
 const {
   getRoomById,
-  // sendMessage,
   getAllRooms,
   deleteMessage,
   joinRoom,

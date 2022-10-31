@@ -7,6 +7,7 @@ const getUserNoPass = async (userId) => {
   return user;
 };
 
+//is this useless???
 const getRoomByIdDB = async (roomId) => {
   let room;
   try {
@@ -132,10 +133,4 @@ const joinRoomDB = async (userId, roomId) => {
   }
 };
 
-module.exports = {
-  getRoomByIdDB,
-  sendMessageDB,
-  joinRoomDB,
-  deleteMessageDB,
-  leaveRoomDB,
-};
+module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB, leaveRoomDB };
