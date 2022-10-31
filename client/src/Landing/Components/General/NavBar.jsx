@@ -29,7 +29,7 @@ const NavBar = () => {
           Help
         </Link>
 
-        <div className="w-[2px] h-[90%] bg-slate-300"> </div>
+        <div className="w-[1px] h-[60%] bg-slate-300"> </div>
 
         <Link to="/signup" className={linkStyles}>
           Signup
