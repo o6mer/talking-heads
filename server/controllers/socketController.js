@@ -58,7 +58,11 @@ const onSocketConection = (socket, io) => {
       io.emit("userChangedRoom", newRoom, currentRoom);
 
       if (!newRoom)
-        callback(newRoom, { msg: "selected room not found", statusCode: 404 });
+        callback(newRoom, {
+          msg: "selected room not found",
+          statusCode: 404,
+        });
+      // need to make better error handling
       else callback(newRoom, { msg: "joined room!", statusCode: 200 });
       rooms.push(roomId);
     } catch (err) {

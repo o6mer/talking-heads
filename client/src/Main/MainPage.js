@@ -8,6 +8,7 @@ import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
+import errorImage from "./Media/Moai404.jpg";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -50,8 +51,8 @@ const MainPage = () => {
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (newRoom, response) => {
       setLoadingRoom(false);
-      console.log(response);
       if (response.statusCode === 404) {
+        console.error(`Status code: ${response.statusCode}. ${response.msg}.`);
         setTextHeader(response.msg);
         setRoomFound(false);
       } else {
@@ -90,8 +91,9 @@ const MainPage = () => {
           ) : roomFound ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
-            <div className="">
+            <div className="m-auto">
               <p>{textHeader}</p>
+              <img className="w-96" src={errorImage}></img>
             </div>
           )}
         </div>

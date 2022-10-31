@@ -7,6 +7,7 @@ const getUserNoPass = async (userId) => {
   return user;
 };
 
+//is this useless???
 const getRoomByIdDB = async (roomId) => {
   let room;
   try {

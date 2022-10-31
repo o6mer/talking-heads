@@ -12,7 +12,7 @@ import MusicMenu from "./MusicMenu/MusicMenu";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const NavBar = ({ isError }) => {
+const NavBar = () => {
   const [anchorElProfile, setAnchorElProfile] = useState(null);
   const [anchorElMusic, setAnchorElMusic] = useState(null);
   const { darkMode, accessToken } = useContext(UserContext);
@@ -33,7 +33,7 @@ const NavBar = ({ isError }) => {
           <p className=""> Name Chat </p>
         </span>
       </Link>
-    {!isError && (
+
       <div className="flex justify-center items-center ml-auto gap-4">
         <div ref={musicRef}>
           {accessToken ? (
@@ -96,8 +96,6 @@ const NavBar = ({ isError }) => {
           musicRef={musicRef}
         />
       </div>
-      )}
-
     </nav>
   );
 };
