@@ -10,13 +10,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "./Media/Moai404.jpg";
 
+
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
+  closeOnBeforeunload: false,
 });
 
 const MainPage = () => {
-  const { relogin } = useAuth();
-
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user, darkMode } =
     useContext(UserContext);
@@ -38,6 +38,21 @@ const MainPage = () => {
     };
     sendRequest(); // calling the func above
   }, []);
+
+  const handleTabClosing = (event) => {
+    event.preventDefault();
+    socket.emit("userDisconnected", user._id, currentRoomId);
+
+    return;
+    // event.returnValue = "";
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleTabClosing);
+    return () => {
+      window.removeEventListener("beforeunload", handleTabClosing);
+    };
+  }, [currentRoomId]);
 
   useEffect(() => {
     if (!paramsRoomId) return;
@@ -62,12 +77,6 @@ const MainPage = () => {
       }
     });
   };
-
-  socket.on("connect", function () {
-    socket.on("disconnect", function () {
-      socket.emit("userDisconnected");
-    });
-  });
 
   return (
     <main

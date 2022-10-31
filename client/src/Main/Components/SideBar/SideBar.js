@@ -16,6 +16,10 @@ const SideBar = (props) => {
     socket.on("userChangedRoom", (joinedRoom, leftRoom) => {
       setList((prev) => {
         return prev.map((room) => {
+          if (!joinedRoom) {
+            if (leftRoom?._id === room._id) room = leftRoom;
+          }
+
           if (room?._id === joinedRoom?._id) room = joinedRoom;
 
           if (!leftRoom || !room) return room;

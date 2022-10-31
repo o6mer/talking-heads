@@ -12,7 +12,11 @@ export default function useAuth() {
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("spotifyAccessToken"));
 
-    if (!storedData) {
+    const currentTime = new Date(new Date().getTime());
+
+    if (!storedData || storedData?.expiresIn < currentTime) {
+      setAccessToken(null);
+      setExpiresIn(null);
       setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
       return;
     }
@@ -28,7 +32,10 @@ export default function useAuth() {
 
     localStorage.setItem(
       "spotifyAccessToken",
-      JSON.stringify({ accessToken, expiresIn })
+      JSON.stringify({
+        accessToken,
+        expiresIn,
+      })
     );
   }, [accessToken, expiresIn]);
 
