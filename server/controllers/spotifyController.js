@@ -41,11 +41,11 @@ const login = async (req, res) => {
     .then((data) => {
       accessToken = data.body.access_token;
       refreshToken = data.body.refresh_token;
-      expiresIn = data.body.expires_in;
+      // expiresIn = data.body.expires_in;
       res.json({
         accessToken,
         refreshToken,
-        expiresIn,
+        expiresIn: new Date(new Date().getTime() + 3600000),
       });
     })
     .catch((err) => {
