@@ -81,12 +81,8 @@ const joinRoomDB = async (userId, roomId) => {
       await currentRoom.save();
     }
     const selectedRoom = await Room.findById(roomId);
-<<<<<<< HEAD
     if (!selectedRoom && currentRoom) return { currentRoom };
     if (!selectedRoom) return;
-=======
-    if (!selectedRoom) return {};
->>>>>>> 0ff300da3ef5dfbbea68d8a9f4bd54b010c04482
     //add user to his selected room and updating db
     selectedRoom.pop.push(userIdAsObjectId);
     await selectedRoom.save();
