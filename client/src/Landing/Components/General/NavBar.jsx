@@ -36,7 +36,7 @@ const NavBar = () => {
         </Link>
         <Link
           to="/login"
-          className="text-white bg-[#1565c0] py-2 px-4 rounded-full hover:bg-[#186ed1] hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-15px_rgba(0,0,0,0.4)] transition-all"
+          className="text-white bg-thirdy py-2 px-4 rounded-full hover:bg-fourthy hover:-translate-y-0.5 hover:shadow-[0_10px_25px_-15px_rgba(0,0,0,0.4)] transition-all"
         >
           Login
         </Link>
