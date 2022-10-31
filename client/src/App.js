@@ -3,15 +3,15 @@ import {
   BrowserRouter as Router,
   Routes,
   Route,
-  Link,
-  Redirect,
+  Navigate,
 } from "react-router-dom";
 import LandingPage from "./Landing/LandingPage";
 import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
-import { createContext, useState } from "react";
 import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
+import ErrorPage from "./Main/ErrorPage.jsx";
+import ProtectedRoutes from "./Main/ProtectedRoutes";
 
 function App() {
   return (
@@ -20,10 +20,14 @@ function App() {
         <Routes>
           <Route path="/" element={<LandingPage />} />
           <Route path="/login" element={<LandingPage />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route path="/main/:roomId" element={<MainPage />} />
           <Route path="/signup" element={<SignupPage />} />
           {/* <Route path="/main" element={<MainPage />} /> */}
+
+          <Route path="/forgotPassword" element={<ForgotPassword />} />
+          <Route element={<ProtectedRoutes />}>
+            <Route path="main/:roomId" element={<MainPage />} />
+          </Route>
+          <Route path="*" element={<ErrorPage />} />
         </Routes>
       </Router>
     </UserContextProvider>

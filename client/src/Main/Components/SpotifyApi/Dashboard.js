@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from "react";
-import useAuth from "../../hooks/useAuth";
+import useAuth from "../../hooks/useAuthSpotify";
 import SpotifyWebApi from "spotify-web-api-node";
 import TrackSearchResult from "./TrackSearchResult";
 import Player from "./Player";
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: "d679667fbb3e4d9e92688887dd7e6db3",
-});
+let spotifyApi;
+try {
+  spotifyApi = new SpotifyWebApi({
+    clientId: "d679667fbb3e4d9e92688887dd7e6db3",
+  });
+} catch {
+  console.error();
+}
 
-const Dashboard = ({ code }) => {
-  const accessToken = useAuth(code);
+const Dashboard = () => {
+  const accessToken = useAuth();
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [playingTrack, setPlayingTrack] = useState();
@@ -27,7 +32,6 @@ const Dashboard = ({ code }) => {
   useEffect(() => {
     if (!search) return setSearchResults([]);
     if (!accessToken) return;
-    console.log("search");
 
     let cancel = false;
     spotifyApi.searchTracks(search).then((res) => {
@@ -56,8 +60,14 @@ const Dashboard = ({ code }) => {
   }, [search, accessToken]);
 
   return (
-    <div className="flex p-2 w-full  max-h-full flex-col">
-      <form action="" className="w-full">
+    <div className="flex p-2 h-max flex-col w-[25rem]">
+      <form
+        action=""
+        className="w-full"
+        onSubmit={(e) => {
+          e.preventDefault();
+        }}
+      >
         <input
           className="w-full"
           type="serach"
@@ -77,9 +87,8 @@ const Dashboard = ({ code }) => {
           />
         ))}
       </div>
-      <div>
-        <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
-      </div>
+
+      <Player accessToken={accessToken} trackUri={playingTrack?.uri} />
     </div>
   );
 };

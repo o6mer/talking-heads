@@ -45,17 +45,6 @@ const deleteRoom = async (req, res, next) => {
   }
 };
 
-//delete all messages (useless...)
-const deleteMessages = async (req, res, next) => {
-  try {
-    const roomId = req.params.roomId;
-    await Room.findByIdAndUpdate(roomId, { $set: { messages: [] } });
-    res.status(200).json({ message: "messages deleted" });
-  } catch (err) {
-    console.log(err);
-  }
-};
-
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;
@@ -95,7 +84,6 @@ const joinRoom = async (req, res, next) => {
 module.exports = {
   getRoomById,
   getAllRooms,
-  deleteMessages,
   deleteMessage,
   joinRoom,
   addRoom,

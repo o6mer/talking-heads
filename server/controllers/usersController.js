@@ -52,7 +52,6 @@ const signup = async (req, res, next) => {
     console.log(err);
   }
 
-  console.log("new user: " + newUser);
   res.status(201).json({ user: newUser });
 };
 
@@ -90,7 +89,6 @@ const forgotPassword = async (req, res, next) => {
 
   try {
     const user = await User.find({ email });
-    console.log(user[0]);
 
     if (user.length) {
       const newPassword = passGenerator.generate({

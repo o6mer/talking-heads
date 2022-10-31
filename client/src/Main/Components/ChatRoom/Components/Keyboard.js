@@ -1,13 +1,11 @@
 import React, { useContext } from "react";
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
-import IconButton from "@mui/material/IconButton";
 import SendIcon from "@mui/icons-material/Send";
-import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const Keyboard = (props) => {
-  const { sendMsg, roomId, postMsg, deleteAllMessages } = props;
+  const { postMsg } = props;
   const [msg, setMsg] = useState("");
 
   const { darkMode } = useContext(UserContext);
@@ -63,9 +61,6 @@ const Keyboard = (props) => {
             }}
           />
         </button>
-        {/* <IconButton onClick={deleteAllMessages}>
-          <DeleteForeverIcon color="primary" />
-        </IconButton> */}
       </form>
     </div>
   );

@@ -1,19 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
-import Dashboard from "../SpotifyApi/Dashboard";
-
-const code = new URLSearchParams(window.location.search).get("code");
 
 const ChatRoom = ({ selectedRoom }) => {
-  const { _id, messages, pop, usersInfo } = selectedRoom;
+  const { _id, messages, usersInfo } = selectedRoom;
 
   return (
     <>
       {_id ? (
         <section className="w-full h-full flex">
-          <Chat msgsArr={messages} roomId={_id} key={_id} />
-          <ProfilesSideBar pop={usersInfo} key={_id} />
+          <Chat msgsArr={messages} roomId={_id} key={`chat:${_id}`} />
+          <ProfilesSideBar pop={usersInfo} key={`profileSideBar:${_id}`} />
         </section>
       ) : (
         <div></div>

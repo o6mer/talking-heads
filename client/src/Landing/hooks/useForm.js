@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import validator from "validator";
+import { useEffect, useState } from "react";
 
 const useForm = (mode) => {
   const [email, setEmail] = useState("");

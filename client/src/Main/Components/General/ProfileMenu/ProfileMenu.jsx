@@ -8,11 +8,11 @@ import useAuth from "../../../../Landing/hooks/useAuth";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import SettingsDrawer from "./SettingsDrawer";
 
-const ProfileMenu = ({ setAnchorEl, anchorEl, opemMenu }) => {
+const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const { user } = useContext(UserContext);
+  const { user, darkMode } = useContext(UserContext);
 
   const { logout } = useAuth();
 
@@ -23,53 +23,52 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, opemMenu }) => {
   const handleOpenModal = () => setOpenModal(true);
   const handleCloseModal = () => setOpenModal(false);
 
-  const { darkMode } = useContext(UserContext);
-
   return (
-    <div className="">
-      <Menu
-        id="basic-menu"
-        anchorEl={anchorEl}
-        open={opemMenu}
-        onClose={handleCloseMenu}
-        MenuListProps={{
-          "aria-labelledby": "basic-button",
-        }}
-      >
-        <MenuItem
-          onClick={(e) => {
-            console.log("open modal");
-            handleCloseMenu();
-            handleOpenModal();
+    <>
+      {anchorEl ? (
+        <Menu
+          id="profile-menu"
+          anchorEl={anchorEl}
+          open={openMenu}
+          onClose={handleCloseMenu}
+          MenuListProps={{
+            "aria-labelledby": "basic-button",
           }}
         >
-          <ListItemIcon>
-            <AccountCircleIcon />
-          </ListItemIcon>
-          Profile
-        </MenuItem>
+          <MenuItem
+            onClick={(e) => {
+              handleCloseMenu();
+              handleOpenModal();
+            }}
+          >
+            <ListItemIcon>
+              <AccountCircleIcon />
+            </ListItemIcon>
+            Profile
+          </MenuItem>
 
-        <MenuItem
-          onClick={() => {
-            handleCloseMenu();
-            setOpenDrawer(true);
-          }}
-        >
-          <ListItemIcon onClick={handleCloseMenu}>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+          <MenuItem
+            onClick={() => {
+              handleCloseMenu();
+              setOpenDrawer(true);
+            }}
+          >
+            <ListItemIcon onClick={handleCloseMenu}>
+              <Settings fontSize="small" />
+            </ListItemIcon>
+            Settings
+          </MenuItem>
 
-        <Divider />
+          <Divider />
 
-        <MenuItem onClick={logout}>
-          <ListItemIcon>
-            <Logout />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+          <MenuItem onClick={logout}>
+            <ListItemIcon>
+              <Logout />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
+      ) : null}
       <UserModal
         open={openModal}
         userInfo={user}
@@ -82,7 +81,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, opemMenu }) => {
       >
         <SettingsDrawer />
       </Drawer>
-    </div>
+    </>
   );
 };
 

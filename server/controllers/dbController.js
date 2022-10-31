@@ -42,10 +42,31 @@ const deleteMessageDB = async (roomId, msgId) => {
   }
 };
 
-const joinRoomDB = async (roomId, userId) => {
-  //turns string id to ObjectId
-  const userIdAsObjectId = mongoose.Types.ObjectId(userId);
+const leaveRoomDB = async (userId, roomId) => {
+  try {
+    const userIdAsObjectId = mongoose.Types.ObjectId(userId);
 
+    const room = await Room.findById(roomId);
+
+    if (!room) return;
+
+    room.pop = room.pop.filter(
+      (id) => id.toString() !== userIdAsObjectId.toString()
+    );
+    await room.save();
+    return room;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const joinRoomDB = async (userId, roomId) => {
+  //turns string id to ObjectId
+
+  if (!mongoose.Types.ObjectId.isValid(roomId)) return;
+
+  console.log(userId, roomId);
+  const userIdAsObjectId = mongoose.Types.ObjectId(userId);
   try {
     let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
 
@@ -59,10 +80,13 @@ const joinRoomDB = async (roomId, userId) => {
 
       await currentRoom.save();
     }
-
     const selectedRoom = await Room.findById(roomId);
+<<<<<<< HEAD
     if (!selectedRoom && currentRoom) return { currentRoom };
     if (!selectedRoom) return;
+=======
+    if (!selectedRoom) return {};
+>>>>>>> 0ff300da3ef5dfbbea68d8a9f4bd54b010c04482
     //add user to his selected room and updating db
     selectedRoom.pop.push(userIdAsObjectId);
     await selectedRoom.save();
@@ -101,10 +125,17 @@ const joinRoomDB = async (roomId, userId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
-    return newRoom;
+    return { newRoom, currentRoom };
   } catch (err) {
-    return new Error(err);
+    console.log("errrr", err);
+    // return new Error(err);
   }
 };
 
-module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB };
+module.exports = {
+  getRoomByIdDB,
+  sendMessageDB,
+  joinRoomDB,
+  deleteMessageDB,
+  leaveRoomDB,
+};

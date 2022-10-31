@@ -1,17 +1,13 @@
-import React, { createContext, useState } from "react";
+import React, { createContext, useEffect, useState } from "react";
+import useAuth from "../Landing/hooks/useAuth";
 
 export const UserContext = createContext({});
 
 const UserPorivder = ({ children }) => {
-  const [user, setUser] = useState({
-    _id: "noId12345678",
-    userName: "notLoggedIn",
-    email: "unLog@gmail.com",
-    password: "12345678",
-    profilePictureUrl: "C:",
-  });
+  const [user, setUser] = useState();
   const [currentRoomId, setCurrentRoomId] = useState(undefined);
   const [darkMode, setDarkMode] = useState(false);
+  const [accessToken, setAccessToken] = useState();
 
   return (
     <UserContext.Provider
@@ -22,6 +18,8 @@ const UserPorivder = ({ children }) => {
         setCurrentRoomId,
         darkMode,
         setDarkMode,
+        accessToken,
+        setAccessToken,
       }}
     >
       {children}

@@ -27,7 +27,6 @@ const ForgotPassword = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data.message);
         setEmailExists(true);
         // navigate("/login");
       } else {

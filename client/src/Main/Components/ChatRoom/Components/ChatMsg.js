@@ -1,14 +1,13 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-import Link from "@mui/material/Link";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import UserModal from "../../General/UserModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
+const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
   const { user, darkMode } = useContext(UserContext);
   const loggedUserId = user._id;
   const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
@@ -33,7 +32,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, setMsg, delMsg }) => {
           ? `self-end  ${
               darkMode
                 ? "bg-[#18364d] hover:bg-primaryDark"
-                : "bg-secondary hover:bg-primary"
+                : "bg-secondary hover:bg-[#c9d0dc]"
             }`
           : "bg-[#3262b2] hover:bg-fourthy"
       } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}

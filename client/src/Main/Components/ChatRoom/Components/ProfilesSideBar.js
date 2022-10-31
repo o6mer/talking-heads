@@ -17,6 +17,8 @@ const ProfilesSideBar = (props) => {
     setPeople(pop);
 
     socket.on("userJoinedRoom", (userId, room) => {
+      if (!room) return;
+
       setPeople(room.usersInfo);
     });
 
@@ -28,7 +30,6 @@ const ProfilesSideBar = (props) => {
   }, []);
 
   const filterUser = (filter) => {
-    console.log(filter);
     setPeople(() => {
       return pop.filter((e) => e.userName.includes(filter));
     });
@@ -55,7 +56,7 @@ const ProfilesSideBar = (props) => {
         }`}
       >
         {people.map((element) => {
-          return <ProfilesSideBarItem user={element} />;
+          return <ProfilesSideBarItem user={element} key={element?._id} />;
         })}
       </section>
     </aside>

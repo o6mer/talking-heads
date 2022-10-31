@@ -6,10 +6,12 @@ import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
-import useAuth from "../Landing/hooks/useAuth";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export const socket = io("http://localhost:8080");
+export const socket = io("http://localhost:8080", {
+  "sync disconnect on unload": true,
+  closeOnBeforeunload: false,
+});
 
 const MainPage = () => {
   const [roomList, setRoomList] = useState();
@@ -18,7 +20,6 @@ const MainPage = () => {
   const [selectedRoom, setSelRoom] = useState({});
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  useAuth();
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -31,13 +32,22 @@ const MainPage = () => {
       }
     };
     sendRequest(); // calling the func above
-
-    window.addEventListener("beforeunload", (ev) => {
-      ev.preventDefault();
-      alert("user disconnected " + user._id);
-      socket.emit("userDisconnected", user._id);
-    });
   }, []);
+
+  const handleTabClosing = (event) => {
+    event.preventDefault();
+    socket.emit("userDisconnected", user._id, currentRoomId);
+
+    return;
+    // event.returnValue = "";
+  };
+
+  useEffect(() => {
+    window.addEventListener("beforeunload", handleTabClosing);
+    return () => {
+      window.removeEventListener("beforeunload", handleTabClosing);
+    };
+  }, [currentRoomId]);
 
   useEffect(() => {
     if (!paramsRoomId) return;
@@ -46,21 +56,13 @@ const MainPage = () => {
   }, [paramsRoomId]);
 
   const joinRoom = async (roomId) => {
-    // if (paramsRoomId === roomId) {
-    //   setLoadingRoom(true);
-    //   const response = await fetch(`http://localhost:3001/api/room/${roomId}`);
-    //   const data = await response.json();
-    //   setCurrentRoomId(roomId);
-    //   setSelRoom(data.room);
-    //   setLoadingRoom(false);
-    //   return;
-    // }
-
-    // if (roomId === paramsRoomId)
+    if (!user) return;
 
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (response) => {
       setCurrentRoomId(roomId);
+
+      if (!response) return;
       setSelRoom(response);
       setLoadingRoom(false);
     });
@@ -68,17 +70,17 @@ const MainPage = () => {
 
   return (
     <main
-      className={`h-screen max-h-screen ${
+      className={`h-full max-h-screen w-full ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
-      <NavBar />
+      <NavBar isError={false} />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar
+            selectedRoom={selectedRoom}
             roomList={roomList}
             setRoomList={setRoomList}
-            joinRoom={joinRoom}
           />
 
           {loadingRoom ? (

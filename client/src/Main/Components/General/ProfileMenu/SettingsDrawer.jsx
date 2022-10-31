@@ -4,8 +4,6 @@ import { useContext } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
 const SettingsDrawer = () => {
-  const [mode, setMode] = useState("light");
-
   const { darkMode, setDarkMode } = useContext(UserContext);
 
   const handleChange = (event, newMode) => {
