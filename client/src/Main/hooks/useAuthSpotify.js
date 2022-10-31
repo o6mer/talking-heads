@@ -18,7 +18,7 @@ export default function useAuth() {
       setAccessToken(null);
       setExpiresIn(null);
       setSpotifyCode(new URLSearchParams(window.location.search).get("code"));
-      return;
+      return () => localStorage.removeItem("spotifyAccessToken");
     }
 
     setAccessToken(storedData.accessToken);

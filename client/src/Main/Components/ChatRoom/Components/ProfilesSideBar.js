@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
 import { socket } from "../../../MainPage";
-import Logo from "../../../Media/NameLogo.png";
+import Logo from "../../../../Media/NameLogo.png";
 import UserModal from "../../../Components/General/UserModal.jsx";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
