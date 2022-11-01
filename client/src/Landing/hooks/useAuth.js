@@ -25,7 +25,6 @@ const useAuth = () => {
 
   const logout = useCallback(() => {
     localStorage.removeItem("userData");
-    console.log(user, currentRoomId);
     socket.emit("userDisconnected", user._id, currentRoomId);
     setTokenExpoDate(null);
     setUser(null);

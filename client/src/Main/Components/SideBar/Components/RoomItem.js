@@ -1,11 +1,21 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
+import { socket } from "../../../MainPage";
 
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
+
+  const [shownMessage, setShownMessage] = useState(messages?.at(-1));
+
+  useEffect(() => {
+    socket.on("receiveMsg", (msg, roomId) => {
+      console.log(msg, roomId);
+      if (roomId === _id) setShownMessage(msg);
+    });
+  }, []);
 
   return (
     <Link to={`/main/${_id}`}>
@@ -24,8 +34,8 @@ const RoomItem = ({ room }) => {
           </p>
         </div>
         <div className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}>
-          <p>{messages?.at(-1)?.msgContent}</p>
-          <p className="">{messages?.at(-1)?.msgTime}</p>
+          <p>{shownMessage?.msgContent}</p>
+          <p className="">{shownMessage?.msgTime}</p>
         </div>
       </div>
     </Link>

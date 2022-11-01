@@ -54,10 +54,6 @@ const MainPage = () => {
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
-  useEffect(() => {
-    console.log(currentRoomId);
-  }, [currentRoomId]);
-
   const joinRoom = async (roomId) => {
     if (!user) return;
 

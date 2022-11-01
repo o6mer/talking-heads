@@ -18,16 +18,16 @@ const onSocketConection = (socket, io) => {
     io.emit("userChangedRoom", null, updatedRoom);
   }
 
-  async function onSendMessage(msg, room, callback) {
+  async function onSendMessage(msg, roomId, callback) {
     msg.msgId = uniqid();
 
-    msg = await sendMessageDB(msg, room);
+    msg = await sendMessageDB(msg, roomId);
 
-    if (room === "") socket.emit("receiveMsg", msg);
+    if (roomId === "") socket.emit("receiveMsg", msg);
     else {
-      socket.to(room).emit("receiveMsg", msg);
+      io.emit("receiveMsg", msg, roomId);
     }
-    callback(msg);
+    // callback(msg);
   }
 
   async function onDeleteMessage(roomId, msgId, userId, msgWriterId, callback) {
