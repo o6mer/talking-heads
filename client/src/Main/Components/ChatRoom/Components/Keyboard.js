@@ -24,11 +24,7 @@ const Keyboard = (props) => {
   };
 
   return (
-    <div
-      className={`justify-self-end mt-auto h-min p-2 ${
-        darkMode ? "bg-[#50626e]" : "bg-white"
-      }`}
-    >
+    <div className={`justify-self-end mt-auto h-min p-2 ${darkMode ? "bg-[#50626e]" : "bg-white"}`}>
       <form
         action=""
         className="flex justify-center items-center gap-x-1 h-full"
@@ -37,9 +33,7 @@ const Keyboard = (props) => {
       >
         <TextField
           type="text"
-          className={`w-full ${
-            darkMode ? "bg-[#a6bbc8]" : "bg-white"
-          } rounded-lg`}
+          className={`w-full ${darkMode ? "bg-[#a6bbc8]" : "bg-white"} rounded-lg`}
           name="message"
           placeholder="Write a message"
           value={msg}
@@ -49,12 +43,11 @@ const Keyboard = (props) => {
           <SendIcon
             fontSize="large"
             sx={{
-              color: "#5b9af8",
+              color: "#0e7b52",
               transition: "300ms all",
               borderRadius: "50%",
               padding: "0.3rem",
               "&:hover": {
-                color: "#7daffa",
                 scale: "1.1",
                 // backgroundColor: "#",
               },

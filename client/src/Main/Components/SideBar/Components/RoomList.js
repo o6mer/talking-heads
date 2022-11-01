@@ -7,9 +7,7 @@ const RoomList = ({ roomList }) => {
 
   return (
     <section
-      className={`flex flex-col gap-0.5 overflow-auto overflow-x-hidden h-full ${
-        darkMode ? "scrollbar-dark" : "scrollbar"
-      }`}
+      className={`flex flex-col overflow-auto overflow-x-hidden h-full ${darkMode ? "scrollbar-dark" : "scrollbar"}`}
     >
       {roomList.map((element) => (
         <RoomItem room={element} key={element._id} />

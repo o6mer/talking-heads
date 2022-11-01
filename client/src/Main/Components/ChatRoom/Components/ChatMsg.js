@@ -30,33 +30,25 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
       className={`max-w-max p-3 gap-3 font-bold justify-around rounded-md text-white ${
         isLoggedInUser
           ? `self-end  ${
-              darkMode
-                ? "bg-[#18364d] hover:bg-primaryDark"
-                : "bg-secondary hover:bg-[#c9d0dc]"
+              darkMode ? "bg-[#18364d] hover:bg-primaryDark" : "bg-secondary text-thirdy hover:bg-[#caeee3]"
             }`
-          : "bg-[#3262b2] hover:bg-fourthy"
+          : "text-secondary bg-thirdy hover:bg-fourthy"
       } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}
     >
       <button onClick={handleOpenModal}>
         <p
-          className={`${
-            isLoggedInUser
-              ? `${darkMode ? "text-thirdyDark" : "text-thirdy"}`
-              : `${darkMode ? "text-secondaryDark" : "text-secondary"}`
-          }`}
+        // className={`${
+        //   isLoggedInUser
+        //     ? `${darkMode ? "text-thirdyDark" : "text-thirdy "}`
+        //     : `${darkMode ? "text-secondaryDark" : "text-secondary"}`
+        // }`}
         >
           {msgWriter.userName}
         </p>
       </button>
 
       <div className={`flex gap-4 text-xl `}>
-        <p
-          className={`${
-            isLoggedInUser
-              ? `${darkMode ? "text-white" : "text-black "}`
-              : "text-white"
-          }`}
-        >
+        <p className={`${isLoggedInUser ? `${darkMode ? "text-white" : "text-black "}` : "text-white"}`}>
           {msgContent}
         </p>
       </div>
@@ -71,7 +63,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
             aria-expanded={open ? "true" : undefined}
             onClick={handleClick}
           >
-            <KeyboardArrowDownIcon />
+            <KeyboardArrowDownIcon sx={{ color: "black" }} />
           </button>
         )}
       </div>
@@ -103,11 +95,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
           </div>
         </MenuItem>
       </Menu>
-      <UserModal
-        open={openModal}
-        userInfo={msgWriter}
-        handleClose={handleCloseModal}
-      />
+      <UserModal open={openModal} userInfo={msgWriter} handleClose={handleCloseModal} />
     </div>
   );
 };
