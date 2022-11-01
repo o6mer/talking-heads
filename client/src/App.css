@@ -6,8 +6,7 @@
   box-sizing: border-box !important;
   padding: 0;
   margin: 0;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
 
 #inputNewRoom::placeholder {
@@ -20,6 +19,10 @@
 
 .newRoomInputLabelDark {
   color: white !important;
+}
+
+.hero-picture {
+  background-image: url("Media/bg_hero.png");
 }
 
 @layer utilities {

@@ -3,7 +3,10 @@ import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const Features = () => {
   return (
-    <section className="w-full flex justify-between align-center gap-4">
+    <section
+      className="w-full max-w-5xl flex justify-between align-center gap-4"
+      id="features"
+    >
       <FeatureCard
         logo={<AccountCircleIcon fontSize="large" />}
         header={"Card Header"}
