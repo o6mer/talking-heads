@@ -13,8 +13,11 @@ export default function useAuth() {
     const storedData = JSON.parse(localStorage.getItem("spotifyAccessToken"));
 
     const currentTime = new Date(new Date().getTime());
+    const storedTime = new Date(storedData?.expiresIn);
 
-    if (!storedData || storedData?.expiresIn < currentTime) {
+    console.log(currentTime, "stored time:  ", storedTime);
+
+    if (!storedData || storedTime < currentTime) {
       setAccessToken(null);
       setExpiresIn(null);
       setSpotifyCode(new URLSearchParams(window.location.search).get("code"));

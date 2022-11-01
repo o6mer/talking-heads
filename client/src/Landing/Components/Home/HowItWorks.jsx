@@ -40,11 +40,11 @@ const HowItWorksItem = ({ number, header, content, image, side }) => {
             <h2 className="text-3xl font-bold mb-4">{header}</h2>
             <p className="text-xl font-extralight">{content}</p>
           </div>
-          <img src={image} alt="" width="400px" />
+          <img src={image} alt="" width="400px" loading=" lazy" />
         </div>
       ) : (
         <div className="flex gap-5 justify-center items-center">
-          <img src={image} alt="" width="400px" />
+          <img src={image} alt="" width="400px" loading=" lazy" />
 
           <div className="flex flex-col gap-3">
             <p className="text-7xl font-bold text-neutral-400 ">{number}</p>

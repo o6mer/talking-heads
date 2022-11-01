@@ -38,13 +38,13 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #225795;
+    background: #0e7b52;
     border-radius: 100vh;
     border: 1px solid #dbe2ef57;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #1b4677;
+    background: #095236;
   }
 
   /* dark mode */

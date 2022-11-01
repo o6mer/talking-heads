@@ -12,7 +12,6 @@ const RoomItem = ({ room }) => {
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
-      console.log(msg, roomId);
       if (roomId === _id) setShownMessage(msg);
     });
   }, []);
