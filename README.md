@@ -23,3 +23,7 @@ In addition you can connect to your Spotify account and listen to your favorite 
 * MUI
 
 ## Setup
+in root directory run:
+1. `npm i` install root dependencies
+2. `npm run setup` install client and server dependencies
+3. `npm start` lunch localy hosted client and server
