@@ -27,7 +27,7 @@ const NavBar = () => {
         darkMode ? "bg-[#090909]" : "bg-thirdy"
       } `}
     >
-      <Link to="/">
+      <Link to="/main">
         <span className="flex items-center justify-center gap-2 text-white font-bold">
           <img src={Logo} alt="Name logo" className="w-12" />
           <p className=""> Name Chat </p>
