@@ -33,57 +33,58 @@ const NavBar = () => {
           {/* <p className=""> Name Chat </p> */}
         </span>
       </Link>
-        <div className="flex justify-center items-center ml-auto gap-4">
-          <div ref={musicRef}>
-            {accessToken ? (
-              <Tooltip title="Play Music" className="text-white hover:text-gray-200">
-                <button
-                  className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
-                  onClick={(e) => {
-                    setAnchorElMusic(e.currentTarget);
-                  }}
-                  id="music-button"
-                  aria-controls={openMenuMusic ? "music-menu" : undefined}
-                  aria-haspopup="true"
-                  aria-expanded={openMenuMusic ? "true" : undefined}
-                >
-                  <HeadphonesIcon fontSize="large" />
-                </button>
-              </Tooltip>
-            ) : (
-              <Tooltip title="Login To Spotify" className="text-white hover:text-gray-200">
-                <a
-                  href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
-                  className="flex items-center justify-center"
-                >
-                  <HeadphonesIcon fontSize="large" />
-                </a>
-              </Tooltip>
-          </div>
-
-          <Tooltip title="Your Profile">
-            <button
-              className={`flex  items-center w-min text-white hover:text-gray-200 `}
-              onClick={(e) => {
-                setAnchorElProfile(e.currentTarget);
-              }}
-              id="profile-button"
-              aria-controls={openMenuProfile ? "profile-menu" : undefined}
-              aria-haspopup="true"
-              aria-expanded={openMenuProfile ? "true" : undefined}
-            >
-              <AccountCircleIcon sx={{ color: "inherit" }} fontSize="large" />
-              <ArrowDropDownIcon sx={{ color: "inherit" }} />
-            </button>
-          </Tooltip>
-          <ProfileMenu setAnchorEl={setAnchorElProfile} anchorEl={anchorElProfile} openMenu={openMenuProfile} />
-          <MusicMenu
-            setAnchorEl={setAnchorElMusic}
-            anchorEl={anchorElMusic}
-            openMenu={openMenuMusic}
-            musicRef={musicRef}
-          />
+      <div className="flex justify-center items-center ml-auto gap-4">
+        <div ref={musicRef}>
+          {accessToken ? (
+            <Tooltip title="Play Music" className="text-white hover:text-gray-200">
+              <button
+                className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
+                onClick={(e) => {
+                  setAnchorElMusic(e.currentTarget);
+                }}
+                id="music-button"
+                aria-controls={openMenuMusic ? "music-menu" : undefined}
+                aria-haspopup="true"
+                aria-expanded={openMenuMusic ? "true" : undefined}
+              >
+                <HeadphonesIcon fontSize="large" />
+              </button>
+            </Tooltip>
+          ) : (
+            <Tooltip title="Login To Spotify" className="text-white hover:text-gray-200">
+              <a
+                href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
+                className="flex items-center justify-center"
+              >
+                <HeadphonesIcon fontSize="large" />
+              </a>
+            </Tooltip>
+          )}
         </div>
+
+        <Tooltip title="Your Profile">
+          <button
+            className={`flex  items-center w-min text-white hover:text-gray-200 `}
+            onClick={(e) => {
+              setAnchorElProfile(e.currentTarget);
+            }}
+            id="profile-button"
+            aria-controls={openMenuProfile ? "profile-menu" : undefined}
+            aria-haspopup="true"
+            aria-expanded={openMenuProfile ? "true" : undefined}
+          >
+            <AccountCircleIcon sx={{ color: "inherit" }} fontSize="large" />
+            <ArrowDropDownIcon sx={{ color: "inherit" }} />
+          </button>
+        </Tooltip>
+        <ProfileMenu setAnchorEl={setAnchorElProfile} anchorEl={anchorElProfile} openMenu={openMenuProfile} />
+        <MusicMenu
+          setAnchorEl={setAnchorElMusic}
+          anchorEl={anchorElMusic}
+          openMenu={openMenuMusic}
+          musicRef={musicRef}
+        />
+      </div>
     </nav>
   );
 };

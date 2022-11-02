@@ -37,11 +37,9 @@ const RoomItem = ({ room }) => {
             <span className="">{`/${maxPop}`}</span>
           </p>
         </div>
-        <div
-          className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}
-        >
+        <div className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}>
           <p>{truncate(shownMessage?.msgContent)}</p>
-          <p className="ml-auto">{messages?.at(-1)?.msgTime}</p>
+          <p className="ml-auto">{shownMessage?.msgTime}</p>
         </div>
       </div>
     </Link>

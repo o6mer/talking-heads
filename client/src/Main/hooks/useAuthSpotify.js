@@ -15,8 +15,6 @@ export default function useAuth() {
     const currentTime = new Date(new Date().getTime());
     const storedTime = new Date(storedData?.expiresIn);
 
-    console.log(currentTime, "stored time:  ", storedTime);
-
     if (!storedData || storedTime < currentTime) {
       setAccessToken(null);
       setExpiresIn(null);

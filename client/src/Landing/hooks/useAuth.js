@@ -14,7 +14,6 @@ const useAuth = () => {
   const login = useCallback((user, tokenExpoDate = new Date(new Date().getTime() + 3600000)) => {
     setUser(user);
     setTokenExpoDate(tokenExpoDate);
-    console.log(user);
 
     localStorage.setItem(
       "userId",

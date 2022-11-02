@@ -8,7 +8,7 @@ import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
-import errorImage from "./Media/Moai404.jpg";
+import errorImage from "../Media/Moai404.jpg";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -22,9 +22,7 @@ const MainPage = ({ noRoom }) => {
   const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  const [textHeader, setTextHeader] = useState(
-    "Please select a room to start chatting"
-  );
+  const [textHeader, setTextHeader] = useState("Please select a room to start chatting");
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -49,7 +47,6 @@ const MainPage = ({ noRoom }) => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", handleTabClosing);
-    console.log(currentRoomId);
     return () => {
       window.removeEventListener("beforeunload", handleTabClosing);
     };
