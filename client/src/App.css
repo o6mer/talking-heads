@@ -6,8 +6,7 @@
   box-sizing: border-box !important;
   padding: 0;
   margin: 0;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans", Arial, sans-serif;
 }
 
 #inputNewRoom::placeholder {
@@ -20,6 +19,10 @@
 
 .newRoomInputLabelDark {
   color: white !important;
+}
+
+.background-picture {
+  background-image: url("Media/bg_hero.png");
 }
 
 @layer utilities {
@@ -35,13 +38,13 @@
   }
 
   .scrollbar::-webkit-scrollbar-thumb {
-    background: #225795;
+    background: #0e7b52;
     border-radius: 100vh;
     border: 1px solid #dbe2ef57;
   }
 
   .scrollbar::-webkit-scrollbar-thumb:hover {
-    background: #1b4677;
+    background: #095236;
   }
 
   /* dark mode */

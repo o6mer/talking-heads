@@ -15,10 +15,11 @@ const getUserById = async (req, res, next) => {
   let user;
   try {
     user = await User.findById(userId);
+    const { _id, userName, email, profilePictureUrl } = user;
+    res.json({ _id, userName, email, profilePictureUrl });
   } catch (err) {
     return next(err);
   }
-  res.json({ user });
 };
 
 const signup = async (req, res, next) => {
@@ -75,12 +76,10 @@ const login = async (req, res, next) => {
     return next();
   }
   res.status(200).json({
-    user: {
-      _id: user[0]._id,
-      userName: user[0].userName,
-      email: user[0].email,
-      profilePictureUrl: user[0].profilePictureUrl,
-    },
+    _id: user[0]._id,
+    userName: user[0].userName,
+    email: user[0].email,
+    profilePictureUrl: user[0].profilePictureUrl,
   });
 };
 

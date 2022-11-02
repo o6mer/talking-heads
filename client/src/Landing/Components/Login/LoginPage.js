@@ -28,7 +28,7 @@ const LoginPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        login(data.user);
+        login(data);
         navigate("/main");
       } else throw new Error(data.message);
     } catch (error) {
@@ -37,9 +37,9 @@ const LoginPage = () => {
     }
   };
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
-      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
-        <p className="font-bold text-3xl">Please login to start chatting</p>
+    <div className="flex justify-center items-center h-screen w-screen background-picture bg-cover ">
+      <div className="flex flex-col gap-3 bg-fourthy p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] text-white">
+        <p className="font-bold text-3xl ">Please login to start chatting</p>
 
         <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>
           <TextField
@@ -64,22 +64,11 @@ const LoginPage = () => {
           />
 
           {loading ? (
-            <LoadingButton
-              onClick={() => {}}
-              loading={true}
-              variant="outlined"
-              disabled
-            >
+            <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
               disabled
             </LoadingButton>
           ) : (
-            <Button
-              margin="normal"
-              variant="contained"
-              type="submit"
-              disabled={!formValid}
-              fullWidth
-            >
+            <Button margin="normal" variant="contained" type="submit" disabled={!formValid} fullWidth>
               Login
             </Button>
           )}

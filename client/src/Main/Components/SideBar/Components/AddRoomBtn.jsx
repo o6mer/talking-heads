@@ -73,15 +73,21 @@ const AddRoomBtn = ({ setRoomList }) => {
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
+      <Button
+        variant="outlined"
+        onClick={handleClickOpen}
+        sx={{
+          borderColor: "#0e7b52",
+          color: "#0e7b52",
+          "&:hover": {
+            borderColor: "#095236",
+          },
+        }}
+      >
         Create new room
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <div
-          className={`${
-            darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
-          }`}
-        >
+        <div className={`${darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"}`}>
           <DialogTitle>
             <p className={"font-bold text-2xl"}>Create new room</p>
           </DialogTitle>

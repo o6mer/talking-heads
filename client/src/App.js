@@ -12,6 +12,7 @@ import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
 import ErrorPage from "./Main/ErrorPage.jsx";
 import ProtectedRoutes from "./Main/ProtectedRoutes";
+import LoginPage from "./Landing/Components/Login/LoginPage";
 
 function App() {
   return (
@@ -19,9 +20,8 @@ function App() {
       <Router>
         <Routes>
           <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
-
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="main/:roomId" element={<MainPage />} />

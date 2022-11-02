@@ -17,8 +17,7 @@ export const socket = io("http://localhost:8080", {
 
 const MainPage = ({ noRoom }) => {
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user, darkMode } =
-    useContext(UserContext);
+  const { currentRoomId, setCurrentRoomId, user, darkMode } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
@@ -103,11 +102,7 @@ const MainPage = ({ noRoom }) => {
       <NavBar />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
-          <SideBar
-            selectedRoom={selectedRoom}
-            roomList={roomList}
-            setRoomList={setRoomList}
-          />
+          <SideBar selectedRoom={selectedRoom} roomList={roomList} setRoomList={setRoomList} />
 
           {loadingRoom ? (
             <div className="flex w-full h-full justify-center items-center">

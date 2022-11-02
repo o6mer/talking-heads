@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
-import Picture from "../../Media/NameLogo.png";
+import Picture from "../../../Media/NameLogo.png";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const UserModal = ({ open, handleClose, userInfo }) => {

@@ -13,8 +13,8 @@ const Chat = ({ roomId, msgsArr }) => {
   const { user, currentRoomId, darkMode } = useContext(UserContext);
 
   useEffect(() => {
-    socket.on("receiveMsg", (msg) => {
-      addMessage(msg);
+    socket.on("receiveMsg", (msg, roomId) => {
+      if (roomId === currentRoomId) addMessage(msg);
     });
     socket.on("removeMsg", (msgId) => {
       removeMsg(msgId);
@@ -38,16 +38,12 @@ const Chat = ({ roomId, msgsArr }) => {
     const time = new Date();
     let newMsg = {
       msgWriter: user._id, //need to be user Id (and then needed to be converted to user when coming to the front-end)
-      msgTime: `${
-        time.getHours() < 10 ? `0${time.getHours()}` : time.getHours()
-      }:${
+      msgTime: `${time.getHours() < 10 ? `0${time.getHours()}` : time.getHours()}:${
         time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
       }`,
       msgContent,
     };
-    socket.emit("sendMsg", newMsg, currentRoomId, (resMsg) => {
-      addMessage(resMsg);
-    });
+    socket.emit("sendMsg", newMsg, currentRoomId);
   };
 
   //@@@ Front-End methods @@@
@@ -73,11 +69,7 @@ const Chat = ({ roomId, msgsArr }) => {
 
   return (
     <section className="flex flex-col w-full h-full ">
-      <div
-        className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
-          darkMode ? "scrollbar-dark" : "scrollbar"
-        }`}
-      >
+      <div className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${darkMode ? "scrollbar-dark" : "scrollbar"}`}>
         {messages.map((element) => {
           // making ChatMsg components from the messages array
           return <ChatMsg {...element} key={element?.msgId} delMsg={delMsg} />;

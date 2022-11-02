@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import NavBar from "./Components/General/NavBar";
-import ErrorImage from "../Main/Media/Moai404.jpg";
+import ErrorImage from "../Media/Moai404.jpg";
 
 const ErrorPage = () => {
   useEffect(() => {
