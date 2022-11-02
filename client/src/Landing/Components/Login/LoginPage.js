@@ -29,7 +29,7 @@ const LoginPage = () => {
       const data = await response.json();
       if (response.ok) {
         login(data);
-        navigate("/main/1");
+        navigate("/main");
       } else throw new Error(data.message);
     } catch (error) {
       setLoading(false);
@@ -54,7 +54,6 @@ const LoginPage = () => {
           />
 
           <TextField
-            autoFocus
             margin="dense"
             onChange={handleChange}
             type="password"

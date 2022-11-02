@@ -25,6 +25,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route element={<ProtectedRoutes />}>
             <Route path="main/:roomId" element={<MainPage />} />
+            <Route path="/main" element={<MainPage noRoom={true} />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />
         </Routes>

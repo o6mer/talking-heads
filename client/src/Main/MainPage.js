@@ -7,18 +7,24 @@ import { useParams } from "react-router-dom";
 import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
+import useAuth from "../Landing/hooks/useAuth";
+import errorImage from "./Media/Moai404.jpg";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
   closeOnBeforeunload: false,
 });
 
-const MainPage = () => {
+const MainPage = ({ noRoom }) => {
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user, darkMode } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
+  const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
+  const [textHeader, setTextHeader] = useState(
+    "Please select a room to start chatting"
+  );
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -43,6 +49,7 @@ const MainPage = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", handleTabClosing);
+    console.log(currentRoomId);
     return () => {
       window.removeEventListener("beforeunload", handleTabClosing);
     };
@@ -54,17 +61,36 @@ const MainPage = () => {
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
+  useEffect(() => {
+    if (noRoom) {
+      leaveRoom();
+    }
+  }, [noRoom]);
+
   const joinRoom = async (roomId) => {
     if (!user) return;
 
     setLoadingRoom(true);
-    socket.emit("joinRoom", roomId, user._id, (response) => {
-      setCurrentRoomId(roomId);
-
-      if (!response) return;
-      setSelRoom(response);
+    socket.emit("joinRoom", roomId, user._id, (newRoom, response) => {
       setLoadingRoom(false);
+      if (response.statusCode === 404) {
+        console.error(`Status code: ${response.statusCode}. ${response.msg}.`);
+        setTextHeader(response.msg); // selected room not found or something
+        setRoomFound(false);
+      } else {
+        setRoomFound(true);
+        setSelRoom(newRoom);
+        setCurrentRoomId(roomId);
+      }
     });
+  };
+
+  const leaveRoom = () => {
+    if (!currentRoomId) return;
+    setCurrentRoomId(undefined);
+    setLoadingRoom(true);
+    socket.emit("userDisconnected", user._id, currentRoomId);
+    setLoadingRoom(false);
   };
 
   return (
@@ -73,7 +99,7 @@ const MainPage = () => {
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
-      <NavBar isError={false} />
+      <NavBar />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar selectedRoom={selectedRoom} roomList={roomList} setRoomList={setRoomList} />
@@ -82,8 +108,13 @@ const MainPage = () => {
             <div className="flex w-full h-full justify-center items-center">
               <CircularProgress />
             </div>
-          ) : (
+          ) : roomFound && !noRoom ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
+          ) : (
+            <div className="m-auto">
+              <p>{textHeader}</p>
+              <img className="w-96" src={errorImage}></img>
+            </div>
           )}
         </div>
       ) : null}

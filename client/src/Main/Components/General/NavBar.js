@@ -12,7 +12,7 @@ import MusicMenu from "./MusicMenu/MusicMenu";
 import { useEffect } from "react";
 import { useRef } from "react";
 
-const NavBar = ({ isError }) => {
+const NavBar = () => {
   const [anchorElProfile, setAnchorElProfile] = useState(null);
   const [anchorElMusic, setAnchorElMusic] = useState(null);
   const { darkMode, accessToken } = useContext(UserContext);
@@ -27,13 +27,12 @@ const NavBar = ({ isError }) => {
         darkMode ? "bg-fourthy" : "bg-thirdy"
       } `}
     >
-      <Link to="/">
+      <Link to="/main">
         <span className="flex items-center justify-center gap-2 text-white font-bold">
           <img src={Logo} alt="Name logo" className="w-24" />
           {/* <p className=""> Name Chat </p> */}
         </span>
       </Link>
-      {!isError && (
         <div className="flex justify-center items-center ml-auto gap-4">
           <div ref={musicRef}>
             {accessToken ? (
@@ -60,7 +59,6 @@ const NavBar = ({ isError }) => {
                   <HeadphonesIcon fontSize="large" />
                 </a>
               </Tooltip>
-            )}
           </div>
 
           <Tooltip title="Your Profile">
@@ -86,7 +84,6 @@ const NavBar = ({ isError }) => {
             musicRef={musicRef}
           />
         </div>
-      )}
     </nav>
   );
 };

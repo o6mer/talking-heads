@@ -16,6 +16,11 @@ const RoomItem = ({ room }) => {
     });
   }, []);
 
+  //maybe aravisti :|
+  const truncate = (input) => {
+    return input?.length > 16 ? `${input.substring(0, 16)}...` : input;
+  };
+
   return (
     <Link to={`/main/${_id}`}>
       <div
@@ -32,9 +37,11 @@ const RoomItem = ({ room }) => {
             <span className="">{`/${maxPop}`}</span>
           </p>
         </div>
-        <div className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}>
-          <p>{shownMessage?.msgContent}</p>
-          <p className="">{shownMessage?.msgTime}</p>
+        <div
+          className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}
+        >
+          <p>{truncate(shownMessage?.msgContent)}</p>
+          <p className="ml-auto">{messages?.at(-1)?.msgTime}</p>
         </div>
       </div>
     </Link>

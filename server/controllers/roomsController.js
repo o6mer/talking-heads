@@ -2,9 +2,11 @@ const { Room } = require("../models/roomModel.js");
 const { getRoomByIdDB, sendMessageDB, joinRoomDB } = require("./dbController");
 const bodyParser = require("body-parser");
 
+//is this useless?
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
   const room = await getRoomByIdDB(roomId);
+  console.log(room);
   if (!room) res.status(400).json({ message: "room not found" });
   res.status(200).json({ room });
 };
