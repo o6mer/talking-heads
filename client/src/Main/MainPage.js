@@ -10,13 +10,12 @@ import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "./Media/Moai404.jpg";
 
-
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
   closeOnBeforeunload: false,
 });
 
-const MainPage = () => {
+const MainPage = ({ noRoom }) => {
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user, darkMode } =
     useContext(UserContext);
@@ -24,7 +23,9 @@ const MainPage = () => {
   const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  const [textHeader, setTextHeader] = useState("");
+  const [textHeader, setTextHeader] = useState(
+    "Please select a room to start chatting"
+  );
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -49,6 +50,7 @@ const MainPage = () => {
 
   useEffect(() => {
     window.addEventListener("beforeunload", handleTabClosing);
+    console.log(currentRoomId);
     return () => {
       window.removeEventListener("beforeunload", handleTabClosing);
     };
@@ -60,6 +62,12 @@ const MainPage = () => {
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
+  useEffect(() => {
+    if (noRoom) {
+      leaveRoom();
+    }
+  }, [noRoom]);
+
   const joinRoom = async (roomId) => {
     if (!user) return;
 
@@ -68,7 +76,7 @@ const MainPage = () => {
       setLoadingRoom(false);
       if (response.statusCode === 404) {
         console.error(`Status code: ${response.statusCode}. ${response.msg}.`);
-        setTextHeader(response.msg);
+        setTextHeader(response.msg); // selected room not found or something
         setRoomFound(false);
       } else {
         setRoomFound(true);
@@ -78,13 +86,21 @@ const MainPage = () => {
     });
   };
 
+  const leaveRoom = () => {
+    if (!currentRoomId) return;
+    setCurrentRoomId(undefined);
+    setLoadingRoom(true);
+    socket.emit("userDisconnected", user._id, currentRoomId);
+    setLoadingRoom(false);
+  };
+
   return (
     <main
       className={`h-full max-h-screen w-full ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
-      <NavBar isError={false} />
+      <NavBar />
       {roomList ? (
         <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar
@@ -97,7 +113,7 @@ const MainPage = () => {
             <div className="flex w-full h-full justify-center items-center">
               <CircularProgress />
             </div>
-          ) : roomFound ? (
+          ) : roomFound && !noRoom ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
             <div className="m-auto">

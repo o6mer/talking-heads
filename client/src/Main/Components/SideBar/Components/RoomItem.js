@@ -7,6 +7,11 @@ const RoomItem = ({ room }) => {
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
 
+  //maybe aravisti :|
+  const truncate = (input) => {
+    return input?.length > 16 ? `${input.substring(0, 16)}...` : input;
+  };
+
   return (
     <Link to={`/main/${_id}`}>
       <div
@@ -36,8 +41,8 @@ const RoomItem = ({ room }) => {
         <div
           className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}
         >
-          <p>{messages?.at(-1)?.msgContent}</p>
-          <p className="">{messages?.at(-1)?.msgTime}</p>
+          <p>{truncate(messages?.at(-1)?.msgContent)}</p>
+          <p className="ml-auto">{messages?.at(-1)?.msgTime}</p>
         </div>
       </div>
     </Link>

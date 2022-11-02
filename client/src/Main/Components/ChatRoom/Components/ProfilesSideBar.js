@@ -6,8 +6,9 @@ import Logo from "../../../Media/NameLogo.png";
 import UserModal from "../../../Components/General/UserModal.jsx";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const ProfilesSideBar = (props) => {
-  const { pop } = props;
+import RoomDetails from "./RoomDetails";
+
+const ProfilesSideBar = ({ pop, selectedRoom }) => {
   const [people, setPeople] = useState(pop);
 
   const { darkMode } = useContext(UserContext);
@@ -59,6 +60,7 @@ const ProfilesSideBar = (props) => {
           return <ProfilesSideBarItem user={element} key={element?._id} />;
         })}
       </section>
+      <RoomDetails people={people} name={selectedRoom.name} />
     </aside>
   );
 };
