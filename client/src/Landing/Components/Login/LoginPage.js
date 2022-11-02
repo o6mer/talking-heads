@@ -28,7 +28,7 @@ const LoginPage = () => {
       });
       const data = await response.json();
       if (response.ok) {
-        login(data.user);
+        login(data);
         navigate("/main/1");
       } else throw new Error(data.message);
     } catch (error) {
@@ -65,22 +65,11 @@ const LoginPage = () => {
           />
 
           {loading ? (
-            <LoadingButton
-              onClick={() => {}}
-              loading={true}
-              variant="outlined"
-              disabled
-            >
+            <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
               disabled
             </LoadingButton>
           ) : (
-            <Button
-              margin="normal"
-              variant="contained"
-              type="submit"
-              disabled={!formValid}
-              fullWidth
-            >
+            <Button margin="normal" variant="contained" type="submit" disabled={!formValid} fullWidth>
               Login
             </Button>
           )}
