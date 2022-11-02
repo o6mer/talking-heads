@@ -7,14 +7,7 @@ import { TextField, Tooltip, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
 const SignupPage = () => {
-  const {
-    email,
-    password,
-    userName,
-    profilePictureUrl,
-    formValid,
-    handleChange,
-  } = useForm("signup");
+  const { email, password, userName, profilePictureUrl, formValid, handleChange } = useForm("signup");
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
@@ -61,19 +54,15 @@ const SignupPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="flex flex-col  bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
+    <div className="flex justify-center items-center h-screen background-picture  bg-cover overflow-hidden">
+      <div className="flex flex-col  bg-fourthy text-white p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] transition-all">
         <Link to="/login" className="w-min">
           <Tooltip title="Back to Login">
             <ArrowBackIcon className="hover:fill-gray-500" />
           </Tooltip>
         </Link>
         <p className="font-bold text-3xl text-center">Signup</p>
-        <form
-          action=""
-          onSubmit={submitHandler}
-          className="flex flex-col gap-2"
-        >
+        <form action="" onSubmit={submitHandler} className="flex flex-col gap-2">
           <div>
             <img src={profilePictureUrl} alt="" />
           </div>
@@ -123,12 +112,7 @@ const SignupPage = () => {
           />
 
           {loading ? (
-            <LoadingButton
-              onClick={() => {}}
-              loading={true}
-              variant="outlined"
-              disabled
-            >
+            <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
               disabled
             </LoadingButton>
           ) : (
@@ -138,6 +122,7 @@ const SignupPage = () => {
               type="submit"
               disabled={!formValid}
               fullWidth
+              style={{ backgroundColor: "#0e7b52", color: "black" }}
               // onClick={submitHandler}
             >
               SIGNUP
