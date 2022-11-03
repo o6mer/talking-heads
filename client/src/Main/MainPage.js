@@ -93,7 +93,7 @@ const MainPage = ({ noRoom }) => {
 
   return (
     <main
-      className={`h-full max-h-screen w-full ${
+      className={`h-full max-h-screen w-full z-10 ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
