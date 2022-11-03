@@ -54,7 +54,7 @@ const MainPage = ({ noRoom }) => {
 
   useEffect(() => {
     if (!paramsRoomId) return;
-
+    setCurrentRoomId(paramsRoomId);
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
@@ -70,6 +70,8 @@ const MainPage = ({ noRoom }) => {
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (newRoom, response) => {
       setLoadingRoom(false);
+      // setCurrentRoomId(roomId);
+
       if (response.statusCode === 404) {
         console.error(`Status code: ${response.statusCode}. ${response.msg}.`);
         setTextHeader(response.msg); // selected room not found or something
@@ -77,7 +79,6 @@ const MainPage = ({ noRoom }) => {
       } else {
         setRoomFound(true);
         setSelRoom(newRoom);
-        setCurrentRoomId(roomId);
       }
     });
   };

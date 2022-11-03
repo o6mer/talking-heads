@@ -1,13 +1,14 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContextProvider";
+import { useNavigate } from "react-router-dom";
 
 export default function useAuth() {
   // const [accessToken, setAccessToken] = useState(currentAccessToken);
   const [spotifyCode, setSpotifyCode] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
-  const { accessToken, setAccessToken } = useContext(UserContext);
+  const { accessToken, setAccessToken, currentRoomId } = useContext(UserContext);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("spotifyAccessToken"));
@@ -53,7 +54,7 @@ export default function useAuth() {
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
-        window.history.pushState({}, null, "/main/1");
+        window.history.pushState({}, null, `/main/${currentRoomId || 1}`);
       })
       .catch((err) => {
         if (err.response.status === 405) {

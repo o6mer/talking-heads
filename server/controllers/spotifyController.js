@@ -23,7 +23,7 @@ const refresh = async (req, res) => {
 };
 
 const login = async (req, res) => {
-  const code = req.body.code;
+  const { code } = req.body;
   if (!code) return res.sendStatus(404);
 
   // if (code === currentCode)
@@ -31,7 +31,7 @@ const login = async (req, res) => {
 
   // currentCode = code;
   const spotifyApi = new SpotifyWebApi({
-    redirectUri: "http://localhost:3000/main/1",
+    redirectUri: `http://localhost:3000/main/1`,
     clientId: "d679667fbb3e4d9e92688887dd7e6db3",
     clientSecret: "537dc11b712848d9af1ea90c27794e3f",
   });
