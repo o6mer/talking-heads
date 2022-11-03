@@ -70,8 +70,8 @@ const MainPage = ({ noRoom }) => {
     setLoadingRoom(true);
     socket.emit("joinRoom", roomId, user._id, (newRoom, responseMsg) => {
       setLoadingRoom(false);
-      if (responseMsg.statusCode / 100 === 4) {
-        // if its a 400-ish status code
+      console.log(responseMsg);
+      if (responseMsg.statusCode === 404 || responseMsg.statusCode === 400) {
         console.error(`Status code: ${responseMsg.statusCode}. ${responseMsg.message}.`);
         setTextHeader(responseMsg.message); // selected room not found or something
         setRoomFound(false);
