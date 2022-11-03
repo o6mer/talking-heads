@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext, useRef } from "react";
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 import { UserContext } from "../../../../contexts/UserContextProvider";
@@ -12,14 +12,27 @@ const Chat = ({ roomId, msgsArr }) => {
   const [messages, setMessages] = useState(msgsArr); //keeping track on the messages
   const { user, currentRoomId, darkMode } = useContext(UserContext);
 
+  const messageEndRef = useRef();
+
   useEffect(() => {
+    scrollToBottom();
     socket.on("receiveMsg", (msg, roomId) => {
-      if (roomId === currentRoomId) addMessage(msg);
+      if (roomId !== currentRoomId) return;
+      addMessage(msg);
+      scrollToBottom();
     });
     socket.on("removeMsg", (msgId) => {
       removeMsg(msgId);
     });
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  const scrollToBottom = () => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   //@@@ Back-End methods @@@
 
@@ -74,6 +87,7 @@ const Chat = ({ roomId, msgsArr }) => {
           // making ChatMsg components from the messages array
           return <ChatMsg {...element} key={element?.msgId} delMsg={delMsg} />;
         })}
+        <div ref={messageEndRef}> </div>
       </div>
 
       <Keyboard postMsg={sendMessage} roomId={roomId} />
