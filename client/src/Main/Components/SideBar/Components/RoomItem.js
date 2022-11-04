@@ -25,7 +25,7 @@ const RoomItem = ({ room }) => {
   return (
     <Link
       to={`/main/${_id}`}
-      className={`flex gap-3 w-full min-w-max border-black border-solid border-0 m-0 cursor-pointer py-2 px-4 box-border text-xl text-gray-500 ${
+      className={`flex items-center gap-3 w-full max-w-full  border-black border-solid border-0 m-0 cursor-pointer py-2 px-4 box-border text-xl text-gray-500 ${
         darkMode ? `hover:bg-primaryDark` : "hover:bg-primary"
       } ${currentRoomId === _id ? (darkMode ? "bg-primaryDark" : "bg-primary") : null}`}
     >
@@ -37,8 +37,8 @@ const RoomItem = ({ room }) => {
             <span className={maxPop === pop.length ? "text-red-600" : ``}>{`${pop.length}`}</span>
             <span className="">{`/${maxPop}`}</span>
           </p> */}
-          <p className="text-gray-500">{`${truncate(shownMessage?.msgContent || "")}`}</p>
-          <p className="ml-auto">{shownMessage?.msgTime}</p>
+          <p className="">{`${truncate(shownMessage?.msgContent || "")}`}</p>
+          <p className="ml-auto">{shownMessage?.msgTime || ""}</p>
         </div>
       </div>
     </Link>

@@ -47,7 +47,7 @@ const useAuth = () => {
 
     if (!storedData) return;
 
-    const req = await fetch(`http://localhost:3001/api/user/${storedData?.userId}`);
+    const req = await fetch(`${process.env.REACT_APP_API_URL}/user/${storedData?.userId}`);
     const user = await req.json();
     if (user) {
       login(user, new Date(storedData.expiration));

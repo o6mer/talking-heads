@@ -52,7 +52,7 @@ const AddRoomBtn = ({ setRoomList }) => {
   //to get the new room id from mongo
   const handleSubmit = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/room`, {
+      const response = await fetch(`${process.env.REACT_APP_API_URL}/room`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
