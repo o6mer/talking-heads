@@ -68,11 +68,11 @@ const MainPage = ({ noRoom }) => {
     if (!user) return;
 
     setLoadingRoom(true);
-    socket.emit("joinRoom", roomId, user._id, (newRoom, response) => {
+    socket.emit("joinRoom", roomId, user._id, (newRoom, responseMsg) => {
       setLoadingRoom(false);
-      if (response.statusCode === 404) {
-        console.error(`Status code: ${response.statusCode}. ${response.msg}.`);
-        setTextHeader(response.msg); // selected room not found or something
+      if (responseMsg.statusCode === 404 || responseMsg.statusCode === 400) {
+        console.error(`Status code: ${responseMsg.statusCode}. ${responseMsg.message}.`);
+        setTextHeader(responseMsg.message); // selected room not found or something
         setRoomFound(false);
       } else {
         setRoomFound(true);
@@ -109,7 +109,7 @@ const MainPage = ({ noRoom }) => {
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
             <div className="m-auto">
-              <p>{textHeader}</p>
+              <p className="text-2xl">{textHeader}</p>
               <img className="w-96" src={errorImage}></img>
             </div>
           )}

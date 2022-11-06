@@ -49,23 +49,18 @@ const onSocketConection = (socket, io) => {
     try {
       if (!roomId || !userId) return;
 
-      const updatedRooms = await joinRoomDB(userId, roomId);
+      const dbResponse = await joinRoomDB(userId, roomId);
 
-      const newRoom = updatedRooms?.newRoom;
-      const currentRoom = updatedRooms?.currentRoom;
+      const newRoom = dbResponse?.newRoom;
+      const currentRoom = dbResponse?.currentRoom;
+      const { responseMsg } = dbResponse;
 
       socket.join(roomId);
       socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
 
       io.emit("userChangedRoom", newRoom, currentRoom);
 
-      if (!newRoom)
-        callback(newRoom, {
-          msg: "selected room not found",
-          statusCode: 404,
-        });
-      // need to make better error handling
-      else callback(newRoom, { msg: "joined room!", statusCode: 200 });
+      callback(newRoom, responseMsg);
       rooms.push(roomId);
     } catch (err) {
       console.log(err);

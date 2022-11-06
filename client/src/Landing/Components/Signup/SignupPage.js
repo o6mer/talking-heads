@@ -40,7 +40,7 @@ const SignupPage = () => {
       if (response.ok) {
         console.log(data);
         setUser(data.user);
-        navigate("/main/1");
+        navigate("/main");
       } else {
         alert(data.message);
       }
