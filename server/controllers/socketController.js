@@ -54,9 +54,10 @@ const onSocketConection = (socket, io) => {
       const newRoom = dbResponse?.newRoom;
       const currentRoom = dbResponse?.currentRoom;
       const { responseMsg } = dbResponse;
-
-      socket.join(roomId);
-      socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
+      if (newRoom) {
+        socket.join(roomId);
+        socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
+      }
 
       io.emit("userChangedRoom", newRoom, currentRoom);
 

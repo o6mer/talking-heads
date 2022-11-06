@@ -20,8 +20,12 @@ const RoomItem = ({ room }) => {
     socket.on("receiveMsg", (msg, roomId) => {
       if (roomId === _id) setShownMessage(msg);
     });
-    if (isRoomFull) setRoute("");
   }, []);
+
+  useEffect(() => {
+    if (isRoomFull) setRoute("");
+    else setRoute(`/main/${_id}`);
+  }, [isRoomFull]);
 
   const handleMouseHover = () => {
     setLock(LockIcon);
