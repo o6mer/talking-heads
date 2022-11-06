@@ -7,12 +7,9 @@ const ErrorPage = () => {
     console.error("Status code: 404. Page not found");
   }, []);
   return (
-    <div>
-      <NavBar isError={true} />
-      <div className={"items-center flex flex-col mt-20"}>
-        <p>Page not found</p>
-        <img className={"w-96"} src={ErrorImage} />
-      </div>
+    <div className={"items-center flex flex-col justify-center w-full h-full"}>
+      <p>Page not found</p>
+      <img className={"w-96"} alt="page not found" src={ErrorImage} />
     </div>
   );
 };
