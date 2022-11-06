@@ -6,6 +6,7 @@ import { Button, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "../../../Landing/hooks/useAuth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import PasswordInput from "../General/PasswordInput";
 
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm("login");
@@ -56,16 +57,7 @@ const LoginPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <TextField
-            margin="dense"
-            onChange={handleChange}
-            type="password"
-            name="password"
-            label="Password"
-            fullWidth
-            variant="standard"
-            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
-          />
+          <PasswordInput password={password} handleChange={handleChange} />
 
           {loading ? (
             <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>

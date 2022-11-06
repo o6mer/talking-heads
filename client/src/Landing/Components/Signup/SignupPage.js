@@ -5,6 +5,7 @@ import useForm from "../../hooks/useForm";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { TextField, Tooltip, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import PasswordInput from "../General/PasswordInput";
 
 const SignupPage = () => {
   const { email, password, userName, profilePictureUrl, formValid, handleChange } = useForm("signup");
@@ -63,22 +64,6 @@ const SignupPage = () => {
         </Link>
         <p className="font-bold text-3xl text-center">Signup</p>
         <form action="" onSubmit={submitHandler} className="flex flex-col gap-2">
-          <div>
-            <img src={profilePictureUrl} alt="" />
-          </div>
-
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="file"
-            name="profilePictureUrl"
-            label="Profile Picture"
-            fullWidth
-            variant="standard"
-            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
-          />
-
           <TextField
             autoFocus
             margin="dense"
@@ -91,17 +76,7 @@ const SignupPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="password"
-            name="password"
-            label="Password"
-            fullWidth
-            variant="standard"
-            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
-          />
+          <PasswordInput password={password} handleChange={handleChange} />
 
           <TextField
             autoFocus
