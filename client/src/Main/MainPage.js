@@ -109,9 +109,9 @@ const MainPage = ({ noRoom }) => {
           ) : roomFound && !noRoom ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
-            <div className="m-auto">
+            <div className="flex flex-col w-full h-full items-center justify-center">
               <p>{textHeader}</p>
-              <img className="w-96" src={errorImage}></img>
+              <img className="w-96" alt="select a room " src={errorImage}></img>
             </div>
           )}
         </div>

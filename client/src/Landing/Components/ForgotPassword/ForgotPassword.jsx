@@ -33,8 +33,13 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen w-screen">
-      <div className="flex flex-col gap-3 bg-[#f1f1f1] p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
+    <div className="flex justify-center items-center h-screen w-screen background-picture bg-cover text-white">
+      <div className="flex flex-col gap-3 bg-fourthy p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px]">
+        <Link to="/login" className="w-min">
+          <Tooltip title="Back to Login">
+            <ArrowBackIcon className="hover:fill-gray-500" />
+          </Tooltip>
+        </Link>
         {emailExists ? (
           <>
             <p className="font-bold text-3xl text-center">Password Reset</p>
@@ -44,11 +49,6 @@ const ForgotPassword = () => {
           </>
         ) : (
           <>
-            <Link to="/login" className="w-min">
-              <Tooltip title="Back to Login">
-                <ArrowBackIcon className="hover:fill-gray-500" />
-              </Tooltip>
-            </Link>
             <p className="font-bold text-3xl text-center">Please enter your Email</p>
 
             <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>
@@ -63,6 +63,7 @@ const ForgotPassword = () => {
                 label="Email"
                 fullWidth
                 variant="standard"
+                sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
               />
               {loading ? (
                 <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
