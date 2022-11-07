@@ -47,6 +47,7 @@ const signup = async (req, res, next) => {
       email,
       password,
       profilePictureUrl,
+      rooms: [],
     });
     newUser = await newUser.save();
   } catch (err) {

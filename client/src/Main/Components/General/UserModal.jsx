@@ -56,7 +56,7 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
                   {userInfo?.email}
                 </p>
               </a>
-              <p className="mt-2">{`${isCreator ? "official room creator" : ""}`}</p>
+              <p className="mt-2 text-thirdy">{`${isCreator ? "~room creator~" : ""}`}</p>
             </Typography>
           </div>
         </Box>

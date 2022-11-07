@@ -34,10 +34,11 @@ const addRoom = async (req, res, next) => {
   let user;
   //trying to search user from db
   try {
-    user = User.findById(roomCreator);
+    user = await User.findById(roomCreator);
   } catch (error) {
     console.log(error);
   }
+
   if (!user) {
     res.json({ message: "creating user not found", statusCode: 404 });
     return;
@@ -49,8 +50,15 @@ const addRoom = async (req, res, next) => {
     messages: [],
     roomCreator,
   });
+
   try {
-    await newRoom.save();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newRoom.save({ session: sess });
+    user.rooms.push(newRoom);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+
     res.json(newRoom._id);
   } catch (err) {
     return next(err);
