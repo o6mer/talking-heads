@@ -1,9 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import RoomItem from "./RoomItem";
+import AddRoomBtn from "./AddRoomBtn";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomList = ({ roomList }) => {
+const RoomList = ({ roomList, setRoomList }) => {
   const { darkMode } = useContext(UserContext);
+
+  const roomsEndRef = useRef(null);
+
+  const scrollToBottom = () => {
+    roomsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   return (
     <section
@@ -12,6 +19,8 @@ const RoomList = ({ roomList }) => {
       {roomList.map((element) => (
         <RoomItem room={element} key={element._id} />
       ))}
+      <AddRoomBtn setRoomList={setRoomList} scrollToBottom={scrollToBottom} />
+      <div ref={roomsEndRef} />
     </section>
   );
 };

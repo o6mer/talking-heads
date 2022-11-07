@@ -56,7 +56,7 @@ const RoomItem = ({ room }) => {
           </p>
         </div>
         <div className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}>
-          <p>{truncate(shownMessage?.msgContent)}</p>
+          <p>{truncate(shownMessage?.msgContent) || "no meesages yet..."}</p>
           <p className="ml-auto">{shownMessage?.msgTime}</p>
         </div>
       </div>

@@ -8,8 +8,10 @@ import Backdrop from "@mui/material/Backdrop";
 import Picture from "../../../Media/NameLogo.png";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
-const UserModal = ({ open, handleClose, userInfo }) => {
+const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
+
+  const isCreator = selectedRoom?.roomCreator === userInfo._id;
 
   let style = {
     position: "absolute",
@@ -48,20 +50,13 @@ const UserModal = ({ open, handleClose, userInfo }) => {
               <p className="text-2xl font-semibold">{`${userInfo?.userName}`}</p>
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              <p
-                className={`text-xl font-semibold ${
-                  darkMode ? "text-gray-400" : "text-gray-600"
-                }`}
-              >{`Email: `}</p>
+              <p className={`text-xl font-semibold ${darkMode ? "text-gray-400" : "text-gray-600"}`}>{`Email: `}</p>
               <a href="#">
-                <p
-                  className={`hover:cursor-pointer ${
-                    darkMode ? "text-blue-300" : "text-blue-500"
-                  }`}
-                >
+                <p className={`hover:cursor-pointer ${darkMode ? "text-blue-300" : "text-blue-500"}`}>
                   {userInfo?.email}
                 </p>
               </a>
+              <p className="mt-2">{`${isCreator ? "official room creator" : ""}`}</p>
             </Typography>
           </div>
         </Box>

@@ -1,4 +1,7 @@
+const mongoose = require("mongoose");
+
 const { Room } = require("../models/roomModel.js");
+const { User } = require("../models/userModel.js");
 const { getRoomByIdDB, sendMessageDB, joinRoomDB } = require("./dbController");
 const bodyParser = require("body-parser");
 
@@ -23,12 +26,28 @@ const getAllRooms = async (req, res, next) => {
 
 const addRoom = async (req, res, next) => {
   const { name, maxPop } = req.body; // getting the room details from the request body
+  const roomCreator = mongoose.Types.ObjectId(req.body.roomCreator);
+  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
+    res.json({ message: "invalid room attributes", statusCode: 400 });
+    return;
+  }
+  let user;
+  //trying to search user from db
+  try {
+    user = User.findById(roomCreator);
+  } catch (error) {
+    console.log(error);
+  }
+  if (!user) {
+    res.json({ message: "creating user not found", statusCode: 404 });
+    return;
+  }
   const newRoom = new Room({
     name,
     maxPop,
     pop: [],
     messages: [],
-    currentSong: "drake",
+    roomCreator,
   });
   try {
     await newRoom.save();

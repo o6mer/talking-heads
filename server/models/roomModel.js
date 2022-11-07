@@ -5,7 +5,7 @@ const roomSchema = new mongoose.Schema({
   maxPop: Number,
   pop: Array,
   messages: Array,
-  currentSong: String,
+  roomCreator: { type: mongoose.Types.ObjectId, ref: "User" },
 });
 
 const Room = mongoose.model("Room", roomSchema);

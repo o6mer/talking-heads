@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
@@ -7,22 +7,26 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import { DialogTitle } from "@mui/material";
+import { Collapse, DialogTitle } from "@mui/material";
 
-const AddRoomBtn = ({ setRoomList }) => {
-  const [open, setOpen] = useState(false);
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import AddCircleIcon from "@mui/icons-material/AddCircle";
+
+const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
+  const { darkMode, user } = useContext(UserContext);
+
   const defaultRoom = {
-    name: "newRoom",
-    maxPop: 10,
+    name: "",
+    maxPop: 0,
     pop: [],
     messages: [],
-    currentSong: "drake",
+    roomCreator: user._id,
   };
 
-  const [roomId, setRoomId] = useState("");
+  const [open, setOpen] = useState(false);
   const [newRoom, setNewRoom] = useState(defaultRoom);
-
-  const { darkMode } = useContext(UserContext);
+  const [AddIcon, setAddIcon] = useState(AddCircleOutlineIcon);
+  const [hovered, setHovered] = useState(false);
 
   const onTyping = (event) => {
     const { name, value } = event.target;
@@ -39,8 +43,17 @@ const AddRoomBtn = ({ setRoomList }) => {
   };
 
   const handleClose = () => {
-    // setNewRoom(defaultRoom);
     setOpen(false);
+  };
+
+  const handleMouseOver = (event) => {
+    setAddIcon(AddCircleIcon);
+    setHovered(true);
+    setTimeout(scrollToBottom, 200);
+  };
+  const handleMouseOut = () => {
+    setAddIcon(AddCircleOutlineIcon);
+    setHovered(false);
   };
 
   const addRoomFront = (addedRoom) => {
@@ -59,7 +72,12 @@ const AddRoomBtn = ({ setRoomList }) => {
         },
         body: JSON.stringify({ ...newRoom }),
       });
+
       const resData = await response.json(); //the room id
+      if (resData.statusCode === 400) {
+        alert(resData.message);
+        return;
+      }
       const finalFinalTheLastRoom = {
         ...newRoom,
         _id: resData,
@@ -73,19 +91,12 @@ const AddRoomBtn = ({ setRoomList }) => {
 
   return (
     <div>
-      <Button
-        variant="outlined"
-        onClick={handleClickOpen}
-        sx={{
-          borderColor: "#0e7b52",
-          color: "#0e7b52",
-          "&:hover": {
-            borderColor: "#095236",
-          },
-        }}
-      >
-        Create new room
-      </Button>
+      <div className={`text-center mt-4`} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
+        <AddIcon fontSize="large" onClick={handleClickOpen} className="hover:cursor-pointer" />
+        <Collapse in={hovered}>
+          <p className="text-xl">Create a room</p>
+        </Collapse>
+      </div>
       <Dialog open={open} onClose={handleClose}>
         <div className={`${darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"}`}>
           <DialogTitle>
