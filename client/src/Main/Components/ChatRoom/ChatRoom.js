@@ -9,12 +9,8 @@ const ChatRoom = ({ selectedRoom }) => {
     <>
       {_id ? (
         <section className="w-full h-full flex">
-          <Chat msgsArr={messages} roomId={_id} key={`chat:${_id}`} />
-          <ProfilesSideBar
-            pop={usersInfo}
-            key={`profileSideBar:${_id}`}
-            selectedRoom={selectedRoom}
-          />
+          <Chat msgsArr={messages} roomId={_id} selectedRoom={selectedRoom} key={`chat:${_id}`} />
+          <ProfilesSideBar pop={usersInfo} key={`profileSideBar:${_id}`} selectedRoom={selectedRoom} />
         </section>
       ) : (
         <div></div>

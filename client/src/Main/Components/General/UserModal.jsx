@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
@@ -6,10 +6,13 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
 import Picture from "../../../Media/NameLogo.png";
+
+import RoomsMenu from "./RoomsMenu.jsx";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
+  const userRoomList = userInfo?.rooms;
 
   const isCreator = selectedRoom?.roomCreator === userInfo._id;
 
@@ -29,6 +32,15 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
   if (darkMode) {
     style = { ...style, backgroundColor: "#1a2329", color: "white" };
   }
+
+  const [anchorEl, setAnchorEl] = useState(null);
+  const openRoomsMenu = Boolean(anchorEl);
+  const handleOpenMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleCloseMenu = () => {
+    setAnchorEl(null);
+  };
 
   return (
     <Modal
@@ -58,6 +70,7 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
               </a>
               <p className="mt-2 text-thirdy">{`${isCreator ? "~room creator~" : ""}`}</p>
             </Typography>
+            <RoomsMenu userRoomList={userRoomList} />
           </div>
         </Box>
       </Fade>

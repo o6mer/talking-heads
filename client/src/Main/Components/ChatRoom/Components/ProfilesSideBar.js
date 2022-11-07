@@ -28,7 +28,6 @@ const ProfilesSideBar = ({ pop, selectedRoom }) => {
         return prev.filter((user) => user._id.toString() !== userId.toString());
       });
     });
-    console.log(selectedRoom);
   }, []);
 
   const filterUser = (filter) => {

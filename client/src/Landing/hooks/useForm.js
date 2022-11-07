@@ -14,14 +14,12 @@ const useForm = (mode) => {
     if (e.target.name === "email") setEmail(e.target.value);
     if (e.target.name === "password") setPassword(e.target.value);
     if (e.target.name === "userName") setUserName(e.target.value);
-    if (e.target.name === "profilePictureUrl")
-      setProfilePictureUrl(e.target.value);
+    if (e.target.name === "profilePictureUrl") setProfilePictureUrl(e.target.value);
   };
 
   useEffect(() => {
     if (mode === "signup") {
-      if (userName && profilePictureUrl && password && email)
-        return setFormValid(true);
+      if (userName && profilePictureUrl && password && email) return setFormValid(true);
 
       return setFormValid(false);
     }
