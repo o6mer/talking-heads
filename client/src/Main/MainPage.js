@@ -9,6 +9,7 @@ import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
+import MenuIcon from "@mui/icons-material/Menu";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -99,7 +100,10 @@ const MainPage = ({ noRoom }) => {
     >
       <NavBar />
       {roomList ? (
-        <div className="flex h-[90%] grow shrink basis-auto">
+        <div className="flex h-[90%] grow shrink basis-auto relative">
+          <div className="block absolute top-0 left-0 md:hidden ">
+            <MenuIcon />
+          </div>
           <SideBar selectedRoom={selectedRoom} roomList={roomList} setRoomList={setRoomList} />
 
           {loadingRoom ? (
