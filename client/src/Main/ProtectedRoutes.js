@@ -23,7 +23,7 @@ const LoadingPage = () => {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      navigate("/");
+      navigate("/login");
     }, 2000);
     return () => {
       clearTimeout(timer);

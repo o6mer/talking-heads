@@ -29,9 +29,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
     <div
       className={`max-w-max p-3 gap-3 font-bold justify-around rounded-md text-white ${
         isLoggedInUser
-          ? `self-end  ${
-              darkMode ? "bg-[#18364d] hover:bg-primaryDark" : "bg-secondary text-thirdy hover:bg-[#caeee3]"
-            }`
+          ? `self-end  ${darkMode ? "bg-fourthy hover:bg-thirdy" : "bg-secondary text-thirdy hover:bg-[#caeee3]"}`
           : "text-secondary bg-thirdy hover:bg-fourthy"
       } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}
     >
@@ -54,7 +52,7 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg }) => {
       </div>
 
       <div className="flex">
-        <p className="text-sm text-right text-[#a6bbc8]">{msgTime}</p>
+        <p className="text-sm text-right text-primary">{msgTime}</p>
         {isLoggedInUser && (
           <button
             id="basic-button"

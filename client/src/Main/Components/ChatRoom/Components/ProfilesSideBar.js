@@ -46,16 +46,8 @@ const ProfilesSideBar = ({ pop, selectedRoom }) => {
         darkMode ? "bg-secondaryDark" : "bg-secondary"
       }`}
     >
-      <SearchBar
-        query="user"
-        filterFunc={filterUser}
-        clearFilter={clearFilter}
-      />
-      <section
-        className={`flex flex-col  h-full overflow-y-auto ${
-          darkMode ? "scrollbar-dark" : "scrollbar"
-        }`}
-      >
+      <SearchBar query="user" filterFunc={filterUser} clearFilter={clearFilter} />
+      <section className={`flex flex-col  h-full overflow-y-auto ${darkMode ? "scrollbar-dark" : "scrollbar"}`}>
         {people.map((element) => {
           return <ProfilesSideBarItem user={element} key={element?._id} />;
         })}
@@ -78,9 +70,7 @@ const ProfilesSideBarItem = (props) => {
       <div
         className={`hover:cursor-pointer   
       ${
-        darkMode
-          ? "bg-secondaryDark hover:bg-primaryDark"
-          : "bg-secondary hover:bg-primary"
+        darkMode ? "bg-secondaryDark hover:bg-primaryDark" : "bg-secondary hover:bg-primary"
       } flex py-2 px-3 items-center justify-start gap-3 `}
         onClick={handleOpen}
       >

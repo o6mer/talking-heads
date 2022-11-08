@@ -19,7 +19,7 @@ const SearchBar = ({ query, filterFunc, clearFilter }) => {
   }, [filter]);
 
   return (
-    <div className={`flex gap-2 p-4`}>
+    <div className={`flex gap-2 p-4 shadow-[0_10px_20px_-10px_rgba(0,0,0,0.1)]`}>
       <form
         className={`flex gap-2`}
         onSubmit={(e) => {

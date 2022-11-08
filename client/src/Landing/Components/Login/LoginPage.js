@@ -5,6 +5,8 @@ import { UserContext } from "../../../contexts/UserContextProvider";
 import { Button, TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "../../../Landing/hooks/useAuth";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+import PasswordInput from "../General/PasswordInput";
 
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm("login");
@@ -19,7 +21,7 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3001/api/user/login", {
+      const response = await fetch(process.env.REACT_APP_API_URL + "/user/login", {
         method: "POST",
         body: JSON.stringify({ email, password }),
         headers: {
@@ -36,9 +38,10 @@ const LoginPage = () => {
       alert(error);
     }
   };
+
   return (
     <div className="flex justify-center items-center h-screen w-screen background-picture bg-cover ">
-      <div className="flex flex-col gap-3 bg-fourthy p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] text-white">
+      <div className="flex flex-col gap-3 bg-fourthy p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] text-white shadow-xl">
         <p className="font-bold text-3xl ">Please login to start chatting</p>
 
         <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>
@@ -51,24 +54,17 @@ const LoginPage = () => {
             label="Email"
             fullWidth
             variant="standard"
+            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <TextField
-            margin="dense"
-            onChange={handleChange}
-            type="password"
-            name="password"
-            label="Password"
-            fullWidth
-            variant="standard"
-          />
+          <PasswordInput password={password} handleChange={handleChange} />
 
           {loading ? (
             <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
               disabled
             </LoadingButton>
           ) : (
-            <Button margin="normal" variant="contained" type="submit" disabled={!formValid} fullWidth>
+            <Button margin="normal" variant="contained" type="submit" disabled={!formValid} fullWidth color="primary">
               Login
             </Button>
           )}
@@ -76,7 +72,7 @@ const LoginPage = () => {
         <div className="text-center">
           <RouterLink
             to="/forgotPassword"
-            className="text-[#1976d2] underline decoration-[#4986c28e]  hover:decoration-[#1976d2]"
+            className="text-[#4b98e6] underline decoration-[#4986c28e]  hover:decoration-[#1976d2]"
           >
             Forgot Password?
           </RouterLink>
@@ -85,7 +81,7 @@ const LoginPage = () => {
           Don't have an account?
           <RouterLink
             to="/signup"
-            className="text-[#1976d2] underline decoration-[#4986c28e]  hover:decoration-[#1976d2]"
+            className="text-[#4b98e6] underline decoration-[#4986c28e]  hover:decoration-[#1976d2]"
           >
             Signup
           </RouterLink>
