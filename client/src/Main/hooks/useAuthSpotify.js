@@ -1,14 +1,13 @@
 import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { UserContext } from "../../contexts/UserContextProvider";
-import { useNavigate } from "react-router-dom";
 
 export default function useAuth() {
   // const [accessToken, setAccessToken] = useState(currentAccessToken);
   const [spotifyCode, setSpotifyCode] = useState();
   const [refreshToken, setRefreshToken] = useState();
   const [expiresIn, setExpiresIn] = useState();
-  const { accessToken, setAccessToken, currentRoomId } = useContext(UserContext);
+  const { accessToken, setAccessToken } = useContext(UserContext);
 
   useEffect(() => {
     const storedData = JSON.parse(localStorage.getItem("spotifyAccessToken"));
@@ -47,14 +46,14 @@ export default function useAuth() {
     if (!spotifyCode) return;
 
     axios
-      .post(process.env.REACT_APP_API_URL + "/spotify/login", {
+      .post("http://localhost:3001/api/spotify/login", {
         code: spotifyCode,
       })
       .then((res) => {
         setAccessToken(res.data.accessToken);
         setRefreshToken(res.data.refreshToken);
         setExpiresIn(res.data.expiresIn);
-        window.history.pushState({}, null, `/main/${currentRoomId || 1}`);
+        window.history.pushState({}, null, "/main/1");
       })
       .catch((err) => {
         if (err.response.status === 405) {
@@ -72,7 +71,7 @@ export default function useAuth() {
     if (!refreshToken || !expiresIn || accessToken) return;
     const interval = setInterval(() => {
       axios
-        .post(process.env.REACT_APP_API_URL + "/spotify/refresh", {
+        .post("http://localhost:3001/api/spotify/refresh", {
           refreshToken,
         })
         .then((res) => {

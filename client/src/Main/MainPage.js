@@ -9,7 +9,6 @@ import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
-import MenuIcon from "@mui/icons-material/Menu";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -28,7 +27,7 @@ const MainPage = ({ noRoom }) => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const response = await fetch(`${process.env.REACT_APP_API_URL}/room`); // using "getAllRooms" from the API
+        const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
         const resData = await response.json(); //resData.roomList is the roomList (ofc)
         setRoomList(resData.roomList);
       } catch (error) {
@@ -55,7 +54,7 @@ const MainPage = ({ noRoom }) => {
 
   useEffect(() => {
     if (!paramsRoomId) return;
-    setCurrentRoomId(paramsRoomId);
+
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
@@ -78,6 +77,7 @@ const MainPage = ({ noRoom }) => {
       } else {
         setRoomFound(true);
         setSelRoom(newRoom);
+        setCurrentRoomId(roomId);
       }
     });
   };
@@ -92,16 +92,13 @@ const MainPage = ({ noRoom }) => {
 
   return (
     <main
-      className={`h-full max-h-screen w-full z-10 ${
+      className={`h-full max-h-screen w-full ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
       } flex flex-col`}
     >
       <NavBar />
       {roomList ? (
-        <div className="flex h-[90%] grow shrink basis-auto relative">
-          <div className="block absolute top-0 left-0 md:hidden ">
-            <MenuIcon />
-          </div>
+        <div className="flex h-[90%] grow shrink basis-auto">
           <SideBar selectedRoom={selectedRoom} roomList={roomList} setRoomList={setRoomList} />
 
           {loadingRoom ? (
@@ -111,9 +108,9 @@ const MainPage = ({ noRoom }) => {
           ) : roomFound && !noRoom ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
-            <div className="flex flex-col w-full h-full items-center justify-center">
-              <p>{textHeader}</p>
-              <img className="w-96" alt="select a room " src={errorImage}></img>
+            <div className="m-auto">
+              <p className="text-2xl">{textHeader}</p>
+              <img className="w-96" src={errorImage}></img>
             </div>
           )}
         </div>
