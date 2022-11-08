@@ -65,15 +65,6 @@ const addRoom = async (req, res, next) => {
   }
 };
 
-const deleteRoom = async (req, res, next) => {
-  const { _id } = req.body;
-  try {
-    Room.findByIdAndDelete(_id);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
 const deleteMessage = async (req, res, next) => {
   try {
     const roomId = req.params.roomId;

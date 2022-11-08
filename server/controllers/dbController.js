@@ -1,5 +1,5 @@
-const { Room } = require("../models/roomModel.js");
 const mongoose = require("mongoose");
+const { Room } = require("../models/roomModel.js");
 const { User } = require("../models/userModel.js");
 
 const getUserNoPass = async (userId) => {
@@ -16,6 +16,32 @@ const getRoomByIdDB = async (roomId) => {
     return new Error(err);
   }
   return room;
+};
+
+const deleteRoomDB = async (userId, roomId) => {
+  let roomToDelete;
+  try {
+    //populate makes userId to user in roomCreator
+    roomToDelete = await Room.findById(roomId).populate("roomCreator");
+    const user = await User.findById(userId);
+
+    if (roomToDelete.roomCreator._id.toString() !== userId.toString()) {
+      return {
+        message: "only the room creator can delete his room",
+        statusCode: 400,
+      };
+    }
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await roomToDelete.remove({ session: sess });
+    roomToDelete.roomCreator.rooms.pull(roomToDelete);
+    await roomToDelete.roomCreator.save({ session: sess });
+    await sess.commitTransaction();
+
+    return { message: "Room deleted successfully!", statusCode: 200 };
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 const sendMessageDB = async (msg, roomId) => {
@@ -166,4 +192,5 @@ module.exports = {
   joinRoomDB,
   deleteMessageDB,
   leaveRoomDB,
+  deleteRoomDB,
 };

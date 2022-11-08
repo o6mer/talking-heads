@@ -3,6 +3,7 @@ const {
   joinRoomDB,
   deleteMessageDB,
   leaveRoomDB,
+  deleteRoomDB,
 } = require("./dbController");
 const uniqid = require("uniqid");
 
@@ -11,6 +12,7 @@ const onSocketConection = (socket, io) => {
   socket.on("joinRoom", onJoinRoom);
   socket.on("userDisconnected", onUserDisconnected);
   socket.on("delMsg", onDeleteMessage);
+  socket.on("delRoom", onDeleteRoom);
 
   async function onUserDisconnected(userId, roomId) {
     socket.to(roomId).emit("userLeftRoom", userId);
@@ -66,6 +68,17 @@ const onSocketConection = (socket, io) => {
     } catch (err) {
       console.log(err);
     }
+  }
+
+  async function onDeleteRoom(userId, roomId, callback) {
+    const dbResponse = await deleteRoomDB(userId, roomId);
+    console.log(dbResponse);
+    if (dbResponse.statusCode === 400) {
+      callback(dbResponse);
+      return;
+    }
+    io.emit("roomDeleted", roomId);
+    callback(dbResponse);
   }
 };
 

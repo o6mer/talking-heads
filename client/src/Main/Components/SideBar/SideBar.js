@@ -4,13 +4,14 @@ import SearchBar from "../General/SearchBar";
 import AddRoomBtn from "./Components/AddRoomBtn";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import { socket } from "../../MainPage";
+import { useNavigate } from "react-router-dom";
 
 const SideBar = (props) => {
   const { roomList, joinRoom } = props;
   const [filteredRoomList, setList] = useState(roomList);
+  const navigate = useNavigate();
 
-  const { darkMode } = useContext(UserContext);
-
+  const { darkMode, currentRoomId } = useContext(UserContext);
   useEffect(() => {
     //getting leftRoom and joinedRoom from backend and modifying the list
     socket.on("userChangedRoom", (joinedRoom, leftRoom) => {
@@ -30,7 +31,20 @@ const SideBar = (props) => {
         });
       });
     });
+    socket.on("roomDeleted", (roomId) => {
+      deleteRoom(roomId);
+      if (currentRoomId.toString() === roomId.toString()) {
+        navigate("/main/");
+      }
+    });
   }, []);
+
+  //delete a room in the front
+  const deleteRoom = (roomId) => {
+    setList(() => {
+      return filteredRoomList.filter((room) => room._id !== roomId);
+    });
+  };
 
   //passing that function to the search bar component
   const filterRooms = (filter) => {
