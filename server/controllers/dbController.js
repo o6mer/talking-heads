@@ -67,11 +67,22 @@ const leaveRoomDB = async (userId, roomId) => {
 };
 
 const joinRoomDB = async (userId, roomId) => {
-  //turns string id to ObjectId
-
   const userIdAsObjectId = mongoose.Types.ObjectId(userId);
   try {
     let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
+    let selectedRoom;
+
+    if (mongoose.Types.ObjectId.isValid(roomId)) {
+      selectedRoom = await Room.findById(roomId);
+      if (selectedRoom) {
+        const { pop, maxPop } = selectedRoom;
+        if (pop.length === maxPop) {
+          return {
+            responseMsg: { message: "selected room is full", statusCode: 400 },
+          };
+        }
+      }
+    }
 
     if (currentRoom) {
       //remove the user from his current room
@@ -83,11 +94,21 @@ const joinRoomDB = async (userId, roomId) => {
 
       await currentRoom.save();
     }
-    if (!mongoose.Types.ObjectId.isValid(roomId)) return;
 
-    const selectedRoom = await Room.findById(roomId);
-    if (!selectedRoom && currentRoom) return { currentRoom };
-    if (!selectedRoom) return;
+    //error handling in case selected/previous room not found
+    if (currentRoom && !selectedRoom)
+      return {
+        currentRoom,
+        responseMsg: { message: "selected room not found", statusCode: 404 },
+      };
+    if (!selectedRoom)
+      return {
+        responseMsg: {
+          message: "selected room not found",
+          statusCode: 404,
+        },
+      };
+
     //add user to his selected room and updating db
     selectedRoom.pop.push(userIdAsObjectId);
     await selectedRoom.save();
@@ -126,11 +147,23 @@ const joinRoomDB = async (userId, roomId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
-    return { newRoom, currentRoom };
+    return {
+      newRoom,
+      currentRoom,
+      responseMsg: { message: "room changed successfully", statusCode: 200 },
+    };
   } catch (err) {
     console.log("errrr", err);
-    // return new Error(err);
+    return {
+      responseMsg: { message: "an error has occured", statusCode: 400 },
+    };
   }
 };
 
-module.exports = { getRoomByIdDB, sendMessageDB, joinRoomDB, deleteMessageDB, leaveRoomDB };
+module.exports = {
+  getRoomByIdDB,
+  sendMessageDB,
+  joinRoomDB,
+  deleteMessageDB,
+  leaveRoomDB,
+};
