@@ -43,7 +43,7 @@ const Keyboard = (props) => {
           <SendIcon
             fontSize="large"
             sx={{
-              color: "#0e7b52",
+              // color: "#0e7b52",
               transition: "300ms all",
               borderRadius: "50%",
               padding: "0.3rem",
