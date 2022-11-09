@@ -9,11 +9,13 @@ const ForgotPassword = () => {
   const [email, setEmail] = useState("");
   const [emailExists, setEmailExists] = useState(false);
 
+  const navigate = useNavigate();
+
   const submitHandler = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/user/forgotPassword`, {
+      const response = await fetch("http://localhost:3001/api/user/forgotPassword", {
         method: "POST",
         body: JSON.stringify({ email }),
         headers: {
@@ -23,6 +25,7 @@ const ForgotPassword = () => {
       const data = await response.json();
       if (response.ok) {
         setEmailExists(true);
+        // navigate("/login");
       } else {
         throw new Error(data.message);
       }
@@ -49,6 +52,11 @@ const ForgotPassword = () => {
           </>
         ) : (
           <>
+            <Link to="/login" className="w-min">
+              <Tooltip title="Back to Login">
+                <ArrowBackIcon className="hover:fill-gray-500" />
+              </Tooltip>
+            </Link>
             <p className="font-bold text-3xl text-center">Please enter your Email</p>
 
             <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>

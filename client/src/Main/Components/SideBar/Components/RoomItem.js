@@ -7,10 +7,13 @@ import Tooltip from "@mui/material/Tooltip";
 
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, pop, messages } = room;
-  const rowContainerStyle = "flex items-center justify-between ";
+  const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
+  const isRoomFull = maxPop === pop.length;
+  // const [Lock, setLock] = useState(LockOutlinedIcon);
+  // const [route, setRoute] = useState(`/main/${_id}`);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {

@@ -30,7 +30,7 @@ const SignupPage = () => {
     setLoading(true);
     let data;
     try {
-      const response = await fetch(process.env.REACT_APP_API_URL + "/user/signup", {
+      const response = await fetch("http://localhost:3001/api/user/signup", {
         method: "POST",
         body: JSON.stringify({ userName, email, password, profilePictureUrl }),
         headers: {

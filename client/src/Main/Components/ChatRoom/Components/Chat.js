@@ -31,7 +31,7 @@ const Chat = ({ roomId, msgsArr }) => {
   }, [messages]);
 
   const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView();
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   //@@@ Back-End methods @@@
