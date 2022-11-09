@@ -30,7 +30,7 @@ const useAuth = () => {
     setTokenExpoDate(null);
     setUser(null);
     setCurrentRoomId(null);
-    navigate("/");
+    navigate("/login");
   }, [currentRoomId]);
 
   useEffect(() => {

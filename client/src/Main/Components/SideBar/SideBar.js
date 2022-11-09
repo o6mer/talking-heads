@@ -45,15 +45,11 @@ const SideBar = (props) => {
 
   return (
     <aside
-      className={`flex flex-col h-full max-w-xs ${
+      className={`md:flex hidden flex-col h-full w-full max-w-xs ${
         darkMode ? "bg-secondaryDark" : "bg-secondary"
       } pb-4`}
     >
-      <SearchBar
-        query="room"
-        filterFunc={filterRooms}
-        clearFilter={clearFilter}
-      />
+      <SearchBar query="room" filterFunc={filterRooms} clearFilter={clearFilter} />
       <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
       <div className="mt-auto mx-auto">
         <AddRoomBtn roomList={filteredRoomList} setRoomList={setList} />
