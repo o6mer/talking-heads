@@ -1,10 +1,5 @@
 import "./App.css";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import LandingPage from "./Landing/LandingPage";
 import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
@@ -24,7 +19,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forgotPassword" element={<ForgotPassword />} />
           <Route element={<ProtectedRoutes />}>
-            <Route path="main/:roomId" element={<MainPage />} />
+            <Route path="main/:roomId" element={<MainPage noRoom={false} />} />
             <Route path="/main" element={<MainPage noRoom={true} />} />
           </Route>
           <Route path="*" element={<ErrorPage />} />

@@ -3,7 +3,7 @@ import RoomItem from "./RoomItem";
 import AddRoomBtn from "./AddRoomBtn";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
-const RoomList = ({ roomList, setRoomList }) => {
+const RoomList = ({ roomList }) => {
   const { darkMode } = useContext(UserContext);
 
   const roomsEndRef = useRef(null);
@@ -19,7 +19,7 @@ const RoomList = ({ roomList, setRoomList }) => {
       {roomList.map((element) => (
         <RoomItem room={element} key={element._id} />
       ))}
-      <AddRoomBtn setRoomList={setRoomList} scrollToBottom={scrollToBottom} />
+      <AddRoomBtn scrollToBottom={scrollToBottom} />
       <div ref={roomsEndRef} />
     </section>
   );

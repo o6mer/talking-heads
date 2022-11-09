@@ -10,7 +10,6 @@ import RoomDetails from "./RoomDetails";
 
 const ProfilesSideBar = ({ pop, selectedRoom }) => {
   const [people, setPeople] = useState(pop);
-
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
@@ -52,14 +51,14 @@ const ProfilesSideBar = ({ pop, selectedRoom }) => {
           return <ProfilesSideBarItem user={element} key={element?._id} selectedRoom={selectedRoom} />;
         })}
       </section>
-      <RoomDetails people={people} name={selectedRoom.name} roomId={selectedRoom._id} />
+      <RoomDetails roomCreator={selectedRoom.roomCreator} name={selectedRoom.name} roomId={selectedRoom._id} />
     </aside>
   );
 };
 
 const ProfilesSideBarItem = ({ user, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
-  const isCreator = user._id === selectedRoom.roomCreator;
+  const isCreator = user._id === selectedRoom.roomCreator._id.toString();
 
   //modal stuff
   const [open, setOpen] = React.useState(false);

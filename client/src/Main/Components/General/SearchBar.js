@@ -15,6 +15,7 @@ const SearchBar = ({ query, filterFunc, clearFilter }) => {
   };
 
   useEffect(() => {
+    console.log(filter);
     filterFunc(filter);
   }, [filter]);
 

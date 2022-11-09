@@ -9,7 +9,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 import { Link } from "react-router-dom";
 
-const RoomDetails = ({ people, name, roomId }) => {
+const RoomDetails = ({ roomCreator, name, roomId }) => {
   const { darkMode, user } = useContext(UserContext);
   const userId = user._id;
 
@@ -33,7 +33,7 @@ const RoomDetails = ({ people, name, roomId }) => {
     <div className={`${darkMode ? "bg-thirdyDark" : "bg-thirdy"} p-4 flex`}>
       <div className="flex flex-col gap-4">
         <p className="text-xl font-semibold">{name}</p>
-        <p>{`Users in room: ${people.length}`}</p>
+        <p>{`Owner: ${roomCreator.userName}`}</p>
       </div>
       <div className="ml-auto mt-auto flex flex-col">
         <div>

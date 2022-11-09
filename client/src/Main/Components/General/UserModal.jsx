@@ -14,7 +14,7 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
   const userRoomList = userInfo?.rooms;
 
-  const isCreator = selectedRoom?.roomCreator === userInfo._id;
+  const isCreator = selectedRoom?.roomCreator._id.toString() === userInfo._id;
 
   let style = {
     position: "absolute",

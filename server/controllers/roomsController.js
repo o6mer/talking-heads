@@ -17,7 +17,7 @@ const getRoomById = async (req, res, next) => {
 const getAllRooms = async (req, res, next) => {
   let roomList;
   try {
-    roomList = await Room.find({}); // getting an array of all rooms
+    roomList = await Room.find({}).populate("roomCreator"); // getting an array of all rooms
   } catch (error) {
     console.log(error);
   }

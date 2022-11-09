@@ -16,6 +16,7 @@ export const socket = io("http://localhost:8080", {
 });
 
 const MainPage = ({ noRoom }) => {
+  const [noRoomState, setNoRoomState] = useState(noRoom);
   const [roomList, setRoomList] = useState();
   const { currentRoomId, setCurrentRoomId, user, darkMode } = useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
@@ -29,6 +30,7 @@ const MainPage = ({ noRoom }) => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
         const resData = await response.json(); //resData.roomList is the roomList (ofc)
+        console.log(resData);
         setRoomList(resData.roomList);
       } catch (error) {
         console.log(error);
@@ -53,16 +55,19 @@ const MainPage = ({ noRoom }) => {
   }, [currentRoomId]);
 
   useEffect(() => {
-    if (!paramsRoomId) return;
-
+    if (!paramsRoomId) {
+      setNoRoomState(true);
+      return;
+    }
+    setNoRoomState(false);
     joinRoom(paramsRoomId);
   }, [paramsRoomId]);
 
   useEffect(() => {
-    if (noRoom) {
+    if (noRoomState) {
       leaveRoom();
     }
-  }, [noRoom]);
+  }, [noRoomState]);
 
   const joinRoom = async (roomId) => {
     if (!user) return;
@@ -105,7 +110,7 @@ const MainPage = ({ noRoom }) => {
             <div className="flex w-full h-full justify-center items-center">
               <CircularProgress />
             </div>
-          ) : roomFound && !noRoom ? (
+          ) : roomFound && !noRoomState ? (
             <ChatRoom selectedRoom={selectedRoom} key={selectedRoom._id} />
           ) : (
             <div className="m-auto">

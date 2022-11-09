@@ -44,6 +44,47 @@ const deleteRoomDB = async (userId, roomId) => {
   }
 };
 
+const addRoomDB = async (userId, name, maxPop) => {
+  const roomCreator = mongoose.Types.ObjectId(userId);
+  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
+    return { message: "invalid room attributes", statusCode: 400 };
+  }
+  let user;
+  //trying to search user from db
+  try {
+    user = await User.findById(roomCreator);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (!user) {
+    return { message: "creating user not found", statusCode: 404 };
+  }
+  const newRoom = new Room({
+    name,
+    maxPop,
+    pop: [],
+    messages: [],
+    roomCreator,
+  });
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newRoom.save({ session: sess });
+    user.rooms.push(newRoom);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+    return {
+      data: newRoom,
+      message: "room created successfully",
+      statusCode: 200,
+    };
+  } catch (err) {
+    console.log(err);
+  }
+};
+
 const sendMessageDB = async (msg, roomId) => {
   msg.msgWriter = mongoose.Types.ObjectId(msg.msgWriter);
   try {
@@ -99,7 +140,7 @@ const joinRoomDB = async (userId, roomId) => {
     let selectedRoom;
 
     if (mongoose.Types.ObjectId.isValid(roomId)) {
-      selectedRoom = await Room.findById(roomId);
+      selectedRoom = await Room.findById(roomId).populate("roomCreator");
       if (selectedRoom) {
         const { pop, maxPop } = selectedRoom;
         if (pop.length === maxPop) {
@@ -193,4 +234,5 @@ module.exports = {
   deleteMessageDB,
   leaveRoomDB,
   deleteRoomDB,
+  addRoomDB,
 };

@@ -9,10 +9,12 @@ import DialogContent from "@mui/material/DialogContent";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import { Collapse, DialogTitle } from "@mui/material";
 
+import { socket } from "../../../MainPage.js";
+
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import AddCircleIcon from "@mui/icons-material/AddCircle";
 
-const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
+const AddRoomBtn = ({ scrollToBottom }) => {
   const { darkMode, user } = useContext(UserContext);
 
   const defaultRoom = {
@@ -27,6 +29,8 @@ const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
   const [newRoom, setNewRoom] = useState(defaultRoom);
   const [AddIcon, setAddIcon] = useState(AddCircleOutlineIcon);
   const [hovered, setHovered] = useState(false);
+
+  useEffect(() => {}, []);
 
   const onTyping = (event) => {
     const { name, value } = event.target;
@@ -56,14 +60,8 @@ const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
     setHovered(false);
   };
 
-  const addRoomFront = (addedRoom) => {
-    setRoomList((prev) => {
-      return [...prev, addedRoom];
-    });
-  };
-
   //to get the new room id from mongo
-  const handleSubmit = async () => {
+  const handleSubmit2 = async () => {
     try {
       const response = await fetch(`http://localhost:3001/api/room`, {
         method: "POST",
@@ -82,10 +80,26 @@ const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
         ...newRoom,
         _id: resData,
       };
-      addRoomFront(finalFinalTheLastRoom);
+      // addRoomFront(finalFinalTheLastRoom);
       handleClose();
     } catch (error) {
       console.log(error);
+    }
+  };
+
+  const handleSubmit = () => {
+    const { name, maxPop } = newRoom;
+    handleClose();
+    try {
+      socket.emit("addRoom", user._id, name, maxPop, (response) => {
+        if (response.statusCode === 400 || response.statusCode === 404) {
+          alert(response.message);
+          return;
+        }
+        console.log(response.message);
+      });
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -104,6 +118,7 @@ const AddRoomBtn = ({ setRoomList, scrollToBottom }) => {
           </DialogTitle>
           <DialogContent>
             <TextField
+              autoFocus
               id={`${darkMode && "inputNewRoomDark"}`}
               margin="dense"
               onChange={onTyping}
