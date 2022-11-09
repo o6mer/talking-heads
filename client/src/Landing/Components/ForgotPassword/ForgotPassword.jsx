@@ -52,11 +52,6 @@ const ForgotPassword = () => {
           </>
         ) : (
           <>
-            <Link to="/login" className="w-min">
-              <Tooltip title="Back to Login">
-                <ArrowBackIcon className="hover:fill-gray-500" />
-              </Tooltip>
-            </Link>
             <p className="font-bold text-3xl text-center">Please enter your Email</p>
 
             <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>
