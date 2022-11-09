@@ -5,6 +5,7 @@ import useForm from "../../hooks/useForm";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { TextField, Tooltip, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+import PasswordInput from "../General/PasswordInput";
 
 const SignupPage = () => {
   const { email, password, userName, profilePictureUrl, formValid, handleChange } = useForm("signup");
@@ -40,7 +41,7 @@ const SignupPage = () => {
       if (response.ok) {
         console.log(data);
         setUser(data.user);
-        navigate("/main/1");
+        navigate("/main");
       } else {
         alert(data.message);
       }
@@ -55,29 +56,14 @@ const SignupPage = () => {
 
   return (
     <div className="flex justify-center items-center h-screen background-picture  bg-cover overflow-hidden">
-      <div className="flex flex-col  bg-fourthy text-white p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] transition-all">
+      <div className="flex flex-col  bg-fourthy text-white p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] transition-all shadow-xl">
         <Link to="/login" className="w-min">
           <Tooltip title="Back to Login">
-            <ArrowBackIcon className="hover:fill-gray-500" />
+            <ArrowBackIcon className="hover:fill-gray-300" />
           </Tooltip>
         </Link>
         <p className="font-bold text-3xl text-center">Signup</p>
         <form action="" onSubmit={submitHandler} className="flex flex-col gap-2">
-          <div>
-            <img src={profilePictureUrl} alt="" />
-          </div>
-
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="file"
-            name="profilePictureUrl"
-            label="Profile Picture"
-            fullWidth
-            variant="standard"
-          />
-
           <TextField
             autoFocus
             margin="dense"
@@ -87,18 +73,10 @@ const SignupPage = () => {
             label="Email"
             fullWidth
             variant="standard"
+            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="password"
-            name="password"
-            label="Password"
-            fullWidth
-            variant="standard"
-          />
+          <PasswordInput password={password} handleChange={handleChange} />
 
           <TextField
             autoFocus
@@ -109,6 +87,7 @@ const SignupPage = () => {
             label="User Name"
             fullWidth
             variant="standard"
+            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
           {loading ? (
@@ -122,7 +101,6 @@ const SignupPage = () => {
               type="submit"
               disabled={!formValid}
               fullWidth
-              style={{ backgroundColor: "#0e7b52", color: "black" }}
               // onClick={submitHandler}
             >
               SIGNUP
