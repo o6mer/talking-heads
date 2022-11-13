@@ -3,7 +3,9 @@ const { Room } = require("../models/roomModel.js");
 const { User } = require("../models/userModel.js");
 
 const getUserNoPass = async (userId) => {
-  const user = await User.findOne({ _id: userId }, { password: 0 });
+  const user = await User.findOne({ _id: userId }, { password: 0 }).populate(
+    "rooms"
+  );
   return user;
 };
 
@@ -141,6 +143,7 @@ const joinRoomDB = async (userId, roomId) => {
 
     if (mongoose.Types.ObjectId.isValid(roomId)) {
       selectedRoom = await Room.findById(roomId).populate("roomCreator");
+
       if (selectedRoom) {
         const { pop, maxPop } = selectedRoom;
         if (pop.length === maxPop) {
@@ -150,6 +153,8 @@ const joinRoomDB = async (userId, roomId) => {
         }
       }
     }
+
+    await Room.populate(selectedRoom, { path: "roomCreator.rooms" });
 
     if (currentRoom) {
       //remove the user from his current room
@@ -196,6 +201,7 @@ const joinRoomDB = async (userId, roomId) => {
         },
       },
     ]);
+    await Room.populate(updatedUsersInfoRoom, { path: "usersInfo.rooms" });
 
     //converts all msgWriter to user object corresponding to the userId
     await Promise.all(
@@ -213,6 +219,8 @@ const joinRoomDB = async (userId, roomId) => {
       ...selectedRoom.toObject(),
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
+
+    console.log(newRoom);
 
     return {
       newRoom,

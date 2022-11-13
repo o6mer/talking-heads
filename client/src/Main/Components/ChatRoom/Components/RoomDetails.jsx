@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -6,15 +6,22 @@ import { socket } from "../../../MainPage.js";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import UserModal from "../../General/UserModal";
 
 import { Link } from "react-router-dom";
 
-const RoomDetails = ({ roomCreator, name, roomId }) => {
+const RoomDetails = ({ room }) => {
+  const { roomCreator } = room;
   const { darkMode, user } = useContext(UserContext);
   const userId = user._id;
 
+  //modal stuff
+  const [openModal, setOpenModal] = useState(false);
+  const handleOpenModal = () => setOpenModal(true);
+  const handleCloseModal = () => setOpenModal(false);
+
   const deleteRoom = () => {
-    socket.emit("delRoom", userId, roomId, (response) => {
+    socket.emit("delRoom", userId, room._id, (response) => {
       if (response.statusCode === 400) alert(response.message);
       else console.log(response);
     });
@@ -25,15 +32,19 @@ const RoomDetails = ({ roomCreator, name, roomId }) => {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
-  const handleClose = () => {
+  const handleCloseMenu = () => {
     setAnchorEl(null);
   };
 
   return (
     <div className={`${darkMode ? "bg-thirdyDark" : "bg-thirdy"} p-4 flex`}>
       <div className="flex flex-col gap-4">
-        <p className="text-xl font-semibold">{name}</p>
-        <p>{`Owner: ${roomCreator.userName}`}</p>
+        <p className="text-xl font-semibold">{room.name}</p>
+        <p
+          onClick={handleOpenModal}
+          className="hover:text-primary hover:cursor-pointer"
+        >{`Owner: ${roomCreator.userName}`}</p>
+        <UserModal open={openModal} userInfo={roomCreator} handleClose={handleCloseModal} selectedRoom={room} />
       </div>
       <div className="ml-auto mt-auto flex flex-col">
         <div>
@@ -49,19 +60,19 @@ const RoomDetails = ({ roomCreator, name, roomId }) => {
             id="basic-menu"
             anchorEl={anchorEl}
             open={open}
-            onClose={handleClose}
+            onClose={handleCloseMenu}
             MenuListProps={{
               "aria-labelledby": "basic-button",
             }}
           >
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleCloseMenu}>
               <Link to={`/main`}>
                 <div className="flex gap-2">
                   <MeetingRoomIcon /> <p>leave room</p>
                 </div>
               </Link>
             </MenuItem>
-            <MenuItem onClick={handleClose}>
+            <MenuItem onClick={handleCloseMenu}>
               <div onClick={deleteRoom} className="mb-auto hover:cursor-pointer flex gap-2">
                 <DeleteForeverIcon /> <p>delete room</p>
               </div>

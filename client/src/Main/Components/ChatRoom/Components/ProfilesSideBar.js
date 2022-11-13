@@ -51,7 +51,7 @@ const ProfilesSideBar = ({ pop, selectedRoom }) => {
           return <ProfilesSideBarItem user={element} key={element?._id} selectedRoom={selectedRoom} />;
         })}
       </section>
-      <RoomDetails roomCreator={selectedRoom.roomCreator} name={selectedRoom.name} roomId={selectedRoom._id} />
+      <RoomDetails room={selectedRoom} />
     </aside>
   );
 };

@@ -38,11 +38,15 @@ export default function RoomsMenu({ userRoomList }) {
           "aria-labelledby": "basic-button",
         }}
       >
-        {userRoomList.map((room) => (
-          <MenuItem onClick={handleClose}>
-            <Link to={`/main/${room}`}>{room}</Link>
-          </MenuItem>
-        ))}
+        {userRoomList.length === 0 ? (
+          <MenuItem onClick={handleClose}>user has no rooms</MenuItem>
+        ) : (
+          userRoomList.map((room) => (
+            <MenuItem onClick={handleClose}>
+              <Link to={`/main/${room._id}`}>{room.name}</Link>
+            </MenuItem>
+          ))
+        )}
       </Menu>
     </div>
   );

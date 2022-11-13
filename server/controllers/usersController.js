@@ -14,7 +14,7 @@ const getUserById = async (req, res, next) => {
   const userId = req.params.userId;
   let user;
   try {
-    user = await User.findById(userId);
+    user = await User.findById(userId).populate("rooms");
     const { _id, userName, email, profilePictureUrl, rooms } = user;
     res.json({ _id, userName, email, profilePictureUrl, rooms });
   } catch (err) {
@@ -68,7 +68,7 @@ const login = async (req, res, next) => {
 
   let user;
   try {
-    user = await User.find({ email, password });
+    user = await User.find({ email, password }).populate("rooms");
     user = user[0];
   } catch (error) {
     console.log(error);

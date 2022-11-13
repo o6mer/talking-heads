@@ -56,6 +56,7 @@ const onSocketConection = (socket, io) => {
       const dbResponse = await joinRoomDB(userId, roomId);
 
       const newRoom = dbResponse?.newRoom;
+
       const currentRoom = dbResponse?.currentRoom;
       const { responseMsg } = dbResponse;
       if (newRoom) {
@@ -84,7 +85,6 @@ const onSocketConection = (socket, io) => {
 
   async function onDeleteRoom(userId, roomId, callback) {
     const dbResponse = await deleteRoomDB(userId, roomId);
-    console.log(dbResponse);
     if (dbResponse.statusCode === 400) {
       callback(dbResponse);
       return;

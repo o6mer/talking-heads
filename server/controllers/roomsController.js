@@ -9,7 +9,6 @@ const bodyParser = require("body-parser");
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
   const room = await getRoomByIdDB(roomId);
-  console.log(room);
   if (!room) res.status(400).json({ message: "room not found" });
   res.status(200).json({ room });
 };

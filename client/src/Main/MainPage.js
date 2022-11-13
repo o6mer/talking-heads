@@ -30,7 +30,6 @@ const MainPage = ({ noRoom }) => {
       try {
         const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
         const resData = await response.json(); //resData.roomList is the roomList (ofc)
-        console.log(resData);
         setRoomList(resData.roomList);
       } catch (error) {
         console.log(error);
