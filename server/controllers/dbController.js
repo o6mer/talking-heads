@@ -220,8 +220,6 @@ const joinRoomDB = async (userId, roomId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
-    console.log(newRoom);
-
     return {
       newRoom,
       currentRoom,
