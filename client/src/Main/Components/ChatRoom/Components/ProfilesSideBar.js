@@ -10,7 +10,6 @@ import RoomDetails from "./RoomDetails";
 
 const ProfilesSideBar = ({ pop, selectedRoom }) => {
   const [people, setPeople] = useState(pop);
-
   const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
@@ -46,48 +45,38 @@ const ProfilesSideBar = ({ pop, selectedRoom }) => {
         darkMode ? "bg-secondaryDark" : "bg-secondary"
       }`}
     >
-      <SearchBar
-        query="user"
-        filterFunc={filterUser}
-        clearFilter={clearFilter}
-      />
-      <section
-        className={`flex flex-col  h-full overflow-y-auto ${
-          darkMode ? "scrollbar-dark" : "scrollbar"
-        }`}
-      >
+      <SearchBar query="user" filterFunc={filterUser} clearFilter={clearFilter} />
+      <section className={`flex flex-col  h-full overflow-y-auto ${darkMode ? "scrollbar-dark" : "scrollbar"}`}>
         {people.map((element) => {
-          return <ProfilesSideBarItem user={element} key={element?._id} />;
+          return <ProfilesSideBarItem user={element} key={element?._id} selectedRoom={selectedRoom} />;
         })}
       </section>
-      <RoomDetails people={people} name={selectedRoom.name} />
+      <RoomDetails room={selectedRoom} />
     </aside>
   );
 };
 
-const ProfilesSideBarItem = (props) => {
+const ProfilesSideBarItem = ({ user, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
+  const isCreator = user._id === selectedRoom.roomCreator._id.toString();
 
   //modal stuff
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-  const { user } = props;
   return (
     <>
       <div
         className={`hover:cursor-pointer   
       ${
-        darkMode
-          ? "bg-secondaryDark hover:bg-primaryDark"
-          : "bg-secondary hover:bg-primary"
+        darkMode ? "bg-secondaryDark hover:bg-primaryDark" : "bg-secondary hover:bg-primary"
       } flex py-2 px-3 items-center justify-start gap-3 `}
         onClick={handleOpen}
       >
         <img className="w-8 h-8 rounded-md" src={Logo} alt="Profile Pic"></img>
-        <p className={`flex  text-xl`}>{user.userName}</p>
+        <p className={`flex  text-xl ${isCreator && "text-thirdy"}`}>{user.userName}</p>
       </div>
-      <UserModal open={open} userInfo={user} handleClose={handleClose} />
+      <UserModal open={open} userInfo={user} handleClose={handleClose} selectedRoom={selectedRoom} />
     </>
   );
 };

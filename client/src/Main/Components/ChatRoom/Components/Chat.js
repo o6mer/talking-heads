@@ -8,7 +8,7 @@ import Dashboard from "../../SpotifyApi/Dashboard";
 
 const code = new URLSearchParams(window.location.search).get("code");
 
-const Chat = ({ roomId, msgsArr }) => {
+const Chat = ({ roomId, msgsArr, selectedRoom }) => {
   const [messages, setMessages] = useState(msgsArr); //keeping track on the messages
   const { user, currentRoomId, darkMode } = useContext(UserContext);
 
@@ -91,7 +91,7 @@ const Chat = ({ roomId, msgsArr }) => {
       <div className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${darkMode ? "scrollbar-dark" : "scrollbar"}`}>
         {messages.map((element) => {
           // making ChatMsg components from the messages array
-          return <ChatMsg {...element} key={element?.msgId} delMsg={delMsg} />;
+          return <ChatMsg {...element} key={element?.msgId} selectedRoom={selectedRoom} delMsg={delMsg} />;
         })}
         <div ref={messageEndRef}> </div>
       </div>

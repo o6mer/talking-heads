@@ -39,17 +39,15 @@ const RoomItem = ({ room }) => {
         <div className="flex flex-col w-full justify-between ">
           <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
             <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap text-black ">
-              {name}
+              {name} {isRoomFull && <Lock color="error" />}
             </p>
             <span
-              className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md ${
-                maxPop === pop.length ? "text-red-600" : ``
-              } `}
+              className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
             >{`${pop.length}/${maxPop}`}</span>
           </div>
           <div className={"flex text-lg text-gray-500 items-center justify-start gap-3 w-full"}>
             <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
-              {shownMessage?.msgContent || ""}
+              {shownMessage?.msgContent || "no messages yet..."}
             </p>
             <p className="ml-auto">{shownMessage?.msgTime || ""}</p>
           </div>

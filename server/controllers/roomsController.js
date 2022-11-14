@@ -1,4 +1,7 @@
+const mongoose = require("mongoose");
+
 const { Room } = require("../models/roomModel.js");
+const { User } = require("../models/userModel.js");
 const { getRoomByIdDB, sendMessageDB, joinRoomDB } = require("./dbController");
 const bodyParser = require("body-parser");
 
@@ -6,7 +9,6 @@ const bodyParser = require("body-parser");
 const getRoomById = async (req, res, next) => {
   const roomId = req.params.roomId;
   const room = await getRoomByIdDB(roomId);
-  console.log(room);
   if (!room) res.status(400).json({ message: "room not found" });
   res.status(200).json({ room });
 };
@@ -14,7 +16,7 @@ const getRoomById = async (req, res, next) => {
 const getAllRooms = async (req, res, next) => {
   let roomList;
   try {
-    roomList = await Room.find({}); // getting an array of all rooms
+    roomList = await Room.find({}).populate("roomCreator"); // getting an array of all rooms
   } catch (error) {
     console.log(error);
   }
@@ -23,27 +25,42 @@ const getAllRooms = async (req, res, next) => {
 
 const addRoom = async (req, res, next) => {
   const { name, maxPop } = req.body; // getting the room details from the request body
+  const roomCreator = mongoose.Types.ObjectId(req.body.roomCreator);
+  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
+    res.json({ message: "invalid room attributes", statusCode: 400 });
+    return;
+  }
+  let user;
+  //trying to search user from db
+  try {
+    user = await User.findById(roomCreator);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (!user) {
+    res.json({ message: "creating user not found", statusCode: 404 });
+    return;
+  }
   const newRoom = new Room({
     name,
     maxPop,
     pop: [],
     messages: [],
-    currentSong: "drake",
+    roomCreator,
   });
+
   try {
-    await newRoom.save();
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newRoom.save({ session: sess });
+    user.rooms.push(newRoom);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+
     res.json(newRoom._id);
   } catch (err) {
     return next(err);
-  }
-};
-
-const deleteRoom = async (req, res, next) => {
-  const { _id } = req.body;
-  try {
-    Room.findByIdAndDelete(_id);
-  } catch (error) {
-    console.log(error);
   }
 };
 

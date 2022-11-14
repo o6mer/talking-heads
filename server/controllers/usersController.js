@@ -14,9 +14,9 @@ const getUserById = async (req, res, next) => {
   const userId = req.params.userId;
   let user;
   try {
-    user = await User.findById(userId);
-    const { _id, userName, email, profilePictureUrl } = user;
-    res.json({ _id, userName, email, profilePictureUrl });
+    user = await User.findById(userId).populate("rooms");
+    const { _id, userName, email, profilePictureUrl, rooms } = user;
+    res.json({ _id, userName, email, profilePictureUrl, rooms });
   } catch (err) {
     return next(err);
   }
@@ -47,6 +47,7 @@ const signup = async (req, res, next) => {
       email,
       password,
       profilePictureUrl,
+      rooms: [],
     });
     newUser = await newUser.save();
   } catch (err) {
@@ -67,19 +68,21 @@ const login = async (req, res, next) => {
 
   let user;
   try {
-    user = await User.find({ email, password });
+    user = await User.find({ email, password }).populate("rooms");
+    user = user[0];
   } catch (error) {
     console.log(error);
   }
-  if (!user.length) {
+  if (!user) {
     res.status(400).json({ message: "Invalid username or password" });
     return next();
   }
   res.status(200).json({
-    _id: user[0]._id,
-    userName: user[0].userName,
-    email: user[0].email,
-    profilePictureUrl: user[0].profilePictureUrl,
+    _id: user._id,
+    userName: user.userName,
+    email: user.email,
+    profilePictureUrl: user.profilePictureUrl,
+    rooms: user.rooms,
   });
 };
 

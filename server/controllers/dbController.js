@@ -1,9 +1,11 @@
-const { Room } = require("../models/roomModel.js");
 const mongoose = require("mongoose");
+const { Room } = require("../models/roomModel.js");
 const { User } = require("../models/userModel.js");
 
 const getUserNoPass = async (userId) => {
-  const user = await User.findOne({ _id: userId }, { password: 0 });
+  const user = await User.findOne({ _id: userId }, { password: 0 }).populate(
+    "rooms"
+  );
   return user;
 };
 
@@ -16,6 +18,73 @@ const getRoomByIdDB = async (roomId) => {
     return new Error(err);
   }
   return room;
+};
+
+const deleteRoomDB = async (userId, roomId) => {
+  let roomToDelete;
+  try {
+    //populate makes userId to user in roomCreator
+    roomToDelete = await Room.findById(roomId).populate("roomCreator");
+    const user = await User.findById(userId);
+
+    if (roomToDelete.roomCreator._id.toString() !== userId.toString()) {
+      return {
+        message: "only the room creator can delete his room",
+        statusCode: 400,
+      };
+    }
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await roomToDelete.remove({ session: sess });
+    roomToDelete.roomCreator.rooms.pull(roomToDelete);
+    await roomToDelete.roomCreator.save({ session: sess });
+    await sess.commitTransaction();
+
+    return { message: "Room deleted successfully!", statusCode: 200 };
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+const addRoomDB = async (userId, name, maxPop) => {
+  const roomCreator = mongoose.Types.ObjectId(userId);
+  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
+    return { message: "invalid room attributes", statusCode: 400 };
+  }
+  let user;
+  //trying to search user from db
+  try {
+    user = await User.findById(roomCreator);
+  } catch (error) {
+    console.log(error);
+  }
+
+  if (!user) {
+    return { message: "creating user not found", statusCode: 404 };
+  }
+  const newRoom = new Room({
+    name,
+    maxPop,
+    pop: [],
+    messages: [],
+    roomCreator,
+  });
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await newRoom.save({ session: sess });
+    user.rooms.push(newRoom);
+    await user.save({ session: sess });
+    await sess.commitTransaction();
+    return {
+      data: newRoom,
+      message: "room created successfully",
+      statusCode: 200,
+    };
+  } catch (err) {
+    console.log(err);
+  }
 };
 
 const sendMessageDB = async (msg, roomId) => {
@@ -73,7 +142,8 @@ const joinRoomDB = async (userId, roomId) => {
     let selectedRoom;
 
     if (mongoose.Types.ObjectId.isValid(roomId)) {
-      selectedRoom = await Room.findById(roomId);
+      selectedRoom = await Room.findById(roomId).populate("roomCreator");
+
       if (selectedRoom) {
         const { pop, maxPop } = selectedRoom;
         if (pop.length === maxPop) {
@@ -83,6 +153,8 @@ const joinRoomDB = async (userId, roomId) => {
         }
       }
     }
+
+    await Room.populate(selectedRoom, { path: "roomCreator.rooms" });
 
     if (currentRoom) {
       //remove the user from his current room
@@ -129,6 +201,7 @@ const joinRoomDB = async (userId, roomId) => {
         },
       },
     ]);
+    await Room.populate(updatedUsersInfoRoom, { path: "usersInfo.rooms" });
 
     //converts all msgWriter to user object corresponding to the userId
     await Promise.all(
@@ -166,4 +239,6 @@ module.exports = {
   joinRoomDB,
   deleteMessageDB,
   leaveRoomDB,
+  deleteRoomDB,
+  addRoomDB,
 };
