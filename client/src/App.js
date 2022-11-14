@@ -8,23 +8,39 @@ import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
 import ErrorPage from "./Main/ErrorPage.jsx";
 import ProtectedRoutes from "./Main/ProtectedRoutes";
 import LoginPage from "./Landing/Components/Login/LoginPage";
+import { createTheme, ThemeProvider } from "@mui/material";
 
 function App() {
+  const theme = createTheme({
+    palette: {
+      primary: {
+        main: "#0e7b52",
+        contrastText: "#ffff",
+        multilineColor: "#ffff",
+      },
+      secondary: {
+        main: "#4caf50",
+      },
+    },
+  });
+
   return (
     <UserContextProvider>
-      <Router>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route path="/forgotPassword" element={<ForgotPassword />} />
-          <Route element={<ProtectedRoutes />}>
-            <Route path="main/:roomId" element={<MainPage noRoom={false} />} />
-            <Route path="/main" element={<MainPage noRoom={true} />} />
-          </Route>
-          <Route path="*" element={<ErrorPage />} />
-        </Routes>
-      </Router>
+      <ThemeProvider theme={theme}>
+        <Router>
+          <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forgotPassword" element={<ForgotPassword />} />
+            <Route element={<ProtectedRoutes />}>
+              <Route path="main/:roomId" element={<MainPage noRoom={false}/>} />
+              <Route path="/main" element={<MainPage noRoom={true} />} />
+            </Route>
+            <Route path="*" element={<ErrorPage />} />
+          </Routes>
+        </Router>
+      </ThemeProvider>
     </UserContextProvider>
   );
 }

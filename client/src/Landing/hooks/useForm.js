@@ -4,7 +4,6 @@ const useForm = (mode) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [userName, setUserName] = useState("");
-  const [profilePictureUrl, setProfilePictureUrl] = useState("");
 
   const [formValid, setFormValid] = useState(false);
 
@@ -14,12 +13,11 @@ const useForm = (mode) => {
     if (e.target.name === "email") setEmail(e.target.value);
     if (e.target.name === "password") setPassword(e.target.value);
     if (e.target.name === "userName") setUserName(e.target.value);
-    if (e.target.name === "profilePictureUrl") setProfilePictureUrl(e.target.value);
   };
 
   useEffect(() => {
     if (mode === "signup") {
-      if (userName && profilePictureUrl && password && email) return setFormValid(true);
+      if (userName && password && email) return setFormValid(true);
 
       return setFormValid(false);
     }
@@ -27,12 +25,11 @@ const useForm = (mode) => {
     if (password && email) return setFormValid(true);
 
     setFormValid(false);
-  }, [email, password, userName, profilePictureUrl]);
+  }, [email, password, userName]);
   return {
     email,
     password,
     userName,
-    profilePictureUrl,
     formValid,
     handleChange,
   };

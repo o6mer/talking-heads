@@ -38,7 +38,7 @@ const RoomDetails = ({ room }) => {
   };
 
   return (
-    <div className={`${darkMode ? "bg-thirdyDark" : "bg-thirdy"} p-4 flex`}>
+    <div className={`${darkMode ? "bg-fourthy" : "bg-thirdy"} p-4 flex`}>
       <div className="flex flex-col gap-4">
         <p className="text-xl font-semibold">{room.name}</p>
         <p

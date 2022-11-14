@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext, useRef } from "react";
+import React, { useState, useEffect, useContext, useRef, useLayoutEffect } from "react";
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 import { UserContext } from "../../../../contexts/UserContextProvider";
@@ -14,8 +14,14 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
 
   const messageEndRef = useRef();
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     scrollToBottom();
+  }, []);
+  useLayoutEffect(() => {
+    scrollToBottom();
+  }, [messages]);
+
+  useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
       if (roomId !== currentRoomId) return;
       addMessage(msg);
@@ -28,10 +34,10 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages]);
+  }, []);
 
   const scrollToBottom = () => {
-    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    messageEndRef.current?.scrollIntoView();
   };
 
   //@@@ Back-End methods @@@

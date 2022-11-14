@@ -1,20 +1,19 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import { socket } from "../../../MainPage";
-
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import LockIcon from "@mui/icons-material/Lock";
+import Logo from "../../../../Media/NameLogo.png";
+import Tooltip from "@mui/material/Tooltip";
 
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
-  const isRoomFull = maxPop === pop.length;
-  const [Lock, setLock] = useState(LockOutlinedIcon);
-
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
-  const [route, setRoute] = useState(`/main/${_id}`);
+  const [showRoomPop, setShowRoomPop] = useState(false);
+  const isRoomFull = maxPop === pop.length;
+  // const [Lock, setLock] = useState(LockOutlinedIcon);
+  // const [route, setRoute] = useState(`/main/${_id}`);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
@@ -22,45 +21,39 @@ const RoomItem = ({ room }) => {
     });
   }, []);
 
-  useEffect(() => {
-    if (isRoomFull) setRoute("");
-    else setRoute(`/main/${_id}`);
-  }, [isRoomFull]);
-
-  const handleMouseHover = () => {
-    setLock(LockIcon);
-  };
-  const handleMouseOut = () => {
-    setLock(LockOutlinedIcon);
-  };
-
-  //maybe aravisti :|
-  const truncate = (input) => {
-    return input?.length > 16 ? `${input.substring(0, 16)}...` : input;
-  };
-
   return (
-    <Link to={route} onMouseOver={handleMouseHover} onMouseOut={handleMouseOut}>
-      <div
-        className={`flex flex-col gap-2 min-w-max border-black border-solid border-0 m-0 cursor-pointer p-4 box-border text-xl ${
-          darkMode ? `hover:bg-primaryDark` : "hover:bg-primary"
+    <Tooltip title={name} placement="right" arrow>
+      <Link
+        to={`/main/${_id}`}
+        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-all  border-b-2  border-solid ${
+          darkMode ? `hover:bg-primaryDark border-b-gray-700` : "hover:bg-primary border-b-gray-300"
         } ${currentRoomId === _id ? (darkMode ? "bg-primaryDark" : "bg-primary") : null}`}
+        onMouseOver={(e) => {
+          setShowRoomPop(true);
+        }}
+        onMouseLeave={(e) => {
+          setShowRoomPop(false);
+        }}
       >
-        <div className={rowContainerStyle}>
-          <p className="text-2xl font-bold">
-            {name} {isRoomFull && <Lock color="error" />}
-          </p>
-          <p className="font-bold">
-            <span className={`${darkMode ? "text-white" : "text-black"}`}>{`${pop.length}`}</span>
-            <span className="">{`/${maxPop}`}</span>
-          </p>
+        <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
+        <div className="flex flex-col w-full justify-between ">
+          <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
+            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap text-black ">
+              {name} {isRoomFull && <Lock color="error" />}
+            </p>
+            <span
+              className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
+            >{`${pop.length}/${maxPop}`}</span>
+          </div>
+          <div className={"flex text-lg text-gray-500 items-center justify-start gap-3 w-full"}>
+            <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
+              {shownMessage?.msgContent || "no messages yet..."}
+            </p>
+            <p className="ml-auto">{shownMessage?.msgTime || ""}</p>
+          </div>
         </div>
-        <div className={"flex text-xl text-gray-500 w-full items-center gap-3 p-1"}>
-          <p>{truncate(shownMessage?.msgContent) || "no meesages yet..."}</p>
-          <p className="ml-auto">{shownMessage?.msgTime}</p>
-        </div>
-      </div>
-    </Link>
+      </Link>
+    </Tooltip>
   );
 };
 
