@@ -39,7 +39,11 @@ const RoomItem = ({ room }) => {
         <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
         <div className="flex flex-col w-full justify-between ">
           <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
-            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap text-black ">
+            <p
+              className={`text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ${
+                darkMode ? `text-white` : `text-black`
+              } `}
+            >
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
             <span
