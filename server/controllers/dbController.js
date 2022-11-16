@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { Room } = require("../models/roomModel.js");
 const { User } = require("../models/userModel.js");
 
+const { roomImgUpload } = require("./fileUploadController");
+
 const getUserNoPass = async (userId) => {
   const user = await User.findOne({ _id: userId }, { password: 0 }).populate(
     "rooms"
@@ -47,6 +49,7 @@ const deleteRoomDB = async (userId, roomId) => {
 };
 
 const addRoomDB = async (userId, name, maxPop) => {
+  roomImgUpload.single("image");
   const roomCreator = mongoose.Types.ObjectId(userId);
   if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
     return { message: "invalid room attributes", statusCode: 400 };
