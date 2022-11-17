@@ -11,7 +11,7 @@ const roomImgUpload = multer({
   limits: 500000,
   storage: multer.diskStorage({
     destination: (req, file, callback) => {
-      callback(null, "uploads/roomImages");
+      callback(file, "uploads");
     },
     filename: (req, file, callback) => {
       const ext = MIME_TYPE_MAP[file.mimetype];

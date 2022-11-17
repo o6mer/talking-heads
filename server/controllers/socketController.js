@@ -7,6 +7,7 @@ const {
   addRoomDB,
 } = require("./dbController");
 const uniqid = require("uniqid");
+const fs = require("fs");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
@@ -73,13 +74,18 @@ const onSocketConection = (socket, io) => {
     }
   }
 
-  async function onAddRoom(userId, name, maxPop, callback) {
+  async function onAddRoom(userId, name, maxPop, file, callback) {
+    console.log(file);
+    fs.writeFile("uploads/roomImages.js", file, (err) => {
+      console.log(err);
+    });
     const dbResponse = await addRoomDB(userId, name, maxPop);
     if (dbResponse.statusCode === 400 || dbResponse.statusCode === 404) {
       callback(dbResponse);
       return;
     }
     const newRoom = dbResponse.data;
+    callback(file);
     io.emit("roomAdded", newRoom);
   }
 

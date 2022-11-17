@@ -27,7 +27,6 @@ export default function AddRoomDialog({ open, handleClose }) {
     });
   };
   useEffect(() => {
-    console.log(open);
     setFile();
     setPreviewUrl();
   }, [open]);
@@ -45,12 +44,17 @@ export default function AddRoomDialog({ open, handleClose }) {
     const { name, maxPop } = newRoom;
     handleClose();
     try {
-      socket.emit("addRoom", user._id, name, maxPop, (response) => {
+      // let formData;
+      // if (file) {
+      //   formData = new FormData();
+      //   formData.append("image", file);
+      // }
+      socket.emit("addRoom", user._id, name, maxPop, file, (response) => {
         if (response.statusCode === 400 || response.statusCode === 404) {
           alert(response.message);
           return;
         }
-        console.log(response.message);
+        console.log(response);
       });
     } catch (err) {
       console.log(err);
