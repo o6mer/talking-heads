@@ -105,8 +105,14 @@ const AddRoomBtn = ({ scrollToBottom }) => {
 
   return (
     <div>
-      <div className={`text-center mt-4`} onMouseEnter={handleMouseOver} onMouseLeave={handleMouseOut}>
-        <AddIcon fontSize="large" onClick={handleClickOpen} className="hover:cursor-pointer" />
+      <div className={`text-center mt-4`}>
+        <AddIcon
+          fontSize="large"
+          onClick={handleClickOpen}
+          className="hover:cursor-pointer"
+          onMouseEnter={handleMouseOver}
+          onMouseLeave={handleMouseOut}
+        />
         <Collapse in={hovered}>
           <p className="text-xl">Create a room</p>
         </Collapse>

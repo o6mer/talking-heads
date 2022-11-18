@@ -26,7 +26,7 @@ const RoomItem = ({ room }) => {
     <Tooltip title={name} placement="right" arrow>
       <Link
         to={`/main/${_id}`}
-        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-all  border-b-2  border-solid ${
+        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-[background-color]  border-b-2  border-solid ${
           darkMode ? `hover:bg-primaryDark border-b-gray-700` : "hover:bg-primary border-b-gray-300"
         } ${currentRoomId === _id ? (darkMode ? "bg-primaryDark" : "bg-primary") : null}`}
         onMouseOver={(e) => {
@@ -38,8 +38,8 @@ const RoomItem = ({ room }) => {
       >
         <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
         <div className="flex flex-col w-full justify-between ">
-          <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
-            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap text-black ">
+          <div className="flex text-lg  items-center justify-start gap-3 w-full transition-all">
+            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ">
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
             <span
