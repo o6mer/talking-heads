@@ -42,9 +42,9 @@ const RoomItem = ({ room }) => {
             <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ">
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
-            <span
+            <p
               className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
-            >{`${pop.length}/${maxPop}`}</span>
+            >{`${pop.length}/${maxPop}`}</p>
           </div>
           <div className={"flex text-lg text-gray-500 items-center justify-start gap-3 w-full"}>
             <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
