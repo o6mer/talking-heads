@@ -13,8 +13,6 @@ const RoomItem = ({ room }) => {
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
   const isRoomFull = maxPop === pop.length;
-  // const [Lock, setLock] = useState(LockOutlinedIcon);
-  // const [route, setRoute] = useState(`/main/${_id}`);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
@@ -38,19 +36,19 @@ const RoomItem = ({ room }) => {
       >
         <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
         <div className="flex flex-col w-full justify-between ">
-          <div className="flex text-lg  items-center justify-start gap-3 w-full transition-all">
+          <div className="flex text-lg  items-center justify-between gap-3 w-full transition-all">
             <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ">
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
-            <span
+            <p
               className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
-            >{`${pop.length}/${maxPop}`}</span>
+            >{`${pop.length}/${maxPop}`}</p>
           </div>
-          <div className={"flex text-lg text-gray-500 items-center justify-start gap-3 w-full"}>
+          <div className={"flex text-lg text-gray-500 items-center justify-between gap-3 w-full"}>
             <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
               {shownMessage?.msgContent || "no messages..."}
             </p>
-            <p className="ml-auto">{shownMessage?.msgTime || ""}</p>
+            <p className="">{shownMessage?.msgTime || ""}</p>
           </div>
         </div>
       </Link>

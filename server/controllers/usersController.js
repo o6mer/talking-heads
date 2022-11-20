@@ -2,6 +2,8 @@ const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
 const sgMail = require("@sendgrid/mail");
 const passGenerator = require("generate-password");
+const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -15,6 +17,7 @@ const getUserById = async (req, res, next) => {
   let user;
   try {
     user = await User.findById(userId).populate("rooms");
+    if (!user) return next();
     const { _id, userName, email, profilePictureUrl, rooms } = user;
     res.json({ _id, userName, email, profilePictureUrl, rooms });
   } catch (err) {
@@ -41,11 +44,18 @@ const signup = async (req, res, next) => {
   }
 
   let newUser;
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    res.status(500).json({ message: "Could not create user" });
+    return next();
+  }
   try {
     newUser = new User({
       userName,
       email,
-      password,
+      password: hashedPassword,
       profilePictureUrl,
       rooms: [],
     });
@@ -54,7 +64,28 @@ const signup = async (req, res, next) => {
     console.log(err);
   }
 
-  res.status(201).json({ user: newUser });
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: newUser._id, email: newUser.email },
+      process.env.JWT_SECRECT,
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    res.status(500).json({ message: "Could not create user: " + err });
+    return next();
+  }
+
+  res.status(201).json({
+    user: {
+      _id: newUser._id,
+      userName: newUser.userName,
+      email: newUser.email,
+      profilePictureUrl: newUser.profilePictureUrl,
+      rooms: newUser.rooms,
+      token,
+    },
+  });
 };
 
 const login = async (req, res, next) => {
@@ -68,8 +99,7 @@ const login = async (req, res, next) => {
 
   let user;
   try {
-    user = await User.find({ email, password }).populate("rooms");
-    user = user[0];
+    user = await User.findOne({ email }).populate("rooms");
   } catch (error) {
     console.log(error);
   }
@@ -77,12 +107,41 @@ const login = async (req, res, next) => {
     res.status(400).json({ message: "Invalid username or password" });
     return next();
   }
+  let isValidPassword;
+  try {
+    isValidPassword = await bcrypt.compare(password, user.password);
+  } catch (err) {
+    res.status(400).json({ message: "Invalid username or password" });
+    return next();
+  }
+
+  if (!isValidPassword) {
+    res.status(400).json({ message: "Invalid username or password" });
+    return next();
+  }
+
+  let token;
+  try {
+    token = jwt.sign(
+      { userId: user._id, email: user.email },
+      process.env.JWT_SECRECT,
+      { expiresIn: "1h" }
+    );
+  } catch (err) {
+    res.status(500).json({ message: "Could not login: " + err });
+    return next();
+  }
+  user.token = token;
+
   res.status(200).json({
-    _id: user._id,
-    userName: user.userName,
-    email: user.email,
-    profilePictureUrl: user.profilePictureUrl,
-    rooms: user.rooms,
+    user: {
+      _id: user._id,
+      userName: user.userName,
+      email: user.email,
+      profilePictureUrl: user.profilePictureUrl,
+      rooms: user.rooms,
+      token,
+    },
   });
 };
 

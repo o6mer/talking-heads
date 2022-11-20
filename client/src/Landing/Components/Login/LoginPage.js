@@ -29,9 +29,8 @@ const LoginPage = () => {
         },
       });
       const data = await response.json();
-      console.log(data);
       if (response.ok) {
-        login(data);
+        login(data.user);
         navigate("/main");
       } else throw new Error(data.message);
     } catch (error) {
