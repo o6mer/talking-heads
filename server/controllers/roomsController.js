@@ -20,7 +20,7 @@ const getAllRooms = async (req, res, next) => {
   } catch (error) {
     console.log(error);
   }
-  res.json({ roomList }); //sending the array as a response
+  res.json({ roomList: roomList.map((e) => e.toObject()) }); //sending the array as a response
 };
 
 const addRoom = async (req, res, next) => {

@@ -15,6 +15,7 @@ export default function AddRoomDialog({ open, handleClose }) {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
+  const [lastImg, setLastImg] = useState();
   const filePickerRef = useRef();
 
   const onTyping = (event) => {
@@ -54,7 +55,9 @@ export default function AddRoomDialog({ open, handleClose }) {
           alert(response.message);
           return;
         }
+
         console.log(response);
+        setLastImg(response);
       });
     } catch (err) {
       console.log(err);
@@ -83,6 +86,7 @@ export default function AddRoomDialog({ open, handleClose }) {
         <DialogTitle>
           <div className="flex">
             <p className={"font-bold text-2xl"}>Create new room</p>
+            <img src={`data:image/jpg;base64, ${lastImg}`} />
           </div>
         </DialogTitle>
         <DialogContent>

@@ -49,6 +49,7 @@ const SideBar = (props) => {
       deleteRoom(roomId);
     });
     socket.on("roomAdded", (newRoom) => {
+      console.log(newRoom);
       addRoom(newRoom);
     });
   }, []);

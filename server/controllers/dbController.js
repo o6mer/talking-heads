@@ -48,8 +48,7 @@ const deleteRoomDB = async (userId, roomId) => {
   }
 };
 
-const addRoomDB = async (userId, name, maxPop) => {
-  // roomImgUpload.single("image");
+const addRoomDB = async (userId, name, maxPop, image) => {
   const roomCreator = mongoose.Types.ObjectId(userId);
   if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
     return { message: "invalid room attributes", statusCode: 400 };
@@ -65,9 +64,10 @@ const addRoomDB = async (userId, name, maxPop) => {
   if (!user) {
     return { message: "creating user not found", statusCode: 404 };
   }
-  const newRoom = new Room({
+  let newRoom = new Room({
     name,
     maxPop,
+    image,
     pop: [],
     messages: [],
     roomCreator,
@@ -80,8 +80,10 @@ const addRoomDB = async (userId, name, maxPop) => {
     user.rooms.push(newRoom);
     await user.save({ session: sess });
     await sess.commitTransaction();
+    let newRoomFromDB = await Room.findOne({ name: name });
+    newRoomFromDB = newRoomFromDB.toObject();
     return {
-      data: newRoom,
+      data: newRoomFromDB,
       message: "room created successfully",
       statusCode: 200,
     };

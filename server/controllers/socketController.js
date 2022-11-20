@@ -75,17 +75,14 @@ const onSocketConection = (socket, io) => {
   }
 
   async function onAddRoom(userId, name, maxPop, file, callback) {
-    console.log(file);
-    fs.writeFile("uploads/roomImages.js", file, (err) => {
-      console.log(err);
-    });
-    const dbResponse = await addRoomDB(userId, name, maxPop);
+    const dbResponse = await addRoomDB(userId, name, maxPop, file);
     if (dbResponse.statusCode === 400 || dbResponse.statusCode === 404) {
       callback(dbResponse);
       return;
     }
     const newRoom = dbResponse.data;
-    callback(file);
+    // const { image } = newRoom;
+    // newRoom.image = image.toString("base64");
     io.emit("roomAdded", newRoom);
   }
 
