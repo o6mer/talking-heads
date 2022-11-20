@@ -2,6 +2,7 @@ const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
 const sgMail = require("@sendgrid/mail");
 const passGenerator = require("generate-password");
+const bcrypt = require("bcryptjs");
 require("dotenv").config();
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -15,6 +16,7 @@ const getUserById = async (req, res, next) => {
   let user;
   try {
     user = await User.findById(userId).populate("rooms");
+    if (!user) return next();
     const { _id, userName, email, profilePictureUrl, rooms } = user;
     res.json({ _id, userName, email, profilePictureUrl, rooms });
   } catch (err) {
@@ -41,11 +43,17 @@ const signup = async (req, res, next) => {
   }
 
   let newUser;
+  let hashedPassword;
+  try {
+    hashedPassword = await bcrypt.hash(password, 12);
+  } catch (err) {
+    return next(new Error("Could not create user")).status(500);
+  }
   try {
     newUser = new User({
       userName,
       email,
-      password,
+      password: hashedPassword,
       profilePictureUrl,
       rooms: [],
     });
@@ -68,8 +76,7 @@ const login = async (req, res, next) => {
 
   let user;
   try {
-    user = await User.find({ email, password }).populate("rooms");
-    user = user[0];
+    user = await User.findOne({ email }).populate("rooms");
   } catch (error) {
     console.log(error);
   }
@@ -77,6 +84,19 @@ const login = async (req, res, next) => {
     res.status(400).json({ message: "Invalid username or password" });
     return next();
   }
+  let isValidPassword;
+  try {
+    isValidPassword = await bcrypt.compare(password, user.password);
+  } catch (err) {
+    res.status(400).json({ message: "Invalid username or password" });
+    return next();
+  }
+
+  if (!isValidPassword) {
+    res.status(400).json({ message: "Invalid username or password" });
+    return next();
+  }
+
   res.status(200).json({
     _id: user._id,
     userName: user.userName,
