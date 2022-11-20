@@ -5,6 +5,9 @@ import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
+import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+
 import { DialogTitle } from "@mui/material";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import { socket } from "../../../MainPage.js";
@@ -15,8 +18,12 @@ export default function AddRoomDialog({ open, handleClose }) {
   const [file, setFile] = useState();
   const [previewUrl, setPreviewUrl] = useState();
   const [isValid, setIsValid] = useState(false);
-  const [lastImg, setLastImg] = useState();
   const filePickerRef = useRef();
+
+  const clearImage = () => {
+    setPreviewUrl();
+    setFile();
+  };
 
   const onTyping = (event) => {
     const { name, value } = event.target;
@@ -28,8 +35,7 @@ export default function AddRoomDialog({ open, handleClose }) {
     });
   };
   useEffect(() => {
-    setFile();
-    setPreviewUrl();
+    clearImage();
   }, [open]);
 
   useEffect(() => {
@@ -43,30 +49,23 @@ export default function AddRoomDialog({ open, handleClose }) {
 
   const handleSubmit = () => {
     const { name, maxPop } = newRoom;
+    if (!name || !maxPop) {
+      alert("Please fill the required fields");
+      return;
+    }
     handleClose();
     try {
-      // let formData;
-      // if (file) {
-      //   formData = new FormData();
-      //   formData.append("image", file);
-      // }
       socket.emit("addRoom", user._id, name, maxPop, file, (response) => {
         if (response.statusCode === 400 || response.statusCode === 404) {
           alert(response.message);
           return;
         }
-
-        console.log(response);
-        setLastImg(response);
       });
     } catch (err) {
       console.log(err);
     }
   };
 
-  const pickImageHandler = () => {
-    // filePickerRef.current.click();
-  };
   const pickHandler = (event) => {
     let fileIsValid = isValid;
     if (event.target.files && event.target.files.length === 1) {
@@ -84,22 +83,36 @@ export default function AddRoomDialog({ open, handleClose }) {
     <Dialog open={open} onClose={handleClose}>
       <div className={`${darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"}`}>
         <DialogTitle>
-          <div className="flex">
-            <p className={"font-bold text-2xl"}>Create new room</p>
-            <img src={`data:image/jpg;base64, ${lastImg}`} />
-          </div>
+          <p className={"font-bold text-2xl text-center"}>Create new room</p>
         </DialogTitle>
         <DialogContent>
-          <div className="flex">
-            <input className="mt-auto mb-auto" type="file" accept=".jpg,.png,.jpeg" onChange={pickHandler} />
-            {previewUrl ? (
-              <img className="ml-auto h-auto rounded-lg shadow-md w-20 h-20" src={previewUrl} alt="preview"></img>
-            ) : (
-              <p className="ml-auto text-sm w-20 h-20 border">please pick img</p>
-            )}
+          <div className="flex items-center justify-center">
+            <div className="relative">
+              <label className="hover:cursor-pointer ">
+                {previewUrl ? (
+                  <div className="">
+                    <div className="border border-primary rounded-lg hover:border-thirdy transition-all ">
+                      <img className="ml-auto rounded-lg shadow-md w-20 h-20 shadow " src={previewUrl} alt="preview" />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="ml-auto text-sm w-20 h-20 border-2 rounded-lg text-center hover:text-thirdy flex items-center justify-center transition-all">
+                    <AddAPhotoOutlinedIcon fontSize="large" />
+                  </div>
+                )}{" "}
+                <input className="hidden" type="file" accept=".jpg" onChange={pickHandler} id="imgPicker" />
+              </label>
+              <div
+                className="absolute right-0 bottom-0 hover:cursor-pointer translate-x-4 translate-y-4 rounded-full text-red-600 hover:text-red-800"
+                onClick={clearImage}
+              >
+                {previewUrl && <HighlightOffIcon />}
+              </div>
+            </div>
           </div>
           <TextField
             autoFocus
+            required
             id={`${darkMode && "inputNewRoomDark"}`}
             margin="dense"
             onChange={onTyping}
@@ -114,6 +127,7 @@ export default function AddRoomDialog({ open, handleClose }) {
 
           <TextField
             margin="dense"
+            required
             id={`${darkMode && "inputNewRoomDark"}`}
             onChange={onTyping}
             name="maxPop"

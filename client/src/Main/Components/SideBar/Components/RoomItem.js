@@ -43,7 +43,7 @@ const RoomItem = ({ room }) => {
           setShowRoomPop(false);
         }}
       >
-        <img className="rounded-xl shadow-md" src={`data:image/jpg;base64, ${image}`} alt="roomPic" width="50" />
+        <img className="rounded-xl shadow-md w-12 h-12" src={`data:image/jpg;base64, ${image}`} alt="roomPic" />
         <div className="flex flex-col w-full justify-between ">
           <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
             <p
