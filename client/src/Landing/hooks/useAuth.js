@@ -16,16 +16,17 @@ const useAuth = () => {
     setTokenExpoDate(tokenExpoDate);
 
     localStorage.setItem(
-      "userId",
+      "user",
       JSON.stringify({
         userId: user._id,
+        token: user.token,
         expiration: tokenExpoDate.toISOString(),
       })
     );
   }, []);
 
   const logout = useCallback(() => {
-    localStorage.removeItem("userId");
+    localStorage.removeItem("user");
     socket.emit("userDisconnected", user._id, currentRoomId);
     setTokenExpoDate(null);
     setUser(null);
@@ -43,14 +44,17 @@ const useAuth = () => {
   }, [logout, tokenExpoDate]);
 
   const relogin = useCallback(async () => {
-    const storedData = JSON.parse(localStorage.getItem("userId"));
+    const storedData = JSON.parse(localStorage.getItem("user"));
+    console.log(storedData);
 
     if (!storedData) return;
+    // if (!storedData?.userId || !storedData?.token) return;
 
     const req = await fetch(`http://localhost:3001/api/user/${storedData?.userId}`);
-    const user = await req.json();
-    if (user) {
-      login(user, new Date(storedData.expiration));
+    const userData = await req.json();
+    userData.token = storedData.token;
+    if (userData) {
+      login(userData, new Date(storedData.expiration));
     }
   }, []);
 

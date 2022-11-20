@@ -1,5 +1,4 @@
 //route: /api/room/...
-
 const express = require("express");
 const {
   getRoomById,
@@ -8,8 +7,11 @@ const {
   joinRoom,
   addRoom,
 } = require("../controllers/roomsController");
+const checkAuth = require("../middleware/check-auth");
 
 const router = express.Router();
+
+router.use(checkAuth);
 
 //get
 router.get("/", getAllRooms); // get all the rooms as an array

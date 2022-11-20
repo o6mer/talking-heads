@@ -67,6 +67,7 @@ const AddRoomBtn = ({ scrollToBottom }) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: "Bearer " + user?.token,
         },
         body: JSON.stringify({ ...newRoom }),
       });

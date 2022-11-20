@@ -4,12 +4,12 @@ import SideBar from "./Components/SideBar/SideBar";
 import NavBar from "./Components/General/NavBar";
 import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams } from "react-router-dom";
-import { io } from "socket.io-client";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
 import MenuIcon from "@mui/icons-material/Menu";
+import { io } from "socket.io-client";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -29,7 +29,11 @@ const MainPage = ({ noRoom }) => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/room`); // using "getAllRooms" from the API
+        const response = await fetch(`http://localhost:3001/api/room`, {
+          headers: {
+            Authorization: "Bearer " + user?.token,
+          },
+        }); // using "getAllRooms" from the API
         const resData = await response.json(); //resData.roomList is the roomList (ofc)
         setRoomList(resData.roomList);
       } catch (error) {

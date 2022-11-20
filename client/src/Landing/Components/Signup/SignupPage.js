@@ -39,7 +39,7 @@ const SignupPage = () => {
       });
       data = await response.json();
       if (response.ok) {
-        console.log(data);
+        console.log(data.user);
         setUser(data.user);
         navigate("/main");
       } else {
