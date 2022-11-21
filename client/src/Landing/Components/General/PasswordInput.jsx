@@ -1,9 +1,9 @@
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import { FormControl, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
+import { FormControl, FormHelperText, IconButton, Input, InputAdornment, InputLabel } from "@mui/material";
 import React, { useState } from "react";
 
-const PasswordInput = ({ handleChange, password }) => {
+const PasswordInput = ({ handleChange, password, showHelperText }) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const handleClickShowPassword = () => {
@@ -22,6 +22,7 @@ const PasswordInput = ({ handleChange, password }) => {
         value={password}
         onChange={handleChange}
         name="password"
+        aria-describedby="outlined-password-helper-text"
         endAdornment={
           <InputAdornment position="end">
             <IconButton
@@ -35,6 +36,11 @@ const PasswordInput = ({ handleChange, password }) => {
           </InputAdornment>
         }
       />
+      {showHelperText ? (
+        <FormHelperText id="outlined-password-helper-text" sx={{ color: "#ccc" }}>
+          *Must be at least 8 characters
+        </FormHelperText>
+      ) : null}
     </FormControl>
   );
 };
