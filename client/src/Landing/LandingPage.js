@@ -4,6 +4,7 @@ import Features from "./Components/Home/Features";
 import Hero from "./Components/Home/Hero";
 import HowItWorks from "./Components/Home/HowItWorks";
 import Fade from "react-reveal/Fade";
+import Footer from "./Components/Home/Footer";
 
 const LandingPage = () => {
   // setPassword(e.target.value);
@@ -21,6 +22,7 @@ const LandingPage = () => {
         <Fade>
           <Features />
         </Fade>
+        <Footer />
       </div>
     </main>
   );

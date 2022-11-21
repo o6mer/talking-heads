@@ -29,7 +29,7 @@ const HowItWorks = () => {
         <HowItWorksItem
           number="03"
           header="Start Chatting!"
-          content="Once in a room you will see all the previous messages that have been sent in the chat and ofcourse send your own messages. Also you can see who is currently in the room their profile."
+          content="Once in a room you will see all the previous messages that have been sent in the chat and ofcourse send your own messages. Also you can see who is currently in the room and their profile."
           image={HeroPicture}
           side="left"
         />
