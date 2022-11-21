@@ -45,7 +45,6 @@ const useAuth = () => {
 
   const relogin = useCallback(async () => {
     const storedData = JSON.parse(localStorage.getItem("user"));
-    console.log(storedData);
 
     if (!storedData) return;
     // if (!storedData?.userId || !storedData?.token) return;

@@ -11,7 +11,6 @@ const ProtectedRoutes = () => {
 
   useEffect(() => {
     if (user) return setIsLoggedUser(true);
-    console.log(user);
     relogin();
     // return () => setIsLoggedUser(false);
   }, [user]);
