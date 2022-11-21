@@ -4,7 +4,7 @@ import HeroPicture from "../../../Media/talking_heads_logo1.png";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 const Hero = () => {
   return (
-    <section className="w-screen flex flex-col justify-center items-center pb-16" id="#home">
+    <section className="w-screen flex flex-col justify-center items-center pb-16" id="home">
       <img src={HeroPicture} alt="hero pic" className="w-[500px]" />
 
       <div className="w-full flex items-center justify-center max-w-5xl">
