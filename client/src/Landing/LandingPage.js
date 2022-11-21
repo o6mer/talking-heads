@@ -3,6 +3,7 @@ import NavBar from "./Components/General/NavBar";
 import Features from "./Components/Home/Features";
 import Hero from "./Components/Home/Hero";
 import HowItWorks from "./Components/Home/HowItWorks";
+import Fade from "react-reveal/Fade";
 
 const LandingPage = () => {
   // setPassword(e.target.value);
@@ -14,8 +15,12 @@ const LandingPage = () => {
           <NavBar />
           <Hero />
         </div>
-        <HowItWorks />
-        <Features />
+        <Fade>
+          <HowItWorks />
+        </Fade>
+        <Fade>
+          <Features />
+        </Fade>
       </div>
     </main>
   );
