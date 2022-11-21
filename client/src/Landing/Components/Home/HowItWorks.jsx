@@ -11,7 +11,7 @@ const HowItWorks = () => {
         <HowItWorksItem
           number="01"
           header="Create an account or sign in to an exisisting one"
-          content="Create an account, choose your user name and put in your email and password. After signining in you will be able to choose your profile picture."
+          content="Create an account, choose your user name, put in your email and password. After signining in you will be able to choose your profile picture."
           image={SignupImage}
           side="left"
         />
@@ -19,7 +19,7 @@ const HowItWorks = () => {
       <Fade bottom>
         <HowItWorksItem
           number="02"
-          header="Enter a chat room or create you own"
+          header="Join a chat room or create you own"
           content="Choose a chat room of your liking or create a completly new one. Every room is created by the community and the creator can choose the name, the room image and the maximum amount of people who can join."
           image={HeroPicture}
           side="right"
