@@ -5,7 +5,7 @@ import Fade from "react-reveal/Fade";
 
 const HowItWorks = () => {
   return (
-    <section className="w-full max-w-5xl flex flex-col justify-center items-center gap-10" id="how-it-works">
+    <section className="w-full max-w-5xl flex flex-col justify-center items-center gap-24" id="how-it-works">
       <header className="text-4xl font-bold">Chat with everyone in 3 easy steps</header>
       <Fade bottom>
         <HowItWorksItem
