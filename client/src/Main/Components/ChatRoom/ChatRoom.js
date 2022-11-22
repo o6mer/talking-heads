@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
 import { socket } from "../../MainPage.js";
 import { useNavigate } from "react-router-dom";
+
+import SideBar from "../SideBar/SideBar";
 
 const ChatRoom = ({ selectedRoom }) => {
   const { _id, messages, usersInfo } = selectedRoom;
@@ -20,9 +22,19 @@ const ChatRoom = ({ selectedRoom }) => {
   return (
     <>
       {_id ? (
-        <section className="w-full h-full flex">
-          <Chat msgsArr={messages} roomId={_id} selectedRoom={selectedRoom} key={`chat:${_id}`} />
-          <ProfilesSideBar pop={usersInfo} key={`profileSideBar:${_id}`} selectedRoom={selectedRoom} />
+        <section className="w-full h-full">
+          <div className="w-full h-full flex">
+            <Chat
+              msgsArr={messages}
+              roomId={_id}
+              selectedRoom={selectedRoom}
+              key={`chat:${_id}`}
+            />
+            <ProfilesSideBar
+              key={`profileSideBar:${_id}`}
+              selectedRoom={selectedRoom}
+            />
+          </div>
         </section>
       ) : (
         <div></div>
