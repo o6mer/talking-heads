@@ -15,8 +15,8 @@ import { socket } from "../../../MainPage.js";
 export default function AddRoomDialog({ open, handleClose }) {
   const { darkMode, user } = useContext(UserContext);
   const [newRoom, setNewRoom] = useState({});
-  const [file, setFile] = useState();
-  const [previewUrl, setPreviewUrl] = useState();
+  const [file, setFile] = useState(undefined);
+  const [previewUrl, setPreviewUrl] = useState(undefined);
   const [isValid, setIsValid] = useState(false);
   const filePickerRef = useRef();
 
@@ -49,15 +49,29 @@ export default function AddRoomDialog({ open, handleClose }) {
 
   const handleSubmit = () => {
     const { name, maxPop } = newRoom;
+
+    //Validation~
     if (!name || !maxPop) {
       alert("Please fill the required fields");
       return;
     }
+    console.log();
+    if (!/[a-zA-Z]/.test(name) || maxPop <= 0 || !/^[1-9]\d*(\.\d+)?$/.test(maxPop)) {
+      alert("Invalid room attributes");
+      return;
+    }
+    if (file?.size / Math.pow(1024, 2) > 0.5) {
+      alert("whoa, too big man");
+      return;
+    }
+    //~~~~~~~~~
+
     handleClose();
     try {
       socket.emit("addRoom", user._id, name, maxPop, file, (response) => {
         if (response.statusCode === 400 || response.statusCode === 404) {
-          alert(response.message);
+          const { message, statusCode } = response;
+          alert(`${message}. Error: ${statusCode}`);
           return;
         }
       });

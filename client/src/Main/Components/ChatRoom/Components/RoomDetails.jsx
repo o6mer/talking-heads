@@ -24,7 +24,6 @@ const RoomDetails = ({ room }) => {
   const deleteRoom = () => {
     socket.emit("delRoom", userId, room._id, (response) => {
       if (response.statusCode === 400) alert(response.message);
-      else console.log(response);
     });
   };
 

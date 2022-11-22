@@ -49,10 +49,18 @@ const deleteRoomDB = async (userId, roomId) => {
 };
 
 const addRoomDB = async (userId, name, maxPop, image) => {
+  console.log(image);
   const roomCreator = mongoose.Types.ObjectId(userId);
-  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
+  //Validation~
+  if (
+    !/[a-zA-Z]/.test(name) ||
+    maxPop <= 0 ||
+    !/^[1-9]\d*(\.\d+)?$/.test(maxPop)
+  ) {
     return { message: "invalid room attributes", statusCode: 400 };
   }
+  //~~~~~~~~~
+
   let user;
   //trying to search user from db
   try {

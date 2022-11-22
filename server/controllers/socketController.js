@@ -8,6 +8,8 @@ const {
 } = require("./dbController");
 const uniqid = require("uniqid");
 const fs = require("fs");
+const fsp = require("fs/promises");
+const ServerResponse = require("../serverResponse");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
@@ -74,15 +76,31 @@ const onSocketConection = (socket, io) => {
     }
   }
 
-  async function onAddRoom(userId, name, maxPop, file, callback) {
-    const dbResponse = await addRoomDB(userId, name, maxPop, file);
+  async function onAddRoom(userId, name, maxPop, image, callback) {
+    //only if image comes by
+    if (image == null || !image) {
+      image = await fsp.readFile("serverMedia/NameLogo.png");
+    } else {
+      await fsp.writeFile("uploads/image.jpg", image);
+      const stats = fs.statSync("uploads/image.jpg");
+      const fileSizeMB = stats.size;
+      if (fileSizeMB / (1024 * 1024) >= 1) {
+        const res = callback(
+          new ServerResponse(
+            "file to strong mate, frontend shouldve told you that",
+            400
+          )
+        );
+        return;
+      }
+    }
+
+    const dbResponse = await addRoomDB(userId, name, maxPop, image);
     if (dbResponse.statusCode === 400 || dbResponse.statusCode === 404) {
       callback(dbResponse);
       return;
     }
     const newRoom = dbResponse.data;
-    // const { image } = newRoom;
-    // newRoom.image = image.toString("base64");
     io.emit("roomAdded", newRoom);
   }
 
