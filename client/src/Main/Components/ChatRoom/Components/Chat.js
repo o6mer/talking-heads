@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useContext, useRef, useLayoutEffect } from "react";
+import React, {
+  useState,
+  useEffect,
+  useContext,
+  useRef,
+  useLayoutEffect,
+} from "react";
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 import { UserContext } from "../../../../contexts/UserContextProvider";
@@ -57,7 +63,9 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
     const time = new Date();
     let newMsg = {
       msgWriter: user._id, //need to be user Id (and then needed to be converted to user when coming to the front-end)
-      msgTime: `${time.getHours() < 10 ? `0${time.getHours()}` : time.getHours()}:${
+      msgTime: `${
+        time.getHours() < 10 ? `0${time.getHours()}` : time.getHours()
+      }:${
         time.getMinutes() < 10 ? `0${time.getMinutes()}` : time.getMinutes()
       }`,
       msgContent,
@@ -88,10 +96,21 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
 
   return (
     <section className="flex flex-col w-full h-full ">
-      <div className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${darkMode ? "scrollbar-dark" : "scrollbar"}`}>
+      <div
+        className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
+          darkMode ? "scrollbar-dark" : "scrollbar"
+        }`}
+      >
         {messages.map((element) => {
           // making ChatMsg components from the messages array
-          return <ChatMsg {...element} key={element?.msgId} selectedRoom={selectedRoom} delMsg={delMsg} />;
+          return (
+            <ChatMsg
+              {...element}
+              key={element?.msgId}
+              selectedRoom={selectedRoom}
+              delMsg={delMsg}
+            />
+          );
         })}
         <div ref={messageEndRef}> </div>
       </div>
