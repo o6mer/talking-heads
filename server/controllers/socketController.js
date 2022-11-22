@@ -9,7 +9,7 @@ const {
 const uniqid = require("uniqid");
 const fs = require("fs");
 const fsp = require("fs/promises");
-const ServerResponse = require("../serverResponse");
+const { ServerResponse } = require("../serverResponse");
 
 const onSocketConection = (socket, io) => {
   socket.on("sendMsg", onSendMessage);
@@ -79,7 +79,7 @@ const onSocketConection = (socket, io) => {
   async function onAddRoom(userId, name, maxPop, image, callback) {
     //only if image comes by
     if (image == null || !image) {
-      image = await fsp.readFile("serverMedia/NameLogo.png");
+      image = await fsp.readFile("serverMedia/NameLogo.png"); // default image
     } else {
       await fsp.writeFile("uploads/image.jpg", image);
       const stats = fs.statSync("uploads/image.jpg");
@@ -88,7 +88,8 @@ const onSocketConection = (socket, io) => {
         const res = callback(
           new ServerResponse(
             "file to strong mate, frontend shouldve told you that",
-            400
+            400,
+            "ERROR"
           )
         );
         return;

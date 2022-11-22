@@ -8,7 +8,6 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, image, pop, messages } = room;
-  console.log(image);
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
