@@ -23,7 +23,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`w-full h-[7%] flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl  ${
+      className={`w-full h-[7%] flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl  z-10 ${
         darkMode ? "bg-fourthy" : "bg-thirdy"
       } `}
     >

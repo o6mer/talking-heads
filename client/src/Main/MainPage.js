@@ -112,7 +112,7 @@ const MainPage = ({ noRoom }) => {
     >
       <NavBar />
       {roomList ? (
-        <div className="flex w-full max-h-[93%] grow shrink basis-auto relative flex-col md:flex-row">
+        <div className="flex w-full md:max-h-[93%] max-h-[89%] grow shrink basis-auto relative flex-col md:flex-row z-20">
           <MobileActionBar
             roomList={roomList}
             setRoomList={setRoomList}
