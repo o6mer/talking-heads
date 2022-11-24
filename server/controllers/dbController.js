@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const { Room } = require("../models/roomModel.js");
 const { User } = require("../models/userModel.js");
 
+const { ServerResponse } = require("../serverResponse");
+
 const getUserNoPass = async (userId) => {
   const user = await User.findOne({ _id: userId }, { password: 0 }).populate(
     "rooms"
@@ -28,10 +30,11 @@ const deleteRoomDB = async (userId, roomId) => {
     const user = await User.findById(userId);
 
     if (roomToDelete.roomCreator._id.toString() !== userId.toString()) {
-      return {
-        message: "only the room creator can delete his room",
-        statusCode: 400,
-      };
+      return new ServerResponse(
+        "only the room creator can delete his room",
+        400,
+        "ERROR"
+      );
     }
     const sess = await mongoose.startSession();
     sess.startTransaction();
@@ -40,17 +43,28 @@ const deleteRoomDB = async (userId, roomId) => {
     await roomToDelete.roomCreator.save({ session: sess });
     await sess.commitTransaction();
 
-    return { message: "Room deleted successfully!", statusCode: 200 };
+    return new ServerResponse("Room deleted successfully!", 200, "OK");
   } catch (error) {
     console.log(error);
   }
 };
 
-const addRoomDB = async (userId, name, maxPop) => {
+const addRoomDB = async (userId, name, maxPop, image) => {
   const roomCreator = mongoose.Types.ObjectId(userId);
-  if (!/[a-zA-Z]/.test(name) || maxPop <= 0) {
-    return { message: "invalid room attributes", statusCode: 400 };
+  //Validation~
+  if (
+    !/[a-zA-Z]/.test(name) ||
+    maxPop <= 0 ||
+    !/^[1-9]\d*(\.\d+)?$/.test(maxPop)
+  ) {
+    return new ServerResponse("invalid room attributes", 400, "ERROR");
   }
+  const check = await Room.exists({ name });
+
+  if (check !== null) {
+    return new ServerResponse("room name is already taken", 409, "ERROR");
+  }
+  //~~~~~~~~~
   let user;
   //trying to search user from db
   try {
@@ -60,11 +74,12 @@ const addRoomDB = async (userId, name, maxPop) => {
   }
 
   if (!user) {
-    return { message: "creating user not found", statusCode: 404 };
+    return new ServerResponse("creating user not found", 404, "ERROR");
   }
-  const newRoom = new Room({
+  let newRoom = new Room({
     name,
     maxPop,
+    image,
     pop: [],
     messages: [],
     roomCreator,
@@ -77,11 +92,9 @@ const addRoomDB = async (userId, name, maxPop) => {
     user.rooms.push(newRoom);
     await user.save({ session: sess });
     await sess.commitTransaction();
-    return {
-      data: newRoom,
-      message: "room created successfully",
-      statusCode: 200,
-    };
+    let newRoomFromDB = await Room.findOne({ name: name });
+    newRoomFromDB = newRoomFromDB.toObject();
+    return new ServerResponse("room created successfully", 200, newRoomFromDB);
   } catch (err) {
     console.log(err);
   }
@@ -148,7 +161,11 @@ const joinRoomDB = async (userId, roomId) => {
         const { pop, maxPop } = selectedRoom;
         if (pop.length === maxPop) {
           return {
-            responseMsg: { message: "selected room is full", statusCode: 400 },
+            responseMsg: new ServerResponse(
+              "selected room is full",
+              400,
+              "ERROR"
+            ),
           };
         }
       }
@@ -171,14 +188,19 @@ const joinRoomDB = async (userId, roomId) => {
     if (currentRoom && !selectedRoom)
       return {
         currentRoom,
-        responseMsg: { message: "selected room not found", statusCode: 404 },
+        responseMsg: new ServerResponse(
+          "selected room not found",
+          404,
+          "ERROR"
+        ),
       };
     if (!selectedRoom)
       return {
-        responseMsg: {
-          message: "selected room not found",
-          statusCode: 404,
-        },
+        responseMsg: new ServerResponse(
+          "selected room not found",
+          404,
+          "ERROR"
+        ),
       };
 
     //add user to his selected room and updating db
@@ -223,12 +245,12 @@ const joinRoomDB = async (userId, roomId) => {
     return {
       newRoom,
       currentRoom,
-      responseMsg: { message: "room changed successfully", statusCode: 200 },
+      responseMsg: new ServerResponse("room changed successfully", 200, "OK"),
     };
   } catch (err) {
     console.log("errrr", err);
     return {
-      responseMsg: { message: "an error has occured", statusCode: 400 },
+      responseMsg: new ServerResponse("an error has occured", 400, "ERROR"),
     };
   }
 };

@@ -48,6 +48,7 @@ const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
       deleteRoom(roomId);
     });
     socket.on("roomAdded", (newRoom) => {
+      console.log("WTF??????????????");
       addRoom(newRoom);
     });
   }, []);
