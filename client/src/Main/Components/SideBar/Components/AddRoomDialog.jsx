@@ -58,7 +58,6 @@ export default function AddRoomDialog({ open, handleClose }) {
       alert("Please fill the required fields");
       return;
     }
-    console.log();
     if (!/[a-zA-Z]/.test(name) || maxPop <= 0 || !/^[1-9]\d*(\.\d+)?$/.test(maxPop)) {
       alert("Invalid room attributes");
       return;
