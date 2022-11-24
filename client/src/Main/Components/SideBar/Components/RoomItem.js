@@ -7,11 +7,12 @@ import Tooltip from "@mui/material/Tooltip";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const RoomItem = ({ room }) => {
-  const { _id, name, maxPop, pop, messages } = room;
+  const { _id, name, maxPop, image, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
+  const [roomImage, setRoomImage] = useState(image);
   const isRoomFull = maxPop === pop.length;
 
   useEffect(() => {
@@ -19,6 +20,12 @@ const RoomItem = ({ room }) => {
       if (roomId === _id) setShownMessage(msg);
     });
   }, []);
+
+  useEffect(() => {}, [roomImage]);
+
+  function ab2str(buf) {
+    return String.fromCharCode.apply(null, new Uint16Array(buf));
+  }
 
   return (
     <Tooltip title={name} placement="right" arrow>
@@ -34,10 +41,14 @@ const RoomItem = ({ room }) => {
           setShowRoomPop(false);
         }}
       >
-        <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
+        <img className="rounded-xl shadow-md w-12 h-12" src={`data:image/jpg;base64, ${image}`} alt="roomPic" />
         <div className="flex flex-col w-full justify-between ">
-          <div className="flex text-lg  items-center justify-between gap-3 w-full transition-all">
-            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ">
+          <div className="flex text-lg text-gray-500 items-center justify-start gap-3 w-full transition-all">
+            <p
+              className={`text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ${
+                darkMode ? `text-white` : `text-black`
+              } `}
+            >
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
             <p
