@@ -117,6 +117,7 @@ const MainPage = ({ noRoom }) => {
             roomList={roomList}
             setRoomList={setRoomList}
             selectedRoom={selectedRoom}
+            isRoom={roomFound && !noRoomState}
           />
           <SideBar roomList={roomList} setRoomList={setRoomList} />
 

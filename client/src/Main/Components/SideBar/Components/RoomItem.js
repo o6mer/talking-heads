@@ -24,9 +24,17 @@ const RoomItem = ({ room }) => {
     <Tooltip title={name} placement="right" arrow>
       <Link
         to={`/main/${_id}`}
-        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-[background-color]  border-b-2  border-solid ${
-          darkMode ? `hover:bg-primaryDark border-b-gray-700` : "hover:bg-primary border-b-gray-300"
-        } ${currentRoomId === _id ? (darkMode ? "bg-primaryDark" : "bg-primary") : null}`}
+        className={`flex items-center gap-3 w-full  m-0 cursor-pointer py-2 px-4 box-border text-xl transition-[background-color]  border-b-2  border-solid ${
+          darkMode
+            ? `hover:bg-primaryDark border-b-gray-700`
+            : "hover:bg-primary border-b-gray-300"
+        } ${
+          currentRoomId === _id
+            ? darkMode
+              ? "bg-primaryDark"
+              : "bg-primary"
+            : null
+        }`}
         onMouseOver={(e) => {
           setShowRoomPop(true);
         }}
@@ -34,18 +42,29 @@ const RoomItem = ({ room }) => {
           setShowRoomPop(false);
         }}
       >
-        <img className="rounded-xl shadow-md" src={Logo} alt="roomPic" width="50" />
-        <div className="flex flex-col w-full justify-between ">
+        <img
+          className="rounded-xl shadow-md"
+          src={Logo}
+          alt="roomPic"
+          width="50"
+        />
+        <div className="flex flex-col w-full justify-between  ">
           <div className="flex text-lg  items-center justify-between gap-3 w-full transition-all">
-            <p className="text-xl font-bold w-[11rem] text-ellipsis overflow-hidden whitespace-nowrap ">
+            <p className="text-xl font-bold w-full text-ellipsis overflow-hidden whitespace-nowrap ">
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
             <p
-              className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
+              className={`${
+                showRoomPop ? "block" : "hidden"
+              } transition-all text-gray-500 text-md`}
             >{`${pop.length}/${maxPop}`}</p>
           </div>
-          <div className={"flex text-lg text-gray-500 items-center justify-between gap-3 w-full"}>
-            <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
+          <div
+            className={
+              "flex text-lg text-gray-500 items-center justify-between gap-3 w-full"
+            }
+          >
+            <p className="w-full text-ellipsis overflow-hidden whitespace-nowrap">
               {shownMessage?.msgContent || "no messages..."}
             </p>
             <p className="">{shownMessage?.msgTime || ""}</p>

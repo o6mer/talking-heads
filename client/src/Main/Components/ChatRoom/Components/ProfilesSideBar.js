@@ -8,7 +8,7 @@ import { UserContext } from "../../../../contexts/UserContextProvider";
 
 import RoomDetails from "./RoomDetails";
 
-const ProfilesSideBar = ({ selectedRoom, isShown }) => {
+const ProfilesSideBar = ({ selectedRoom, isShown, setOpen }) => {
   const pop = selectedRoom.usersInfo;
   const [people, setPeople] = useState(pop);
   const { darkMode } = useContext(UserContext);
@@ -45,13 +45,15 @@ const ProfilesSideBar = ({ selectedRoom, isShown }) => {
       className={`md:flex ${
         isShown ? "flex" : "hidden"
       } flex-col max-w-max h-full border-0 border-solid border-black ${
-        darkMode ? "bg-secondaryDark" : "bg-secondary"
+        darkMode ? "bg-secondaryDark text-white" : "bg-secondary text-black"
       }`}
     >
       <SearchBar
         query="user"
         filterFunc={filterUser}
         clearFilter={clearFilter}
+        setOpen={setOpen}
+        isShown={isShown}
       />
       <section
         className={`flex flex-col  h-full overflow-y-auto ${

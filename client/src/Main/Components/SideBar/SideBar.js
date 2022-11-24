@@ -4,7 +4,7 @@ import SearchBar from "../General/SearchBar";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import { socket } from "../../MainPage";
 
-const SideBar = ({ roomList, joinRoom, isShown }) => {
+const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
   const [realRoomList, setRealList] = useState(roomList);
   const [filteredRoomList, setFilteredList] = useState(roomList);
 
@@ -85,16 +85,18 @@ const SideBar = ({ roomList, joinRoom, isShown }) => {
 
   return (
     <aside
-      className={`md:flex ${
+      className={`md:flex   ${
         isShown ? "flex" : "hidden"
       } flex-col h-full w-full max-w-xs ${
-        darkMode ? "bg-secondaryDark" : "bg-secondary"
+        darkMode ? "bg-secondaryDark text-white" : "bg-secondary text-black"
       } pb-4`}
     >
       <SearchBar
         query="room"
         filterFunc={filterRooms}
         clearFilter={clearFilter}
+        setOpen={setOpen}
+        isShown={isShown}
       />
       <RoomList roomList={filteredRoomList} joinRoom={joinRoom} />
     </aside>
