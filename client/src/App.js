@@ -10,7 +10,7 @@ import MainPage from "./Main/MainPage";
 import SignupPage from "./Landing/Components/Signup/SignupPage";
 import UserContextProvider from "./contexts/UserContextProvider";
 import ForgotPassword from "./Landing/Components/ForgotPassword/ForgotPassword";
-import ErrorPage from "./Main/ErrorPage.jsx";
+import ErrorPage from "./Main/Components/General/ErrorPage";
 import ProtectedRoutes from "./Main/ProtectedRoutes";
 import LoginPage from "./Landing/Components/Login/LoginPage";
 import { createTheme, ThemeProvider } from "@mui/material";

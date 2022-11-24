@@ -22,7 +22,12 @@ const Footer = () => {
             >
               <GitHubIcon fontSize="medium" />
             </a>
-            <a href="#" target="_blank" rel="noreferrer noopener" className="hover:text-[#ccc]">
+            <a
+              href="#"
+              target="_blank"
+              rel="noreferrer noopener"
+              className="hover:text-[#ccc]"
+            >
               <FacebookIcon fontSize="medium" />
             </a>
             <a
@@ -35,33 +40,27 @@ const Footer = () => {
             </a>
           </div>
         </section>
-        <section>section1</section>
         <section className="flex flex-col gap-2">
-          <p className="text-lg text-primary">Navigation</p>
+          <p className="text-lg text-primary">General</p>
           <ul className="flex flex-col gap-1">
             <li>
-              <a href="#home" className="transition-all hover:underline">
-                Home
-              </a>
+              <Link to="/" className="transition-all hover:underline">
+                About
+              </Link>
             </li>
             <li>
-              {" "}
-              <a href="#how-it-works" className="transition-all hover:underline">
-                How It Works
-              </a>
-            </li>
-            <li>
-              <a href="#features" className="transition-all hover:underline">
-                Features
-              </a>
-            </li>
-            <li>
-              <a href="#help" className="transition-all hover:underline">
+              <Link to="/" className="transition-all hover:underline">
                 Help
-              </a>
+              </Link>
+            </li>
+            <li>
+              <Link to="/" className="transition-all hover:underline">
+                Contact Us
+              </Link>
             </li>
           </ul>
         </section>
+
         <section className="flex flex-col gap-2">
           <p className="text-lg text-primary">Users</p>
           <ul className="flex flex-col gap-1">
@@ -76,9 +75,41 @@ const Footer = () => {
               </Link>
             </li>
             <li>
-              <Link to="/forgotPassword" className="transition-all hover:underline">
+              <Link
+                to="/forgotPassword"
+                className="transition-all hover:underline"
+              >
                 Forgot Password
               </Link>
+            </li>
+          </ul>
+        </section>
+        <section className="flex flex-col gap-2">
+          <p className="text-lg text-primary">Navigation</p>
+          <ul className="flex flex-col gap-1">
+            <li>
+              <a href="#home" className="transition-all hover:underline">
+                Home
+              </a>
+            </li>
+            <li>
+              {" "}
+              <a
+                href="#how-it-works"
+                className="transition-all hover:underline"
+              >
+                How It Works
+              </a>
+            </li>
+            <li>
+              <a href="#features" className="transition-all hover:underline">
+                Features
+              </a>
+            </li>
+            <li>
+              <a href="#help" className="transition-all hover:underline">
+                Help
+              </a>
             </li>
           </ul>
         </section>

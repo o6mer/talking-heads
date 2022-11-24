@@ -16,7 +16,7 @@ const MobileActionBar = ({ roomList, setRoomList, selectedRoom, isRoom }) => {
 
   return (
     <div
-      className={`w-full h-max  ${
+      className={`w-full h-max px-6  ${
         darkMode ? "bg-thirdy" : "bg-secondary"
       } p-2 flex justify-between md:hidden`}
     >
