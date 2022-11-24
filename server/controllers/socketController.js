@@ -97,8 +97,10 @@ const onSocketConection = (socket, io) => {
     }
 
     const dbResponse = await addRoomDB(userId, name, maxPop, image);
-    if (dbResponse.statusCode === 400 || dbResponse.statusCode === 404) {
-      callback(dbResponse);
+    const { data } = dbResponse;
+    callback(dbResponse);
+
+    if (data === "ERROR") {
       return;
     }
     const newRoom = dbResponse.data;

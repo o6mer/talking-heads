@@ -7,6 +7,7 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+import LoadingButton from "@mui/lab/LoadingButton";
 
 import { DialogTitle } from "@mui/material";
 import { UserContext } from "../../../../contexts/UserContextProvider";
@@ -15,6 +16,7 @@ import { socket } from "../../../MainPage.js";
 export default function AddRoomDialog({ open, handleClose }) {
   const { darkMode, user } = useContext(UserContext);
   const [newRoom, setNewRoom] = useState({});
+  const [isLoadingRoom, setIsLoadingRoom] = useState();
   const [file, setFile] = useState(undefined);
   const [previewUrl, setPreviewUrl] = useState(undefined);
   const [isValid, setIsValid] = useState(false);
@@ -36,6 +38,7 @@ export default function AddRoomDialog({ open, handleClose }) {
   };
   useEffect(() => {
     clearImage();
+    setIsLoadingRoom(false);
   }, [open]);
 
   useEffect(() => {
@@ -66,14 +69,18 @@ export default function AddRoomDialog({ open, handleClose }) {
     }
     //~~~~~~~~~
 
-    handleClose();
+    setIsLoadingRoom(true);
+
     try {
       socket.emit("addRoom", user._id, name, maxPop, file, (response) => {
-        if (response.statusCode === 400 || response.statusCode === 404) {
+        const { data } = response;
+        if (data === "ERROR") {
           const { message, statusCode } = response;
           alert(`${message}. Error: ${statusCode}`);
+          setIsLoadingRoom(false);
           return;
         }
+        handleClose();
       });
     } catch (err) {
       console.log(err);
@@ -157,9 +164,9 @@ export default function AddRoomDialog({ open, handleClose }) {
           <Button onClick={handleClose}>
             <p className={`${darkMode && "text-white"}`}>Cancel</p>
           </Button>
-          <Button onClick={handleSubmit}>
+          <LoadingButton loading={isLoadingRoom} onClick={handleSubmit}>
             <p className={`${darkMode && "text-white"}`}>Submit</p>
-          </Button>
+          </LoadingButton>
         </DialogActions>
       </div>
     </Dialog>

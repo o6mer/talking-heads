@@ -59,8 +59,12 @@ const addRoomDB = async (userId, name, maxPop, image) => {
   ) {
     return new ServerResponse("invalid room attributes", 400, "ERROR");
   }
-  //~~~~~~~~~
+  const check = await Room.exists({ name });
 
+  if (check !== null) {
+    return new ServerResponse("room name is already taken", 409, "ERROR");
+  }
+  //~~~~~~~~~
   let user;
   //trying to search user from db
   try {
