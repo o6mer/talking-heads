@@ -43,6 +43,7 @@ const SignupPage = () => {
         setUser(data.user);
         navigate("/main");
       } else {
+        setLoading(false);
         alert(data.message);
       }
     } catch (error) {
@@ -63,10 +64,20 @@ const SignupPage = () => {
           </Tooltip>
         </Link>
         <p className="font-bold text-3xl text-center">Signup</p>
-        <form action="" onSubmit={submitHandler} className="flex flex-col gap-2">
+        <form action="" onSubmit={submitHandler} className="flex flex-col gap-2 justify-around ">
           <TextField
             autoFocus
-            margin="dense"
+            onChange={handleChange}
+            type="text"
+            name="userName"
+            label="User Name"
+            fullWidth
+            variant="standard"
+            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
+          />
+
+          <TextField
+            autoFocus
             onChange={handleChange}
             type="email"
             name="email"
@@ -76,19 +87,7 @@ const SignupPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <PasswordInput password={password} handleChange={handleChange} />
-
-          <TextField
-            autoFocus
-            margin="dense"
-            onChange={handleChange}
-            type="text"
-            name="userName"
-            label="User Name"
-            fullWidth
-            variant="standard"
-            sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
-          />
+          <PasswordInput password={password} handleChange={handleChange} showHelperText={true} />
 
           {loading ? (
             <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>

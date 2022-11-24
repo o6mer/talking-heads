@@ -69,8 +69,16 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
           </MenuItem>
         </Menu>
       ) : null}
-      <UserModal open={openModal} userInfo={user} handleClose={handleCloseModal} />
-      <Drawer anchor={"right"} open={openDrawer} onClose={() => setOpenDrawer(false)}>
+      <UserModal
+        open={openModal}
+        userInfo={user}
+        handleClose={handleCloseModal}
+      />
+      <Drawer
+        anchor={"right"}
+        open={openDrawer}
+        onClose={() => setOpenDrawer(false)}
+      >
         <SettingsDrawer />
       </Drawer>
     </>

@@ -4,8 +4,9 @@ import { TextField } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { UserContext } from "../../../contexts/UserContextProvider";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
-const SearchBar = ({ query, filterFunc, clearFilter }) => {
+const SearchBar = ({ query, filterFunc, clearFilter, setOpen, isShown }) => {
   const [filter, changeFilter] = useState("");
 
   const { darkMode } = useContext(UserContext);
@@ -19,7 +20,7 @@ const SearchBar = ({ query, filterFunc, clearFilter }) => {
   }, [filter]);
 
   return (
-    <div className={`flex gap-2 p-4`}>
+    <div className={`flex gap-2 p-4 justify-center items-center`}>
       <form
         className={`flex gap-2`}
         onSubmit={(e) => {
@@ -27,9 +28,12 @@ const SearchBar = ({ query, filterFunc, clearFilter }) => {
           filterFunc(filter);
         }}
       >
-        <button type="submit">
-          <SearchIcon />
-        </button>
+        {isShown && (
+          <button onClick={() => setOpen(false)}>
+            <ArrowBackIcon />
+          </button>
+        )}
+
         <TextField
           placeholder={`search ${query}`}
           onChange={typing}

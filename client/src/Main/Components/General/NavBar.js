@@ -23,7 +23,7 @@ const NavBar = () => {
 
   return (
     <nav
-      className={`w-full h-13 flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl  ${
+      className={`w-full h-[7%] flex items-center shadow-md border-b-black border-solid px-6 py-2 text-3xl  z-10 ${
         darkMode ? "bg-fourthy" : "bg-thirdy"
       } `}
     >
@@ -36,7 +36,10 @@ const NavBar = () => {
       <div className="flex justify-center items-center ml-auto gap-4">
         <div ref={musicRef}>
           {accessToken ? (
-            <Tooltip title="Play Music" className="text-white hover:text-gray-200">
+            <Tooltip
+              title="Play Music"
+              className="text-white hover:text-gray-200"
+            >
               <button
                 className={`text-[#1DB954] hover:text-[#1a9c47] flex items-center justify-center `}
                 onClick={(e) => {
@@ -51,7 +54,10 @@ const NavBar = () => {
               </button>
             </Tooltip>
           ) : (
-            <Tooltip title="Login To Spotify" className="text-white hover:text-gray-200">
+            <Tooltip
+              title="Login To Spotify"
+              className="text-white hover:text-gray-200"
+            >
               <a
                 href="https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=http://localhost:3000/main/1&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state"
                 className="flex items-center justify-center"
@@ -77,7 +83,11 @@ const NavBar = () => {
             <ArrowDropDownIcon sx={{ color: "inherit" }} />
           </button>
         </Tooltip>
-        <ProfileMenu setAnchorEl={setAnchorElProfile} anchorEl={anchorElProfile} openMenu={openMenuProfile} />
+        <ProfileMenu
+          setAnchorEl={setAnchorElProfile}
+          anchorEl={anchorElProfile}
+          openMenu={openMenuProfile}
+        />
         <MusicMenu
           setAnchorEl={setAnchorElMusic}
           anchorEl={anchorElMusic}

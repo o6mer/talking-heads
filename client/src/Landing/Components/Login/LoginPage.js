@@ -57,7 +57,7 @@ const LoginPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <PasswordInput password={password} handleChange={handleChange} />
+          <PasswordInput password={password} handleChange={handleChange} showHelperText={false} />
 
           {loading ? (
             <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>

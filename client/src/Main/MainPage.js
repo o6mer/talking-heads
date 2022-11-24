@@ -8,8 +8,8 @@ import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
-import MenuIcon from "@mui/icons-material/Menu";
 import { io } from "socket.io-client";
+import MobileActionBar from "./Components/ChatRoom/Components/MobileActionBar";
 
 export const socket = io("http://localhost:8080", {
   "sync disconnect on unload": true,
@@ -19,12 +19,15 @@ export const socket = io("http://localhost:8080", {
 const MainPage = ({ noRoom }) => {
   const [noRoomState, setNoRoomState] = useState(noRoom);
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user, darkMode } = useContext(UserContext);
+  const { currentRoomId, setCurrentRoomId, user, darkMode } =
+    useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [roomFound, setRoomFound] = useState(undefined);
   const [loadingRoom, setLoadingRoom] = useState(false);
   const { roomId: paramsRoomId } = useParams();
-  const [textHeader, setTextHeader] = useState("Please select a room to start chatting");
+  const [textHeader, setTextHeader] = useState(
+    "Please select a room to start chatting"
+  );
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -80,7 +83,9 @@ const MainPage = ({ noRoom }) => {
     socket.emit("joinRoom", roomId, user._id, (newRoom, responseMsg) => {
       setLoadingRoom(false);
       if (responseMsg.statusCode === 404 || responseMsg.statusCode === 400) {
-        console.error(`Status code: ${responseMsg.statusCode}. ${responseMsg.message}.`);
+        console.error(
+          `Status code: ${responseMsg.statusCode}. ${responseMsg.message}.`
+        );
         setTextHeader(responseMsg.message); // selected room not found or something
         setRoomFound(false);
       } else {
@@ -107,11 +112,14 @@ const MainPage = ({ noRoom }) => {
     >
       <NavBar />
       {roomList ? (
-        <div className="flex h-[90%] grow shrink basis-auto relative">
-          <div className="block absolute top-0 left-0 md:hidden ">
-            <MenuIcon />
-          </div>
-          <SideBar selectedRoom={selectedRoom} roomList={roomList} setRoomList={setRoomList} />
+        <div className="flex w-full md:max-h-[93%] max-h-[89%] grow shrink basis-auto relative flex-col md:flex-row z-20">
+          <MobileActionBar
+            roomList={roomList}
+            setRoomList={setRoomList}
+            selectedRoom={selectedRoom}
+            isRoom={roomFound && !noRoomState}
+          />
+          <SideBar roomList={roomList} setRoomList={setRoomList} />
 
           {loadingRoom ? (
             <div className="flex w-full h-full justify-center items-center">
