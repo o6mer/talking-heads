@@ -14,8 +14,6 @@ const RoomItem = ({ room }) => {
   const [showRoomPop, setShowRoomPop] = useState(false);
   const [roomImage, setRoomImage] = useState(image);
   const isRoomFull = maxPop === pop.length;
-  // const [Lock, setLock] = useState(LockOutlinedIcon);
-  // const [route, setRoute] = useState(`/main/${_id}`);
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
@@ -33,7 +31,7 @@ const RoomItem = ({ room }) => {
     <Tooltip title={name} placement="right" arrow>
       <Link
         to={`/main/${_id}`}
-        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-all  border-b-2  border-solid ${
+        className={`flex items-center gap-3 w-full max-w-full m-0 cursor-pointer py-2 px-4 box-border text-xl transition-[background-color]  border-b-2  border-solid ${
           darkMode ? `hover:bg-primaryDark border-b-gray-700` : "hover:bg-primary border-b-gray-300"
         } ${currentRoomId === _id ? (darkMode ? "bg-primaryDark" : "bg-primary") : null}`}
         onMouseOver={(e) => {
@@ -53,15 +51,15 @@ const RoomItem = ({ room }) => {
             >
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}
             </p>
-            <span
+            <p
               className={`${showRoomPop ? "block" : "hidden"} transition-all text-gray-500 text-md`}
-            >{`${pop.length}/${maxPop}`}</span>
+            >{`${pop.length}/${maxPop}`}</p>
           </div>
-          <div className={"flex text-lg text-gray-500 items-center justify-start gap-3 w-full"}>
+          <div className={"flex text-lg text-gray-500 items-center justify-between gap-3 w-full"}>
             <p className="max-w-[9rem] text-ellipsis overflow-hidden whitespace-nowrap">
               {shownMessage?.msgContent || "no messages..."}
             </p>
-            <p className="ml-auto">{shownMessage?.msgTime || ""}</p>
+            <p className="">{shownMessage?.msgTime || ""}</p>
           </div>
         </div>
       </Link>

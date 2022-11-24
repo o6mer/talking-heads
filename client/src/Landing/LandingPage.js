@@ -3,7 +3,6 @@ import NavBar from "./Components/General/NavBar";
 import Features from "./Components/Home/Features";
 import Hero from "./Components/Home/Hero";
 import HowItWorks from "./Components/Home/HowItWorks";
-import Background from "../Media/bg_hero.png";
 
 const LandingPage = () => {
   // setPassword(e.target.value);
