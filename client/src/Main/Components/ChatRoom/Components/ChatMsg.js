@@ -7,7 +7,14 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import UserModal from "../../General/UserModal";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg, selectedRoom }) => {
+const ChatMsg = ({
+  msgWriter,
+  msgContent,
+  msgTime,
+  msgId,
+  delMsg,
+  selectedRoom,
+}) => {
   const { user, darkMode } = useContext(UserContext);
   const loggedUserId = user._id;
   const isLoggedInUser = loggedUserId === msgWriter._id; //boolean value represents if the message is written by the logged in user
@@ -26,10 +33,14 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg, selectedRoom }
   const handleCloseModal = () => setOpen(false);
 
   return (
-    <div
-      className={`max-w-max p-3 gap-3 font-bold justify-around rounded-md text-white ${
+    <li
+      className={`max-w-min p-3 gap-3 font-bold justify-around rounded-md text-white ${
         isLoggedInUser
-          ? `self-end  ${darkMode ? "bg-fourthy hover:bg-thirdy" : "bg-secondary text-thirdy hover:bg-[#caeee3]"}`
+          ? `self-end  ${
+              darkMode
+                ? "bg-fourthy hover:bg-thirdy"
+                : "bg-secondary text-thirdy hover:bg-[#caeee3]"
+            }`
           : "text-secondary bg-thirdy hover:bg-fourthy"
       } shadow-[0_10px_10px_-10px_rgba(0,0,0,0.6)] min-w-[10%]`}
     >
@@ -38,7 +49,13 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg, selectedRoom }
       </button>
 
       <div className={`flex gap-4 text-xl `}>
-        <p className={`${isLoggedInUser ? `${darkMode ? "text-white" : "text-black "}` : "text-white"}`}>
+        <p
+          className={`${
+            isLoggedInUser
+              ? `${darkMode ? "text-white" : "text-black "}`
+              : "text-white"
+          }`}
+        >
           {msgContent}
         </p>
       </div>
@@ -85,8 +102,13 @@ const ChatMsg = ({ msgWriter, msgContent, msgTime, msgId, delMsg, selectedRoom }
           </div>
         </MenuItem>
       </Menu>
-      <UserModal open={openModal} userInfo={msgWriter} handleClose={handleCloseModal} selectedRoom={selectedRoom} />
-    </div>
+      <UserModal
+        open={openModal}
+        userInfo={msgWriter}
+        handleClose={handleCloseModal}
+        selectedRoom={selectedRoom}
+      />
+    </li>
   );
 };
 
