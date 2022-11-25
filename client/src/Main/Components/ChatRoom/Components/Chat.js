@@ -97,7 +97,7 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
   return (
     <section className="flex flex-col w-full h-full">
       <ul
-        className={`flex flex-col grow  gap-2 overflow-y-auto p-5 h-96 ${
+        className={`flex flex-col grow gap-2 overflow-y-scroll p-5  h-96 ${
           darkMode ? "scrollbar-dark" : "scrollbar"
         }`}
       >
