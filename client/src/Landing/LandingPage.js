@@ -19,10 +19,10 @@ const LandingPage = () => {
           <NavBar />
           <Hero />
         </div>
-        <Fade>
+        <Fade bottom>
           <HowItWorks />
         </Fade>
-        <Fade>
+        <Fade bottom>
           <Features />
         </Fade>
         <Footer />

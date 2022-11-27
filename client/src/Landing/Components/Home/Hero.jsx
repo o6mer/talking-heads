@@ -11,10 +11,10 @@ const Hero = () => {
       <img src={HeroPicture} alt="hero pic" className="w-[500px]" />
 
       <div className="w-full flex items-center justify-center max-w-5xl flex-col gap-5 px-6">
-        <header className="text-5xl font-bold text-white uppercase text-center">
+        <header className="text-3xl md:text-5xl font-bold text-white uppercase text-center">
           Chat with everyone at any time
         </header>
-        <p className="text-2xl font-extralight text-gray-300  text-center">
+        <p className="text-lg md:text-2xl font-extralight text-gray-300  text-center">
           An online, real time, chatting application. Chat with people with an
           easy to use interface, costumisable chat rooms and cool features like
           listening to music while chatting.
