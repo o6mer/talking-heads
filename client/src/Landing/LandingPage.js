@@ -5,6 +5,7 @@ import Hero from "./Components/Home/Hero";
 import HowItWorks from "./Components/Home/HowItWorks";
 import Fade from "react-reveal/Fade";
 import Footer from "./Components/Home/Footer";
+import MobileNav from "./Components/General/MobileNav";
 
 const LandingPage = () => {
   // setPassword(e.target.value);
@@ -12,14 +13,16 @@ const LandingPage = () => {
   return (
     <main className=" h-screen w-screen flex justify-center overflow-x-hidden scroll-smooth">
       <div className="w-full  flex flex-col items-center gap-20 ">
-        <div className={`background-picture flex flex-col justify-center items-center`}>
+        <div
+          className={`background-picture flex flex-col justify-center items-center`}
+        >
           <NavBar />
           <Hero />
         </div>
-        <Fade>
+        <Fade bottom>
           <HowItWorks />
         </Fade>
-        <Fade>
+        <Fade bottom>
           <Features />
         </Fade>
         <Footer />

@@ -106,13 +106,13 @@ const MainPage = ({ noRoom }) => {
 
   return (
     <main
-      className={`h-full max-h-screen w-full ${
+      className={`flex flex-col h-full max-h-screen w-full grow  ${
         darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
-      } flex flex-col`}
+      } `}
     >
       <NavBar />
       {roomList ? (
-        <div className="flex w-full md:max-h-[93%] max-h-[89%] grow shrink basis-auto relative flex-col md:flex-row z-20">
+        <div className="flex w-full grow shrink basis-auto relative flex-col md:flex-row z-20">
           <MobileActionBar
             roomList={roomList}
             setRoomList={setRoomList}

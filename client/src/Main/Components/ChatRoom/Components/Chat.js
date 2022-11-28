@@ -95,9 +95,9 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
   };
 
   return (
-    <section className="flex flex-col w-full h-full ">
-      <div
-        className={`flex flex-col gap-2 overflow-y-auto p-5 h-full ${
+    <section className="flex flex-col w-full h-full">
+      <ul
+        className={`flex flex-col grow gap-2 overflow-y-scroll p-5  h-96 ${
           darkMode ? "scrollbar-dark" : "scrollbar"
         }`}
       >
@@ -113,7 +113,7 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
           );
         })}
         <div ref={messageEndRef}> </div>
-      </div>
+      </ul>
 
       <Keyboard postMsg={sendMessage} roomId={roomId} />
     </section>
