@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="flex w-full bg-thirdy justify-center py-14">
+    <footer className="flex w-full bg-thirdy justify-center items-center py-14">
       <div className="w-full max-w-5xl grid grid-cols-2 grid-rows-3 gap-4 md:gap-0 md:flex justify-between items-center text-white px-6 md:px-0 ">
         <section className="flex flex-col justify-start row-span-1 col-span-full self-center justify-self-center">
           <a href="#home" className="transition-all hover:underline">
