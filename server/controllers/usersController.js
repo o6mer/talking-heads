@@ -157,7 +157,15 @@ const forgotPassword = async (req, res, next) => {
         numbers: true,
       });
 
-      user[0].password = newPassword;
+      let hashedPassword;
+      try {
+        hashedPassword = await bcrypt.hash(newPassword, 12);
+      } catch (err) {
+        res.status(500).json({ message: "Could not create user" });
+        return next();
+      }
+
+      user[0].password = hashedPassword;
 
       const emailMessage = {
         to: email,
@@ -175,7 +183,6 @@ const forgotPassword = async (req, res, next) => {
       try {
         const res = await sgMail.send(emailMessage);
         const resUser = await user[0].save();
-        console.log(res, resUser);
       } catch (err) {
         console.log(err);
       }

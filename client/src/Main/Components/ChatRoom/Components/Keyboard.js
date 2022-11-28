@@ -24,7 +24,11 @@ const Keyboard = (props) => {
   };
 
   return (
-    <div className={`justify-self-end mt-auto h-min p-2 ${darkMode ? "bg-[#50626e]" : "bg-white"}`}>
+    <div
+      className={`justify-self-end mt-auto h-min p-2 max-h-[7%] ${
+        darkMode ? "bg-[#50626e]" : "bg-white"
+      }`}
+    >
       <form
         action=""
         className="flex justify-center items-center gap-x-1 h-full"
@@ -33,7 +37,9 @@ const Keyboard = (props) => {
       >
         <TextField
           type="text"
-          className={`w-full ${darkMode ? "bg-[#a6bbc8]" : "bg-white"} rounded-lg`}
+          className={`w-full ${
+            darkMode ? "bg-[#a6bbc8]" : "bg-white"
+          } rounded-lg`}
           name="message"
           placeholder="Write a message"
           value={msg}

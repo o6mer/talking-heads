@@ -20,24 +20,18 @@ const ChatRoom = ({ selectedRoom }) => {
   }, []);
 
   return (
-    <>
-      {_id ? (
-        <section className="w-full h-full flex ">
-          <Chat
-            msgsArr={messages}
-            roomId={_id}
-            selectedRoom={selectedRoom}
-            key={`chat:${_id}`}
-          />
-          <ProfilesSideBar
-            key={`profileSideBar:${_id}`}
-            selectedRoom={selectedRoom}
-          />
-        </section>
-      ) : (
-        <div></div>
-      )}
-    </>
+    <section className="w-full flex grow">
+      <Chat
+        msgsArr={messages}
+        roomId={_id}
+        selectedRoom={selectedRoom}
+        key={`chat:${_id}`}
+      />
+      <ProfilesSideBar
+        key={`profileSideBar:${_id}`}
+        selectedRoom={selectedRoom}
+      />
+    </section>
   );
 };
 

@@ -7,13 +7,13 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer className="flex w-full bg-thirdy justify-center py-14">
-      <div className="w-full max-w-5xl flex justify-between text-white">
-        <section className="flex flex-col justify-start">
+    <footer className="flex w-full bg-thirdy justify-center items-center py-14">
+      <div className="w-full max-w-5xl grid grid-cols-2 grid-rows-3 gap-4 md:gap-0 md:flex justify-between items-center text-white px-6 md:px-0 ">
+        <section className="flex flex-col justify-start row-span-1 col-span-full self-center justify-self-center">
           <a href="#home" className="transition-all hover:underline">
             <img src={HeroPicture} alt="logo" className="w-32" />
           </a>
-          <div className="w-full text-white flex justify-between ">
+          <div className="w-full text-white flex gap-6 ">
             <a
               href="https://github.com/o6mer/music-chat-app"
               target="_blank"
@@ -61,7 +61,7 @@ const Footer = () => {
           </ul>
         </section>
 
-        <section className="flex flex-col gap-2">
+        <section className="flex flex-col gap-2 justify-self-end">
           <p className="text-lg text-primary">Users</p>
           <ul className="flex flex-col gap-1">
             <li>
