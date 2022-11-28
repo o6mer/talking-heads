@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "devStart": "nodemon server.js",
-    "build": "npm install && node server.js "
+    "build": "node server.js "
   },
   "keywords": [],
   "author": "",
