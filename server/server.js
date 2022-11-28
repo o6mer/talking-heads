@@ -1,5 +1,3 @@
-const port = 3001;
-
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
@@ -9,6 +7,8 @@ const spotifyRoutes = require("./routes/spotifyRoutes");
 const roomRoutes = require("./routes/roomRoutes");
 const { onSocketConection } = require("./controllers/socketController");
 require("dotenv").config();
+
+const port = process.env.PORT || 3000;
 
 const io = require("socket.io")(8080, {
   cors: {
