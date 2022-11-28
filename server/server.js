@@ -12,7 +12,7 @@ require("dotenv").config();
 
 const io = require("socket.io")(8080, {
   cors: {
-    origin: ["http://localhost:3000"],
+    origin: [process.env.FRONTEND_URL],
   },
 });
 
@@ -20,7 +20,7 @@ let server;
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:3000" }));
+app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader(
@@ -43,9 +43,7 @@ app.use("/api/room", roomRoutes);
 app.use("/", routerLand);
 
 mongoose
-  .connect(
-    "mongodb+srv://yanaysella:YanaySella1234@name.xo8bocb.mongodb.net/?retryWrites=true&w=majority"
-  )
+  .connect(process.env.DB_URL)
   .then(() => {
     server = app.listen(port, () => {
       console.log(`listening on port ${port}`);
