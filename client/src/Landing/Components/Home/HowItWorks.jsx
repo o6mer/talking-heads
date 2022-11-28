@@ -54,11 +54,11 @@ const HowItWorksItem = ({ number, header, content, image, side, dark }) => {
       }`}
     >
       <div
-        className={`max-w-5xl px-6 md:px-0 py-16 flex gap-10 justify-center items-center flex-col ${
+        className={`max-w-5xl px-6 md:px-0 py-16 flex gap-16 justify-center items-center flex-col ${
           side === "left" ? "md:flex-row" : "md:flex-row-reverse"
         }`}
       >
-        <div className="flex flex-col gap-3">
+        <div className="flex flex-col ">
           <p className="text-5xl md:text-7xl font-bold text-neutral-400 ">
             {number}
           </p>
