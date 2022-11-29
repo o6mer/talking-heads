@@ -10,7 +10,7 @@ require("dotenv").config();
 
 const port = process.env.PORT || 3001;
 
-const io = require("socket.io")(process.env.SOCKET_PORT || 8080, {
+const io = require("socket.io")(process.env.SOCKET_PORT || port, {
   cors: {
     origin: [process.env.FRONTEND_URL],
   },
