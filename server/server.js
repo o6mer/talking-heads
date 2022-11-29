@@ -42,9 +42,6 @@ app.use("/", routerLand);
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {
-    // server = app.listen(port, () => {
-    //   console.log(`listening on port ${port}`);
-    // });
     server.listen(port, () => {
       console.log(`listening on port ${port}`);
     });
