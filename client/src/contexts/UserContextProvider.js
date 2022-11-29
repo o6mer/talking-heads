@@ -15,6 +15,8 @@ const UserPorivder = ({ children }) => {
     })
   );
 
+  console.log(process.env.REACT_APP_API_URL);
+
   return (
     <UserContext.Provider
       value={{
