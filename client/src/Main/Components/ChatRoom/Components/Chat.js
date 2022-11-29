@@ -8,7 +8,6 @@ import React, {
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import { socket } from "../../../MainPage";
 import SpotifyAuth from "../../SpotifyApi/SpotifyAuth";
 import Dashboard from "../../SpotifyApi/Dashboard";
 
@@ -16,7 +15,7 @@ const code = new URLSearchParams(window.location.search).get("code");
 
 const Chat = ({ roomId, msgsArr, selectedRoom }) => {
   const [messages, setMessages] = useState(msgsArr); //keeping track on the messages
-  const { user, currentRoomId, darkMode } = useContext(UserContext);
+  const { user, currentRoomId, darkMode, socket } = useContext(UserContext);
 
   const messageEndRef = useRef();
 

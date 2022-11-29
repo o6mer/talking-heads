@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from "react";
-import useAuth from "../Landing/hooks/useAuth";
+import { io } from "socket.io-client";
 
 export const UserContext = createContext({});
 
@@ -8,6 +8,12 @@ const UserPorivder = ({ children }) => {
   const [currentRoomId, setCurrentRoomId] = useState(undefined);
   const [darkMode, setDarkMode] = useState(false);
   const [accessToken, setAccessToken] = useState();
+  const [socket, setSocket] = useState(
+    io(process.env.REACT_APP_SOCKET_URL, {
+      "sync disconnect on unload": true,
+      closeOnBeforeunload: false,
+    })
+  );
 
   return (
     <UserContext.Provider
@@ -20,6 +26,7 @@ const UserPorivder = ({ children }) => {
         setDarkMode,
         accessToken,
         setAccessToken,
+        socket,
       }}
     >
       {children}

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import { socket } from "../../../MainPage";
 import Logo from "../../../../Media/NameLogo.png";
 import Tooltip from "@mui/material/Tooltip";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -9,7 +8,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, image, pop, messages } = room;
   const rowContainerStyle = "flex p-1 items-center justify-between ";
-  const { darkMode, currentRoomId } = useContext(UserContext);
+  const { darkMode, currentRoomId, socket } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
   const [roomImage, setRoomImage] = useState(image);
@@ -49,9 +48,12 @@ const RoomItem = ({ room }) => {
           setShowRoomPop(false);
         }}
       >
-
-          <img className="rounded-xl shadow-md w-12 h-12" src={`data:image/jpg;base64, ${image}`} alt="roomPic" />
-          <div className="flex flex-col w-full justify-between  ">
+        <img
+          className="rounded-xl shadow-md w-12 h-12"
+          src={`data:image/jpg;base64, ${image}`}
+          alt="roomPic"
+        />
+        <div className="flex flex-col w-full justify-between  ">
           <div className="flex text-lg  items-center justify-between gap-3 w-full transition-all">
             <p className="text-xl font-bold w-full text-ellipsis overflow-hidden whitespace-nowrap ">
               {name} {isRoomFull && <LockOutlinedIcon color="error" />}

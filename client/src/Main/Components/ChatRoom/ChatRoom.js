@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
 import { socket } from "../../MainPage.js";
 import { useNavigate } from "react-router-dom";
 
 import SideBar from "../SideBar/SideBar";
+import { UserContext } from "../../../contexts/UserContextProvider";
 
 const ChatRoom = ({ selectedRoom }) => {
   const { _id, messages, usersInfo } = selectedRoom;
+
+  const { socket } = useContext(UserContext);
 
   const navigate = useNavigate();
 

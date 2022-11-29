@@ -11,10 +11,9 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 import { DialogTitle } from "@mui/material";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import { socket } from "../../../MainPage.js";
 
 export default function AddRoomDialog({ open, handleClose }) {
-  const { darkMode, user } = useContext(UserContext);
+  const { darkMode, user, socket } = useContext(UserContext);
   const [newRoom, setNewRoom] = useState({});
   const [isLoadingRoom, setIsLoadingRoom] = useState();
   const [file, setFile] = useState(undefined);
@@ -58,7 +57,11 @@ export default function AddRoomDialog({ open, handleClose }) {
       alert("Please fill the required fields");
       return;
     }
-    if (!/[a-zA-Z]/.test(name) || maxPop <= 0 || !/^[1-9]\d*(\.\d+)?$/.test(maxPop)) {
+    if (
+      !/[a-zA-Z]/.test(name) ||
+      maxPop <= 0 ||
+      !/^[1-9]\d*(\.\d+)?$/.test(maxPop)
+    ) {
       alert("Invalid room attributes");
       return;
     }
@@ -101,7 +104,11 @@ export default function AddRoomDialog({ open, handleClose }) {
 
   return (
     <Dialog open={open} onClose={handleClose}>
-      <div className={`${darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"}`}>
+      <div
+        className={`${
+          darkMode ? "bg-primaryDark text-white" : "bg-primary text-black"
+        }`}
+      >
         <DialogTitle>
           <p className={"font-bold text-2xl text-center"}>Create new room</p>
         </DialogTitle>
@@ -112,7 +119,11 @@ export default function AddRoomDialog({ open, handleClose }) {
                 {previewUrl ? (
                   <div className="">
                     <div className="border border-primary rounded-lg hover:border-thirdy transition-all ">
-                      <img className="ml-auto rounded-lg shadow-md w-20 h-20 shadow " src={previewUrl} alt="preview" />
+                      <img
+                        className="ml-auto rounded-lg shadow-md w-20 h-20 shadow "
+                        src={previewUrl}
+                        alt="preview"
+                      />
                     </div>
                   </div>
                 ) : (
@@ -120,7 +131,13 @@ export default function AddRoomDialog({ open, handleClose }) {
                     <AddAPhotoOutlinedIcon fontSize="large" />
                   </div>
                 )}{" "}
-                <input className="hidden" type="file" accept=".jpg" onChange={pickHandler} id="imgPicker" />
+                <input
+                  className="hidden"
+                  type="file"
+                  accept=".jpg"
+                  onChange={pickHandler}
+                  id="imgPicker"
+                />
               </label>
               <div
                 className="absolute right-0 bottom-0 hover:cursor-pointer translate-x-4 translate-y-4 rounded-full text-red-600 hover:text-red-800"
