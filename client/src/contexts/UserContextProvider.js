@@ -9,7 +9,7 @@ const UserPorivder = ({ children }) => {
   const [darkMode, setDarkMode] = useState(false);
   const [accessToken, setAccessToken] = useState();
   const [socket, setSocket] = useState(
-    io(process.env.REACT_APP_SOCKET_URL, {
+    io(process.env.REACT_APP_API_URL, {
       "sync disconnect on unload": true,
       closeOnBeforeunload: false,
     })
