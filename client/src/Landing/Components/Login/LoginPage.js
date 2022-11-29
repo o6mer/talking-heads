@@ -21,13 +21,16 @@ const LoginPage = () => {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await fetch("http://localhost:3001/api/user/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/user/login`,
+        {
+          method: "POST",
+          body: JSON.stringify({ email, password }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       const data = await response.json();
       if (response.ok) {
         login(data.user);
@@ -57,14 +60,30 @@ const LoginPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <PasswordInput password={password} handleChange={handleChange} showHelperText={false} />
+          <PasswordInput
+            password={password}
+            handleChange={handleChange}
+            showHelperText={false}
+          />
 
           {loading ? (
-            <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
+            <LoadingButton
+              onClick={() => {}}
+              loading={true}
+              variant="outlined"
+              disabled
+            >
               disabled
             </LoadingButton>
           ) : (
-            <Button margin="normal" variant="contained" type="submit" disabled={!formValid} fullWidth color="primary">
+            <Button
+              margin="normal"
+              variant="contained"
+              type="submit"
+              disabled={!formValid}
+              fullWidth
+              color="primary"
+            >
               Login
             </Button>
           )}

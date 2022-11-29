@@ -53,7 +53,7 @@ const useAuth = () => {
     // if (!storedData?.userId || !storedData?.token) return;
 
     const req = await fetch(
-      `http://localhost:3001/api/user/${storedData?.userId}`
+      `${process.env.REACT_APP_API_URL}/api/user/${storedData?.userId}`
     );
     const userData = await req.json();
     userData.token = storedData.token;
