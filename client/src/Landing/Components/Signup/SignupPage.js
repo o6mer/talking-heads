@@ -8,7 +8,14 @@ import LoadingButton from "@mui/lab/LoadingButton";
 import PasswordInput from "../General/PasswordInput";
 
 const SignupPage = () => {
-  const { email, password, userName, profilePictureUrl, formValid, handleChange } = useForm("signup");
+  const {
+    email,
+    password,
+    userName,
+    profilePictureUrl,
+    formValid,
+    handleChange,
+  } = useForm("signup");
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
@@ -30,13 +37,21 @@ const SignupPage = () => {
     setLoading(true);
     let data;
     try {
-      const response = await fetch("http://localhost:3001/api/user/signup", {
-        method: "POST",
-        body: JSON.stringify({ userName, email, password, profilePictureUrl }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await fetch(
+        `${process.env.REACT_APP_API_URL}/api/user/signup`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            userName,
+            email,
+            password,
+            profilePictureUrl,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
       data = await response.json();
       if (response.ok) {
         console.log(data.user);
@@ -64,7 +79,11 @@ const SignupPage = () => {
           </Tooltip>
         </Link>
         <p className="font-bold text-3xl text-center">Signup</p>
-        <form action="" onSubmit={submitHandler} className="flex flex-col gap-2 justify-around ">
+        <form
+          action=""
+          onSubmit={submitHandler}
+          className="flex flex-col gap-2 justify-around "
+        >
           <TextField
             autoFocus
             onChange={handleChange}
@@ -87,10 +106,19 @@ const SignupPage = () => {
             sx={{ input: { color: "#ffff" }, label: { color: "#fff" } }}
           />
 
-          <PasswordInput password={password} handleChange={handleChange} showHelperText={true} />
+          <PasswordInput
+            password={password}
+            handleChange={handleChange}
+            showHelperText={true}
+          />
 
           {loading ? (
-            <LoadingButton onClick={() => {}} loading={true} variant="outlined" disabled>
+            <LoadingButton
+              onClick={() => {}}
+              loading={true}
+              variant="outlined"
+              disabled
+            >
               disabled
             </LoadingButton>
           ) : (

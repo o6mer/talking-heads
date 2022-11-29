@@ -46,7 +46,7 @@ export default function useAuth() {
     if (!spotifyCode) return;
 
     axios
-      .post("http://localhost:3001/api/spotify/login", {
+      .post(`${process.env.REACT_APP_API_URL}/api/spotify/login`, {
         code: spotifyCode,
       })
       .then((res) => {
@@ -71,7 +71,7 @@ export default function useAuth() {
     if (!refreshToken || !expiresIn || accessToken) return;
     const interval = setInterval(() => {
       axios
-        .post("http://localhost:3001/api/spotify/refresh", {
+        .post(`${process.env.REACT_APP_API_URL}/api/spotify/refresh`, {
           refreshToken,
         })
         .then((res) => {

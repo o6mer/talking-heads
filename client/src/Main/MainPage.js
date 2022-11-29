@@ -26,11 +26,14 @@ const MainPage = ({ noRoom }) => {
   useEffect(() => {
     const sendRequest = async () => {
       try {
-        const response = await fetch(`http://localhost:3001/api/room`, {
-          headers: {
-            Authorization: "Bearer " + user?.token,
-          },
-        }); // using "getAllRooms" from the API
+        const response = await fetch(
+          `${process.env.REACT_APP_API_URL}/api/room`,
+          {
+            headers: {
+              Authorization: "Bearer " + user?.token,
+            },
+          }
+        ); // using "getAllRooms" from the API
         const resData = await response.json(); //resData.roomList is the roomList (ofc)
         setRoomList(resData.roomList);
       } catch (error) {
