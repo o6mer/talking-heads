@@ -1,4 +1,3 @@
-const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
@@ -7,18 +6,16 @@ const spotifyRoutes = require("./routes/spotifyRoutes");
 const roomRoutes = require("./routes/roomRoutes");
 const { onSocketConection } = require("./controllers/socketController");
 require("dotenv").config();
-
+const express = require("express");
 const port = process.env.PORT || 3001;
 
-const io = require("socket.io")(process.env.SOCKET_PORT || port, {
-  cors: {
-    origin: [process.env.FRONTEND_URL],
-  },
-});
-
-let server;
-
-const app = express();
+let app = express(),
+  server = require("http").createServer(app),
+  io = require("socket.io")({
+    cors: {
+      origin: [process.env.FRONTEND_URL],
+    },
+  }).listen(server);
 
 app.use(cors({ origin: process.env.FRONTEND_URL }));
 app.use((req, res, next) => {
@@ -45,7 +42,10 @@ app.use("/", routerLand);
 mongoose
   .connect(process.env.DB_URL)
   .then(() => {
-    server = app.listen(port, () => {
+    // server = app.listen(port, () => {
+    //   console.log(`listening on port ${port}`);
+    // });
+    server.listen(port, () => {
       console.log(`listening on port ${port}`);
     });
   })
