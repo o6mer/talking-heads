@@ -2,13 +2,12 @@ import React, { useContext, useEffect, useState } from "react";
 import RoomList from "./Components/RoomList";
 import SearchBar from "../General/SearchBar";
 import { UserContext } from "../../../contexts/UserContextProvider";
-import { socket } from "../../MainPage";
 
 const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
   const [realRoomList, setRealList] = useState(roomList);
   const [filteredRoomList, setFilteredList] = useState(roomList);
 
-  const { darkMode } = useContext(UserContext);
+  const { darkMode, socket } = useContext(UserContext);
 
   useEffect(() => {
     //getting leftRoom and joinedRoom from backend and modifying the list

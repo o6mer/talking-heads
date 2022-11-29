@@ -1,29 +1,32 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../../contexts/UserContextProvider";
-import { socket } from "../../Main/MainPage";
 
 let logoutTimer;
 
 const useAuth = () => {
-  const { setUser, user, currentRoomId, setCurrentRoomId } = useContext(UserContext);
+  const { setUser, user, currentRoomId, setCurrentRoomId, socket } =
+    useContext(UserContext);
   const [tokenExpoDate, setTokenExpoDate] = useState();
 
   const navigate = useNavigate();
 
-  const login = useCallback((user, tokenExpoDate = new Date(new Date().getTime() + 3600000)) => {
-    setUser(user);
-    setTokenExpoDate(tokenExpoDate);
+  const login = useCallback(
+    (user, tokenExpoDate = new Date(new Date().getTime() + 3600000)) => {
+      setUser(user);
+      setTokenExpoDate(tokenExpoDate);
 
-    localStorage.setItem(
-      "user",
-      JSON.stringify({
-        userId: user._id,
-        token: user.token,
-        expiration: tokenExpoDate.toISOString(),
-      })
-    );
-  }, []);
+      localStorage.setItem(
+        "user",
+        JSON.stringify({
+          userId: user._id,
+          token: user.token,
+          expiration: tokenExpoDate.toISOString(),
+        })
+      );
+    },
+    []
+  );
 
   const logout = useCallback(() => {
     localStorage.removeItem("user");
@@ -49,7 +52,9 @@ const useAuth = () => {
     if (!storedData) return;
     // if (!storedData?.userId || !storedData?.token) return;
 
-    const req = await fetch(`http://localhost:3001/api/user/${storedData?.userId}`);
+    const req = await fetch(
+      `http://localhost:3001/api/user/${storedData?.userId}`
+    );
     const userData = await req.json();
     userData.token = storedData.token;
     if (userData) {

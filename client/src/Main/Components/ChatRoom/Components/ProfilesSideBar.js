@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
-import { socket } from "../../../MainPage";
 import Logo from "../../../../Media/NameLogo.png";
 import UserModal from "../../../Components/General/UserModal.jsx";
 import { UserContext } from "../../../../contexts/UserContextProvider";
@@ -11,7 +10,7 @@ import RoomDetails from "./RoomDetails";
 const ProfilesSideBar = ({ selectedRoom, isShown, setOpen }) => {
   const pop = selectedRoom.usersInfo;
   const [people, setPeople] = useState(pop);
-  const { darkMode } = useContext(UserContext);
+  const { darkMode, socket } = useContext(UserContext);
 
   useEffect(() => {
     if (!pop) return;

@@ -2,7 +2,6 @@ import React, { useContext, useState } from "react";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 import MeetingRoomIcon from "@mui/icons-material/MeetingRoom";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
-import { socket } from "../../../MainPage.js";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
@@ -12,7 +11,7 @@ import { Link } from "react-router-dom";
 
 const RoomDetails = ({ room }) => {
   const { roomCreator } = room;
-  const { darkMode, user } = useContext(UserContext);
+  const { darkMode, user, socket } = useContext(UserContext);
   const userId = user._id;
   const isRoomCreator = userId.toString() === roomCreator._id.toString();
 
@@ -44,7 +43,12 @@ const RoomDetails = ({ room }) => {
           onClick={handleOpenModal}
           className="hover:text-primary hover:cursor-pointer"
         >{`Owner: ${roomCreator.userName}`}</p>
-        <UserModal open={openModal} userInfo={roomCreator} handleClose={handleCloseModal} selectedRoom={room} />
+        <UserModal
+          open={openModal}
+          userInfo={roomCreator}
+          handleClose={handleCloseModal}
+          selectedRoom={room}
+        />
       </div>
       <div className="ml-auto mt-auto flex flex-col">
         <div>
@@ -74,7 +78,10 @@ const RoomDetails = ({ room }) => {
             </MenuItem>
             {isRoomCreator && (
               <MenuItem onClick={handleCloseMenu}>
-                <div onClick={deleteRoom} className="mb-auto hover:cursor-pointer flex gap-2">
+                <div
+                  onClick={deleteRoom}
+                  className="mb-auto hover:cursor-pointer flex gap-2"
+                >
                   <DeleteForeverIcon /> <p>delete room</p>
                 </div>
               </MenuItem>

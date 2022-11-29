@@ -8,18 +8,12 @@ import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
-import { io } from "socket.io-client";
 import MobileActionBar from "./Components/ChatRoom/Components/MobileActionBar";
-
-export const socket = io("http://localhost:8080", {
-  "sync disconnect on unload": true,
-  closeOnBeforeunload: false,
-});
 
 const MainPage = ({ noRoom }) => {
   const [noRoomState, setNoRoomState] = useState(noRoom);
   const [roomList, setRoomList] = useState();
-  const { currentRoomId, setCurrentRoomId, user, darkMode } =
+  const { currentRoomId, setCurrentRoomId, user, darkMode, socket } =
     useContext(UserContext);
   const [selectedRoom, setSelRoom] = useState({});
   const [roomFound, setRoomFound] = useState(undefined);
