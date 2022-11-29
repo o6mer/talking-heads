@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/static/css/main.afaae583.css",
-    "main.js": "/static/js/main.79aa5b95.js",
+    "main.js": "/static/js/main.ba04f7ae.js",
     "static/media/talking_heads_logo1.png": "/static/media/talking_heads_logo1.3efb3b1108dafd8f62b8.png",
     "static/media/Moai404.jpg": "/static/media/Moai404.1876be4c8bd3e09dac8b.jpg",
     "static/media/bg_hero.png": "/static/media/bg_hero.e1ba97f007bdbdcb48f4.png",
@@ -10,10 +10,10 @@
     "static/media/SignupImage.PNG": "/static/media/SignupImage.1723b301437daa8515c6.PNG",
     "index.html": "/index.html",
     "main.afaae583.css.map": "/static/css/main.afaae583.css.map",
-    "main.79aa5b95.js.map": "/static/js/main.79aa5b95.js.map"
+    "main.ba04f7ae.js.map": "/static/js/main.ba04f7ae.js.map"
   },
   "entrypoints": [
     "static/css/main.afaae583.css",
-    "static/js/main.79aa5b95.js"
+    "static/js/main.ba04f7ae.js"
   ]
 }
