@@ -20,11 +20,9 @@ const RoomItem = ({ room }) => {
     });
   }, []);
 
-  useEffect(() => {}, [roomImage]);
-
-  function ab2str(buf) {
-    return String.fromCharCode.apply(null, new Uint16Array(buf));
-  }
+  useEffect(() => {
+    console.log(room);
+  }, [roomImage]);
 
   return (
     <Tooltip title={name} placement="right" arrow>
