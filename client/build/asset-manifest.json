@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.afaae583.css",
-    "main.js": "/static/js/main.a87aa9e6.js",
+    "main.css": "/static/css/main.def11457.css",
+    "main.js": "/static/js/main.383de6ad.js",
     "static/media/talking_heads_logo1.png": "/static/media/talking_heads_logo1.3efb3b1108dafd8f62b8.png",
     "static/media/Moai404.jpg": "/static/media/Moai404.1876be4c8bd3e09dac8b.jpg",
     "static/media/bg_hero.png": "/static/media/bg_hero.e1ba97f007bdbdcb48f4.png",
@@ -9,11 +9,11 @@
     "static/media/NameChatLogo4.png": "/static/media/NameChatLogo4.b1d0b3af30db967940b0.png",
     "static/media/SignupImage.PNG": "/static/media/SignupImage.1723b301437daa8515c6.PNG",
     "index.html": "/index.html",
-    "main.afaae583.css.map": "/static/css/main.afaae583.css.map",
-    "main.a87aa9e6.js.map": "/static/js/main.a87aa9e6.js.map"
+    "main.def11457.css.map": "/static/css/main.def11457.css.map",
+    "main.383de6ad.js.map": "/static/js/main.383de6ad.js.map"
   },
   "entrypoints": [
-    "static/css/main.afaae583.css",
-    "static/js/main.a87aa9e6.js"
+    "static/css/main.def11457.css",
+    "static/js/main.383de6ad.js"
   ]
 }
