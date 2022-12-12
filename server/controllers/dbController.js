@@ -11,7 +11,6 @@ const getUserNoPass = async (userId) => {
   return user;
 };
 
-//is this useless???
 const getRoomByIdDB = async (roomId) => {
   let room;
   try {
@@ -134,7 +133,7 @@ const leaveRoomDB = async (userId, roomId) => {
       return;
     const userIdAsObjectId = mongoose.Types.ObjectId(userId);
 
-    const room = await Room.findById(roomId);
+    const room = await Room.findById(roomId).populate("roomCreator");
 
     if (!room) return;
 
@@ -151,7 +150,10 @@ const leaveRoomDB = async (userId, roomId) => {
 const joinRoomDB = async (userId, roomId) => {
   const userIdAsObjectId = mongoose.Types.ObjectId(userId);
   try {
-    let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
+    let currentRoom = await Room.findOne({ pop: userIdAsObjectId }).populate(
+      "roomCreator"
+    );
+
     let selectedRoom;
 
     if (mongoose.Types.ObjectId.isValid(roomId)) {
@@ -242,9 +244,11 @@ const joinRoomDB = async (userId, roomId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
+    const oldRoom = currentRoom?.toObject();
+
     return {
       newRoom,
-      currentRoom,
+      oldRoom,
       responseMsg: new ServerResponse("room changed successfully", 200, "OK"),
     };
   } catch (err) {
