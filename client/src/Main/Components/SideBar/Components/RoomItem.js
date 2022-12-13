@@ -13,16 +13,11 @@ const RoomItem = ({ room }) => {
   const [showRoomPop, setShowRoomPop] = useState(false);
   const [roomImage, setRoomImage] = useState(image);
   const isRoomFull = maxPop === pop.length;
-
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
       if (roomId === _id) setShownMessage(msg);
     });
   }, []);
-
-  useEffect(() => {
-    console.log(room);
-  }, [roomImage]);
 
   return (
     <Tooltip title={name} placement="right" arrow>

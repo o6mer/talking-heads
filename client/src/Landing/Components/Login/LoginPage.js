@@ -33,6 +33,7 @@ const LoginPage = () => {
       );
       const data = await response.json();
       if (response.ok) {
+        console.log(data.user);
         login(data.user);
         navigate("/main");
       } else throw new Error(data.message);

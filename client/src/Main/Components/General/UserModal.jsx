@@ -56,19 +56,32 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
     >
       <Fade in={open}>
         <Box sx={style} className={"gap-6 w"}>
-          <img className={"w-40 rounded-md"} src={Picture} />
+          <img
+            className={"w-40 rounded-md"}
+            src={`data:image/jpg;base64, ${userInfo.profilePicture}`}
+          />
           <div>
             <Typography id="transition-modal-title" variant="h6" component="h2">
               <p className="text-2xl font-semibold">{`${userInfo?.userName}`}</p>
             </Typography>
             <Typography id="transition-modal-description" sx={{ mt: 2 }}>
-              <p className={`text-xl font-semibold ${darkMode ? "text-gray-400" : "text-gray-600"}`}>{`Email: `}</p>
+              <p
+                className={`text-xl font-semibold ${
+                  darkMode ? "text-gray-400" : "text-gray-600"
+                }`}
+              >{`Email: `}</p>
               <a href="#">
-                <p className={`hover:cursor-pointer ${darkMode ? "text-blue-300" : "text-blue-500"}`}>
+                <p
+                  className={`hover:cursor-pointer ${
+                    darkMode ? "text-blue-300" : "text-blue-500"
+                  }`}
+                >
                   {userInfo?.email}
                 </p>
               </a>
-              <p className="mt-2 text-thirdy">{`${isCreator ? "~room creator~" : ""}`}</p>
+              <p className="mt-2 text-thirdy">{`${
+                isCreator ? "~room creator~" : ""
+              }`}</p>
             </Typography>
             <RoomsMenu userRoomList={userRoomList} />
           </div>
