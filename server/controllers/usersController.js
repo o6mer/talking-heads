@@ -101,6 +101,8 @@ const signup = async (req, res, next) => {
     return next();
   }
 
+  newUser = newUser.toObject();
+
   res.status(201).json({
     user: {
       _id: newUser._id,
