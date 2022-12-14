@@ -84,9 +84,6 @@ const ProfilesSideBarItem = ({ user, selectedRoom }) => {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  useEffect(() => {
-    console.log(profilePicture);
-  }, []);
   return (
     <>
       <div
