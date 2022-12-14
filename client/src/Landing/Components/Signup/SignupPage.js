@@ -7,23 +7,54 @@ import { TextField, Tooltip, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PasswordInput from "../General/PasswordInput";
 
+import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
+import HighlightOffIcon from "@mui/icons-material/HighlightOff";
+
 const SignupPage = () => {
-  const {
-    email,
-    password,
-    userName,
-    profilePictureUrl,
-    formValid,
-    handleChange,
-  } = useForm("signup");
+  const { email, password, userName, formValid, handleChange } =
+    useForm("signup");
 
   const [isError, setIsError] = useState(false);
   const [errorMessage, setErrorMessage] = useState("error");
   const [loading, setLoading] = useState(false);
 
+  const [file, setFile] = useState(undefined);
+  const [file64, setFile64] = useState(undefined);
+  const [binFile, setBinFile] = useState(undefined);
+  const [previewUrl, setPreviewUrl] = useState(undefined);
+  const [isValid, setIsValid] = useState(false);
+
+  const clearImage = () => {
+    setPreviewUrl();
+    setFile();
+  };
+  const pickHandler = (event) => {
+    let fileIsValid = isValid;
+    if (event.target.files && event.target.files.length === 1) {
+      const pickedFile = event.target.files[0];
+      setFile(pickedFile);
+      setIsValid(true);
+      fileIsValid = true;
+    } else {
+      setIsValid(false);
+      fileIsValid = false;
+    }
+  };
+
   const { setUser } = useContext(UserContext);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!file) return;
+    const fileReader = new FileReader();
+    fileReader.onload = () => {
+      setPreviewUrl(fileReader.result);
+      setFile64(fileReader.result.replace("data:", "").replace(/^.+,/, ""));
+    };
+
+    fileReader.readAsDataURL(file);
+  }, [file]);
 
   useEffect(() => {
     if (isError) return alert(errorMessage);
@@ -45,7 +76,7 @@ const SignupPage = () => {
             userName,
             email,
             password,
-            profilePictureUrl,
+            profilePicture: file64,
           }),
           headers: {
             "Content-Type": "application/json",
@@ -54,7 +85,6 @@ const SignupPage = () => {
       );
       data = await response.json();
       if (response.ok) {
-        console.log(data.user);
         setUser(data.user);
         navigate("/main");
       } else {
@@ -82,8 +112,42 @@ const SignupPage = () => {
         <form
           action=""
           onSubmit={submitHandler}
-          className="flex flex-col gap-2 justify-around "
+          className="flex flex-col gap-2 justify-around pt-3"
         >
+          <div className="flex items-center justify-center">
+            <div className="relative">
+              <label className="hover:cursor-pointer ">
+                {previewUrl ? (
+                  <div className="">
+                    <div className="border border-primary rounded-lg hover:border-thirdy transition-all ">
+                      <img
+                        className="ml-auto rounded-lg shadow-md w-20 h-20 shadow "
+                        src={previewUrl}
+                        alt="preview"
+                      />
+                    </div>
+                  </div>
+                ) : (
+                  <div className="ml-auto text-sm w-20 h-20 border-2 rounded-lg text-center hover:text-thirdy flex items-center justify-center transition-all">
+                    <AddAPhotoOutlinedIcon fontSize="large" />
+                  </div>
+                )}{" "}
+                <input
+                  className="hidden"
+                  type="file"
+                  accept=".jpg"
+                  onChange={pickHandler}
+                  id="imgPicker"
+                />
+              </label>
+              <div
+                className="absolute right-0 bottom-0 hover:cursor-pointer translate-x-4 translate-y-4 rounded-full text-red-600 hover:text-red-800"
+                onClick={clearImage}
+              >
+                {previewUrl && <HighlightOffIcon />}
+              </div>
+            </div>
+          </div>
           <TextField
             autoFocus
             onChange={handleChange}
@@ -96,7 +160,6 @@ const SignupPage = () => {
           />
 
           <TextField
-            autoFocus
             onChange={handleChange}
             type="email"
             name="email"
