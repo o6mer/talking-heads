@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import useForm from "../../hooks/useForm";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import HomeIcon from "@mui/icons-material/Home";
 import { TextField, Tooltip, Button } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import PasswordInput from "../General/PasswordInput";
@@ -103,11 +104,18 @@ const SignupPage = () => {
   return (
     <div className="flex justify-center items-center h-screen background-picture  bg-cover overflow-hidden">
       <div className="flex flex-col  bg-fourthy text-white p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] transition-all shadow-xl">
-        <Link to="/login" className="w-min">
-          <Tooltip title="Back to Login">
-            <ArrowBackIcon className="hover:fill-gray-300" />
-          </Tooltip>
-        </Link>
+        <div className="flex gap-2">
+          <Link to="/login" className="w-min">
+            <Tooltip title="Back to Login">
+              <ArrowBackIcon className="hover:fill-gray-300" />
+            </Tooltip>
+          </Link>
+          <Link to="/" className="w-min">
+            <Tooltip title="Back to main page">
+              <HomeIcon className="hover:fill-gray-300" />
+            </Tooltip>
+          </Link>
+        </div>
         <p className="font-bold text-3xl text-center">Signup</p>
         <form
           action=""

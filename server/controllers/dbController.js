@@ -119,6 +119,9 @@ const deleteMessageDB = async (roomId, msgId) => {
     await Room.findByIdAndUpdate(roomId, {
       $pull: { messages: { msgId: msgId } },
     }); //pulling the message with the required msgId out of the msgArray
+    const room = await Room.findById(roomId);
+    const messages = room.messages;
+    return messages.at(-1);
   } catch (error) {
     console.log(error);
   }
@@ -133,7 +136,7 @@ const leaveRoomDB = async (userId, roomId) => {
       return;
     const userIdAsObjectId = mongoose.Types.ObjectId(userId);
 
-    const room = await Room.findById(roomId).populate("roomCreator");
+    let room = await Room.findById(roomId).populate("roomCreator");
 
     if (!room) return;
 
@@ -141,6 +144,7 @@ const leaveRoomDB = async (userId, roomId) => {
       (id) => id.toString() !== userIdAsObjectId.toString()
     );
     await room.save();
+    room = room.toObject();
     return room;
   } catch (err) {
     console.log("leave room", err);
@@ -245,7 +249,6 @@ const joinRoomDB = async (userId, roomId) => {
     };
 
     const oldRoom = currentRoom?.toObject();
-
     return {
       newRoom,
       oldRoom,

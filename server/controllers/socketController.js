@@ -30,7 +30,7 @@ const onSocketConection = (socket, io) => {
 
     msg = await sendMessageDB(msg, roomId);
 
-    if (roomId === "") socket.emit("receiveMsg", msg);
+    if (roomId === "") socket.broadcast.emit("receiveMsg", msg);
     else {
       io.emit("receiveMsg", msg, roomId);
     }
@@ -39,8 +39,8 @@ const onSocketConection = (socket, io) => {
 
   async function onDeleteMessage(roomId, msgId, userId, msgWriterId, callback) {
     if (userId.toString() === msgWriterId.toString()) {
-      deleteMessageDB(roomId, msgId); // deleting the message on the db
-      socket.broadcast.emit("removeMsg", msgId);
+      const lastMsg = await deleteMessageDB(roomId, msgId); // deleting the message on the db
+      io.local.emit("removeMsg", lastMsg, roomId);
       callback("message deleted!");
     } else callback("message deletion denied!");
   }
@@ -60,14 +60,14 @@ const onSocketConection = (socket, io) => {
 
       const newRoom = dbResponse?.newRoom;
 
-      const currentRoom = dbResponse?.currentRoom;
+      const oldRoom = dbResponse?.oldRoom;
       const { responseMsg } = dbResponse;
       if (newRoom) {
         socket.join(roomId);
         socket.to(roomId).emit("userJoinedRoom", userId, newRoom);
       }
 
-      io.emit("userChangedRoom", newRoom, currentRoom);
+      io.emit("userChangedRoom", newRoom, oldRoom);
 
       callback(newRoom, responseMsg);
       rooms.push(roomId);
