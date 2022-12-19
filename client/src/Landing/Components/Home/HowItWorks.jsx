@@ -1,6 +1,8 @@
 import React from "react";
 import HeroPicture from "../../../Media/NameChatLogo4.png";
 import SignupImage from "./HomePageImages/SignupImage.PNG";
+import CreateRoom from "./HomePageImages/createRoom.png";
+import ChatExample from "./HomePageImages/chatExample.png";
 import Fade from "react-reveal/Fade";
 
 const HowItWorks = () => {
@@ -27,7 +29,7 @@ const HowItWorks = () => {
             number="02"
             header="Join a chat room or create you own"
             content="Choose a chat room of your liking or create a completly new one. Every room is created by the community and the creator can choose the name, the room image and the maximum amount of people who can join."
-            image={HeroPicture}
+            image={CreateRoom}
             side="right"
             dark={true}
           />
@@ -37,7 +39,7 @@ const HowItWorks = () => {
             number="03"
             header="Start Chatting!"
             content="Once in a room you will see all the previous messages that have been sent in the chat and ofcourse send your own messages. Also you can see who is currently in the room and their profile."
-            image={HeroPicture}
+            image={ChatExample}
             side="left"
           />
         </Fade>
