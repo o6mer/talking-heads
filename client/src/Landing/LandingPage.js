@@ -22,9 +22,9 @@ const LandingPage = () => {
         <Fade bottom>
           <HowItWorks />
         </Fade>
-        <Fade bottom>
+        {/* <Fade bottom>
           <Features />
-        </Fade>
+        </Fade> */}
         <Footer />
       </div>
     </main>

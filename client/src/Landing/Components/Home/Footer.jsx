@@ -5,7 +5,18 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import { Link } from "react-router-dom";
 
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+
 const Footer = () => {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
   return (
     <footer className="flex w-full bg-thirdy justify-center items-center py-14">
       <div className="w-full max-w-5xl grid grid-cols-2 grid-rows-3 gap-4 md:gap-0 md:flex justify-between items-center text-white px-6 md:px-0 ">
@@ -31,13 +42,40 @@ const Footer = () => {
               <FacebookIcon fontSize="medium" />
             </a>
             <a
-              href="https://www.linkedin.com/in/omer-liraz-12a337230/"
               target="_blank"
               rel="noreferrer noopener"
               className="hover:text-[#ccc]"
+              onClick={handleClick}
             >
               <LinkedInIcon fontSize="medium" />
             </a>
+            <Menu
+              anchorEl={anchorEl}
+              open={open}
+              onClose={handleClose}
+              MenuListProps={{
+                "aria-labelledby": "basic-button",
+              }}
+            >
+              <MenuItem onClick={handleClose}>
+                <a
+                  href="https://www.linkedin.com/in/omer-liraz-12a337230/"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Omer Liraz
+                </a>
+              </MenuItem>
+              <MenuItem onClick={handleClose}>
+                <a
+                  href="https://www.linkedin.com/in/yanay-sella"
+                  target="_blank"
+                  rel="noreferrer noopener"
+                >
+                  Yanay Sella
+                </a>
+              </MenuItem>
+            </Menu>
           </div>
         </section>
         <section className="flex flex-col gap-2">
@@ -102,14 +140,14 @@ const Footer = () => {
               </a>
             </li>
             <li>
-              <a href="#features" className="transition-all hover:underline">
+              {/* <a href="#features" className="transition-all hover:underline">
                 Features
-              </a>
+              </a> */}
             </li>
             <li>
-              <a href="#help" className="transition-all hover:underline">
+              {/* <a href="#help" className="transition-all hover:underline">
                 Help
-              </a>
+              </a> */}
             </li>
           </ul>
         </section>
