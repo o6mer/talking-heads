@@ -69,6 +69,7 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
       }`,
       msgContent,
     };
+
     socket.emit("sendMsg", newMsg, currentRoomId);
   };
 

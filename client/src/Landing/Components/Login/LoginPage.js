@@ -2,11 +2,12 @@ import React, { useContext, useState } from "react";
 import useForm from "../../hooks/useForm";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
 import { UserContext } from "../../../contexts/UserContextProvider";
-import { Button, TextField } from "@mui/material";
+import { Button, TextField, Tooltip } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "../../../Landing/hooks/useAuth";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PasswordInput from "../General/PasswordInput";
+import HomeIcon from "@mui/icons-material/Home";
 
 const LoginPage = () => {
   const { email, password, formValid, handleChange } = useForm("login");
@@ -33,7 +34,6 @@ const LoginPage = () => {
       );
       const data = await response.json();
       if (response.ok) {
-        console.log(data.user);
         login(data.user);
         navigate("/main");
       } else throw new Error(data.message);
@@ -46,6 +46,11 @@ const LoginPage = () => {
   return (
     <div className="flex justify-center items-center h-screen w-screen background-picture bg-cover ">
       <div className="flex flex-col gap-3 bg-fourthy p-8 rounded-md w-[25%] max-w-[500px] min-w-[400px] text-white shadow-xl">
+        <RouterLink to="/" className="w-min">
+          <Tooltip title="Back to main page">
+            <HomeIcon className="hover:fill-gray-300" />
+          </Tooltip>
+        </RouterLink>
         <p className="font-bold text-3xl ">Please login to start chatting</p>
 
         <form className="w-[100%] flex flex-col gap-2" onSubmit={submitHandler}>

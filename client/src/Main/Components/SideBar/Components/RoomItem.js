@@ -17,6 +17,9 @@ const RoomItem = ({ room }) => {
     socket.on("receiveMsg", (msg, roomId) => {
       if (roomId === _id) setShownMessage(msg);
     });
+    socket.on("removeMsg", (lastMsg, roomId) => {
+      if (roomId === _id) setShownMessage(lastMsg);
+    });
   }, []);
 
   return (

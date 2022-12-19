@@ -23,12 +23,12 @@ const NavBar = () => {
         <a href="#how-it-works" className={linkStyles}>
           How It Works
         </a>
-        <a href="#features" className={linkStyles}>
+        {/* <a href="#features" className={linkStyles}>
           Features
-        </a>
-        <a href="#help" className={linkStyles}>
+        </a> */}
+        {/* <a href="#help" className={linkStyles}>
           Help
-        </a>
+        </a> */}
 
         <div className="w-[1px] h-[60%] bg-slate-300"> </div>
 
