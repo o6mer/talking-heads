@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import SideBar from "./Components/SideBar/SideBar";
 import NavBar from "./Components/General/NavBar";
 import ChatRoom from "./Components/ChatRoom/ChatRoom";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
 import useAuth from "../Landing/hooks/useAuth";
@@ -22,6 +22,7 @@ const MainPage = ({ noRoom }) => {
   const [textHeader, setTextHeader] = useState(
     "Please select a room to start chatting"
   );
+  const navigate = useNavigate();
 
   useEffect(() => {
     const sendRequest = async () => {
@@ -85,6 +86,7 @@ const MainPage = ({ noRoom }) => {
         );
         setTextHeader(responseMsg.message); // selected room not found or something
         setRoomFound(false);
+        navigate("/main");
       } else {
         setRoomFound(true);
         setSelRoom(newRoom);
