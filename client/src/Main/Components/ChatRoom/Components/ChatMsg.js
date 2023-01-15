@@ -34,7 +34,7 @@ const ChatMsg = ({
 
   return (
     <li
-      className={`max-w-min p-3 gap-3 font-bold justify-around rounded-md text-white ${
+      className={`w-max max-w-[60%] p-3 gap-3 font-bold justify-around rounded-md text-white ${
         isLoggedInUser
           ? `self-end  ${
               darkMode

@@ -1,7 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
-import { socket } from "../../MainPage.js";
 import { useNavigate } from "react-router-dom";
 
 import SideBar from "../SideBar/SideBar";

@@ -1,3 +1,4 @@
+//~~ api/user/...
 const { validationResult } = require("express-validator");
 const { User } = require("../models/userModel");
 const sgMail = require("@sendgrid/mail");
@@ -5,6 +6,8 @@ const passGenerator = require("generate-password");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
+const fs = require("fs");
+const fsp = require("fs/promises");
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -18,8 +21,9 @@ const getUserById = async (req, res, next) => {
   try {
     user = await User.findById(userId).populate("rooms");
     if (!user) return next();
-    const { _id, userName, email, profilePictureUrl, rooms } = user;
-    res.json({ _id, userName, email, profilePictureUrl, rooms });
+    user = user.toObject();
+    const { _id, userName, email, profilePicture, rooms } = user;
+    res.json({ _id, userName, email, profilePicture, rooms });
   } catch (err) {
     return next(err);
   }
@@ -32,7 +36,28 @@ const signup = async (req, res, next) => {
     return res.status(400).json({ message: result.array() });
   }
 
-  const { userName, email, password, profilePictureUrl } = req.body;
+  let { userName, email, password, profilePicture } = req.body;
+
+  if (profilePicture == null || !profilePicture) {
+    profilePicture = await fsp.readFile("serverMedia/NameLogo.png"); // default image
+  } else {
+    await fsp.writeFile("uploads/imageUser.jpg", profilePicture, {
+      encoding: "base64",
+    });
+    const stats = fs.statSync("uploads/imageUser.jpg");
+    const fileSizeMB = stats.size;
+    if (fileSizeMB / (1024 * 1024) >= 1) {
+      const res = callback(
+        new ServerResponse(
+          "file to strong mate, frontend shouldve told you that",
+          400,
+          "ERROR"
+        )
+      );
+      return;
+    }
+    profilePicture = await fsp.readFile("uploads/imageUser.jpg");
+  }
 
   try {
     if (await User.exists({ email })) {
@@ -56,7 +81,7 @@ const signup = async (req, res, next) => {
       userName,
       email,
       password: hashedPassword,
-      profilePictureUrl,
+      profilePicture,
       rooms: [],
     });
     newUser = await newUser.save();
@@ -76,12 +101,14 @@ const signup = async (req, res, next) => {
     return next();
   }
 
+  newUser = newUser.toObject();
+
   res.status(201).json({
     user: {
       _id: newUser._id,
       userName: newUser.userName,
       email: newUser.email,
-      profilePictureUrl: newUser.profilePictureUrl,
+      profilePicture: newUser.profilePicture,
       rooms: newUser.rooms,
       token,
     },
@@ -132,13 +159,13 @@ const login = async (req, res, next) => {
     return next();
   }
   user.token = token;
-
+  user = user.toObject();
   res.status(200).json({
     user: {
       _id: user._id,
       userName: user.userName,
       email: user.email,
-      profilePictureUrl: user.profilePictureUrl,
+      profilePicture: user.profilePicture,
       rooms: user.rooms,
       token,
     },

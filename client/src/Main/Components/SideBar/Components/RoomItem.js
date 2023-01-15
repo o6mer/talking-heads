@@ -11,25 +11,28 @@ const RoomItem = ({ room }) => {
   const { darkMode, currentRoomId, socket } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
-  const [roomImage, setRoomImage] = useState(image);
+
+  const [route, setRoute] = useState(`/main/${_id}`);
   const isRoomFull = maxPop === pop.length;
 
   useEffect(() => {
     socket.on("receiveMsg", (msg, roomId) => {
       if (roomId === _id) setShownMessage(msg);
     });
+    socket.on("removeMsg", (lastMsg, roomId) => {
+      if (roomId === _id) setShownMessage(lastMsg);
+    });
   }, []);
 
-  useEffect(() => {}, [roomImage]);
-
-  function ab2str(buf) {
-    return String.fromCharCode.apply(null, new Uint16Array(buf));
-  }
+  useEffect(() => {
+    if (isRoomFull) setRoute("");
+    if (!isRoomFull) setRoute(`/main/${_id}`);
+  }, [isRoomFull]);
 
   return (
     <Tooltip title={name} placement="right" arrow>
       <Link
-        to={`/main/${_id}`}
+        to={route}
         className={`flex items-center gap-3 w-full  m-0 cursor-pointer py-2 px-4 box-border text-xl transition-[background-color]  border-b-2  border-solid ${
           darkMode
             ? `hover:bg-primaryDark border-b-gray-700`

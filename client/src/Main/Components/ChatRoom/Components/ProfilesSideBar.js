@@ -76,12 +76,14 @@ const ProfilesSideBar = ({ selectedRoom, isShown, setOpen }) => {
 
 const ProfilesSideBarItem = ({ user, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
+  const { userName, _id, profilePicture } = user;
   const isCreator = user._id === selectedRoom.roomCreator._id.toString();
 
   //modal stuff
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
   return (
     <>
       <div
@@ -93,7 +95,11 @@ const ProfilesSideBarItem = ({ user, selectedRoom }) => {
       } flex py-2 px-3 items-center justify-start gap-3 `}
         onClick={handleOpen}
       >
-        <img className="w-8 h-8 rounded-md" src={Logo} alt="Profile Pic"></img>
+        <img
+          className="w-8 h-8 rounded-md"
+          alt="Profile Pic"
+          src={`data:image/jpg;base64, ${profilePicture}`}
+        ></img>
         <p className={`flex  text-xl ${isCreator && "text-thirdy"}`}>
           {user.userName}
         </p>

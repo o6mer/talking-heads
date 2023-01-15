@@ -15,13 +15,13 @@ const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
       setFilteredList((prev) => {
         return prev.map((room) => {
           if (!joinedRoom) {
+            // if left room without joining
             if (leftRoom?._id === room._id) room = leftRoom;
           }
 
+          //changing the joined room
           if (room?._id === joinedRoom?._id) room = joinedRoom;
-
-          if (!leftRoom || !room) return room;
-
+          //changing the left room
           if (room?._id === leftRoom?._id) room = leftRoom;
 
           return room;
@@ -47,7 +47,6 @@ const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
       deleteRoom(roomId);
     });
     socket.on("roomAdded", (newRoom) => {
-      console.log("WTF??????????????");
       addRoom(newRoom);
     });
   }, []);

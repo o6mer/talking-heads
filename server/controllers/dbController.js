@@ -11,7 +11,6 @@ const getUserNoPass = async (userId) => {
   return user;
 };
 
-//is this useless???
 const getRoomByIdDB = async (roomId) => {
   let room;
   try {
@@ -120,6 +119,9 @@ const deleteMessageDB = async (roomId, msgId) => {
     await Room.findByIdAndUpdate(roomId, {
       $pull: { messages: { msgId: msgId } },
     }); //pulling the message with the required msgId out of the msgArray
+    const room = await Room.findById(roomId);
+    const messages = room.messages;
+    return messages.at(-1);
   } catch (error) {
     console.log(error);
   }
@@ -134,7 +136,7 @@ const leaveRoomDB = async (userId, roomId) => {
       return;
     const userIdAsObjectId = mongoose.Types.ObjectId(userId);
 
-    const room = await Room.findById(roomId);
+    let room = await Room.findById(roomId).populate("roomCreator");
 
     if (!room) return;
 
@@ -142,6 +144,7 @@ const leaveRoomDB = async (userId, roomId) => {
       (id) => id.toString() !== userIdAsObjectId.toString()
     );
     await room.save();
+    room = room.toObject();
     return room;
   } catch (err) {
     console.log("leave room", err);
@@ -151,7 +154,10 @@ const leaveRoomDB = async (userId, roomId) => {
 const joinRoomDB = async (userId, roomId) => {
   const userIdAsObjectId = mongoose.Types.ObjectId(userId);
   try {
-    let currentRoom = await Room.findOne({ pop: userIdAsObjectId });
+    let currentRoom = await Room.findOne({ pop: userIdAsObjectId }).populate(
+      "roomCreator"
+    );
+
     let selectedRoom;
 
     if (mongoose.Types.ObjectId.isValid(roomId)) {
@@ -242,9 +248,10 @@ const joinRoomDB = async (userId, roomId) => {
       usersInfo: updatedUsersInfoRoom[0].usersInfo,
     };
 
+    const oldRoom = currentRoom?.toObject();
     return {
       newRoom,
-      currentRoom,
+      oldRoom,
       responseMsg: new ServerResponse("room changed successfully", 200, "OK"),
     };
   } catch (err) {

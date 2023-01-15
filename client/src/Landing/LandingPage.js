@@ -14,7 +14,7 @@ const LandingPage = () => {
     <main className=" h-screen w-screen flex justify-center overflow-x-hidden scroll-smooth">
       <div className="w-full  flex flex-col items-center gap-20 ">
         <div
-          className={`background-picture flex flex-col justify-center items-center cover`}
+          className={`background-picture flex flex-col justify-center items-center bg-cover`}
         >
           <NavBar />
           <Hero />
@@ -22,9 +22,9 @@ const LandingPage = () => {
         <Fade bottom>
           <HowItWorks />
         </Fade>
-        <Fade bottom>
+        {/* <Fade bottom>
           <Features />
-        </Fade>
+        </Fade> */}
         <Footer />
       </div>
     </main>

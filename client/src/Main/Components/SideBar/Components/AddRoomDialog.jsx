@@ -19,7 +19,6 @@ export default function AddRoomDialog({ open, handleClose }) {
   const [file, setFile] = useState(undefined);
   const [previewUrl, setPreviewUrl] = useState(undefined);
   const [isValid, setIsValid] = useState(false);
-  const filePickerRef = useRef();
 
   const clearImage = () => {
     setPreviewUrl();
