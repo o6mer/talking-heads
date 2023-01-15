@@ -12,7 +12,7 @@ const ProfileMenu = ({ setAnchorEl, anchorEl, openMenu }) => {
   const [openModal, setOpenModal] = useState(false);
   const [openDrawer, setOpenDrawer] = useState(false);
 
-  const { user, darkMode } = useContext(UserContext);
+  const { user } = useContext(UserContext);
 
   const { logout } = useAuth();
 

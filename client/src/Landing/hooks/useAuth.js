@@ -25,6 +25,7 @@ const useAuth = () => {
         })
       );
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   );
 
@@ -35,6 +36,7 @@ const useAuth = () => {
     setUser(null);
     setCurrentRoomId(null);
     navigate("/login");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRoomId]);
 
   useEffect(() => {
@@ -60,10 +62,12 @@ const useAuth = () => {
     if (userData) {
       login(userData, new Date(storedData.expiration));
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     relogin();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { login, logout, relogin };

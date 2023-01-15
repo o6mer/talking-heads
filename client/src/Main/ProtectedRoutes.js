@@ -13,6 +13,7 @@ const ProtectedRoutes = () => {
     if (user) return setIsLoggedUser(true);
     relogin();
     // return () => setIsLoggedUser(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [user]);
 
   return isLoggedUser ? <Outlet /> : <LoadingPage />;
@@ -28,6 +29,7 @@ const LoadingPage = () => {
     return () => {
       clearTimeout(timer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

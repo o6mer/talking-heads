@@ -6,7 +6,6 @@ import ChatRoom from "./Components/ChatRoom/ChatRoom";
 import { useParams, useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContextProvider";
 import CircularProgress from "@mui/material/CircularProgress";
-import useAuth from "../Landing/hooks/useAuth";
 import errorImage from "../Media/Moai404.jpg";
 import MobileActionBar from "./Components/ChatRoom/Components/MobileActionBar";
 
@@ -42,6 +41,7 @@ const MainPage = ({ noRoom }) => {
       }
     };
     sendRequest(); // calling the func above
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleTabClosing = (event) => {
@@ -57,6 +57,7 @@ const MainPage = ({ noRoom }) => {
     return () => {
       window.removeEventListener("beforeunload", handleTabClosing);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentRoomId]);
 
   useEffect(() => {
@@ -66,12 +67,14 @@ const MainPage = ({ noRoom }) => {
     }
     setNoRoomState(false);
     joinRoom(paramsRoomId);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [paramsRoomId]);
 
   useEffect(() => {
     if (noRoomState) {
       leaveRoom();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [noRoomState]);
 
   const joinRoom = async (roomId) => {

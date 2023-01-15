@@ -1,11 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import useForm from "../../hooks/useForm";
 import { Link as RouterLink, useNavigate } from "react-router-dom";
-import { UserContext } from "../../../contexts/UserContextProvider";
 import { Button, TextField, Tooltip } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 import useAuth from "../../../Landing/hooks/useAuth";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import PasswordInput from "../General/PasswordInput";
 import HomeIcon from "@mui/icons-material/Home";
 
@@ -14,7 +12,6 @@ const LoginPage = () => {
 
   const [loading, setLoading] = useState(false);
   const { login } = useAuth();
-  const setUser = useContext(UserContext).setUser;
 
   const navigate = useNavigate();
 

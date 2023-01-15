@@ -8,10 +8,6 @@ import React, {
 import ChatMsg from "./ChatMsg";
 import Keyboard from "./Keyboard";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import SpotifyAuth from "../../SpotifyApi/SpotifyAuth";
-import Dashboard from "../../SpotifyApi/Dashboard";
-
-const code = new URLSearchParams(window.location.search).get("code");
 
 const Chat = ({ roomId, msgsArr, selectedRoom }) => {
   const [messages, setMessages] = useState(msgsArr); //keeping track on the messages
@@ -35,6 +31,7 @@ const Chat = ({ roomId, msgsArr, selectedRoom }) => {
     socket.on("removeMsg", (msgId) => {
       removeMsg(msgId);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

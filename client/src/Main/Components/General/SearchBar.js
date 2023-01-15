@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-
 import { TextField } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -17,6 +15,7 @@ const SearchBar = ({ query, filterFunc, clearFilter, setOpen, isShown }) => {
 
   useEffect(() => {
     filterFunc(filter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filter]);
 
   return (

@@ -49,6 +49,7 @@ const SideBar = ({ roomList, joinRoom, isShown, setOpen }) => {
     socket.on("roomAdded", (newRoom) => {
       addRoom(newRoom);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   //delete a room in the front

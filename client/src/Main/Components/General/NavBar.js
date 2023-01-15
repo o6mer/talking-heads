@@ -7,9 +7,7 @@ import Logo from "../../../Media/talking_heads_logo_white_2.png";
 import ProfileMenu from "./ProfileMenu/ProfileMenu";
 import { UserContext } from "../../../contexts/UserContextProvider";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
-import Dashboard from "../SpotifyApi/Dashboard";
 import MusicMenu from "./MusicMenu/MusicMenu";
-import { useEffect } from "react";
 import { useRef } from "react";
 
 const NavBar = () => {

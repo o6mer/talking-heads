@@ -1,15 +1,13 @@
 import LoadingButton from "@mui/lab/LoadingButton";
 import { Button, TextField, Tooltip } from "@mui/material";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const ForgotPassword = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [emailExists, setEmailExists] = useState(false);
-
-  const navigate = useNavigate();
 
   const submitHandler = async (e) => {
     e.preventDefault();

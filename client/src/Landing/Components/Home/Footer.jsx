@@ -34,7 +34,7 @@ const Footer = () => {
               <GitHubIcon fontSize="medium" />
             </a>
             <a
-              href="#"
+              href="/"
               target="_blank"
               rel="noreferrer noopener"
               className="hover:text-[#ccc]"
@@ -42,6 +42,7 @@ const Footer = () => {
               <FacebookIcon fontSize="medium" />
             </a>
             <a
+              href="/"
               target="_blank"
               rel="noreferrer noopener"
               className="hover:text-[#ccc]"

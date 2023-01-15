@@ -1,12 +1,9 @@
-import React, { useContext, useState } from "react";
-
+import React, { useContext } from "react";
 import Fade from "@mui/material/Fade";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Backdrop from "@mui/material/Backdrop";
-import Picture from "../../../Media/NameLogo.png";
-
 import RoomsMenu from "./RoomsMenu.jsx";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
@@ -33,15 +30,6 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
     style = { ...style, backgroundColor: "#1a2329", color: "white" };
   }
 
-  const [anchorEl, setAnchorEl] = useState(null);
-  const openRoomsMenu = Boolean(anchorEl);
-  const handleOpenMenu = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleCloseMenu = () => {
-    setAnchorEl(null);
-  };
-
   return (
     <Modal
       aria-labelledby="transition-modal-title"
@@ -57,6 +45,7 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
       <Fade in={open}>
         <Box sx={style} className={"gap-6 w"}>
           <img
+            alt="user"
             className={"w-40 rounded-md"}
             src={`data:image/jpg;base64, ${userInfo.profilePicture}`}
           />
@@ -70,15 +59,13 @@ const UserModal = ({ open, handleClose, userInfo, selectedRoom }) => {
                   darkMode ? "text-gray-400" : "text-gray-600"
                 }`}
               >{`Email: `}</p>
-              <a href="#">
-                <p
-                  className={`hover:cursor-pointer ${
-                    darkMode ? "text-blue-300" : "text-blue-500"
-                  }`}
-                >
-                  {userInfo?.email}
-                </p>
-              </a>
+              <p
+                className={`hover:cursor-pointer ${
+                  darkMode ? "text-blue-300" : "text-blue-500"
+                }`}
+              >
+                {userInfo?.email}
+              </p>
               <p className="mt-2 text-thirdy">{`${
                 isCreator ? "~room creator~" : ""
               }`}</p>

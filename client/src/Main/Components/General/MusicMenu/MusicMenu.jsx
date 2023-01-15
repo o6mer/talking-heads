@@ -1,9 +1,6 @@
 import { Menu } from "@mui/material";
-import React, { useContext, useState } from "react";
-import useAuth from "../../../../Landing/hooks/useAuth";
-import { UserContext } from "../../../../contexts/UserContextProvider";
+import React from "react";
 import Dashboard from "../../SpotifyApi/Dashboard";
-import CircularProgress from "@mui/material/CircularProgress";
 
 const MusicMenu = ({ setAnchorEl, anchorEl, openMenu, musicRef }) => {
   const handleCloseMenu = () => {

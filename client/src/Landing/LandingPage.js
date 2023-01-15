@@ -1,11 +1,9 @@
 import React from "react";
 import NavBar from "./Components/General/NavBar";
-import Features from "./Components/Home/Features";
 import Hero from "./Components/Home/Hero";
 import HowItWorks from "./Components/Home/HowItWorks";
 import Fade from "react-reveal/Fade";
 import Footer from "./Components/Home/Footer";
-import MobileNav from "./Components/General/MobileNav";
 
 const LandingPage = () => {
   // setPassword(e.target.value);

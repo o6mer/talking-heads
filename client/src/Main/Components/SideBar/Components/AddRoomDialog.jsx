@@ -1,5 +1,4 @@
-import React, { useContext, useState, useRef, useEffect } from "react";
-
+import React, { useContext, useState, useEffect } from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Dialog from "@mui/material/Dialog";
@@ -8,7 +7,6 @@ import DialogContent from "@mui/material/DialogContent";
 import AddAPhotoOutlinedIcon from "@mui/icons-material/AddAPhotoOutlined";
 import HighlightOffIcon from "@mui/icons-material/HighlightOff";
 import LoadingButton from "@mui/lab/LoadingButton";
-
 import { DialogTitle } from "@mui/material";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
@@ -18,6 +16,7 @@ export default function AddRoomDialog({ open, handleClose }) {
   const [isLoadingRoom, setIsLoadingRoom] = useState();
   const [file, setFile] = useState(undefined);
   const [previewUrl, setPreviewUrl] = useState(undefined);
+  // eslint-disable-next-line no-unused-vars
   const [isValid, setIsValid] = useState(false);
 
   const clearImage = () => {
@@ -89,15 +88,12 @@ export default function AddRoomDialog({ open, handleClose }) {
   };
 
   const pickHandler = (event) => {
-    let fileIsValid = isValid;
     if (event.target.files && event.target.files.length === 1) {
       const pickedFile = event.target.files[0];
       setFile(pickedFile);
       setIsValid(true);
-      fileIsValid = true;
     } else {
       setIsValid(false);
-      fileIsValid = false;
     }
   };
 
@@ -119,7 +115,7 @@ export default function AddRoomDialog({ open, handleClose }) {
                   <div className="">
                     <div className="border border-primary rounded-lg hover:border-thirdy transition-all ">
                       <img
-                        className="ml-auto rounded-lg shadow-md w-20 h-20 shadow "
+                        className="ml-auto rounded-lg shadow-md w-20 h-20"
                         src={previewUrl}
                         alt="preview"
                       />

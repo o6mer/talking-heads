@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useRef, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext, useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { UserContext } from "../../../../contexts/UserContextProvider";
-import Logo from "../../../../Media/NameLogo.png";
 import Tooltip from "@mui/material/Tooltip";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 
 const RoomItem = ({ room }) => {
   const { _id, name, maxPop, image, pop, messages } = room;
-  const rowContainerStyle = "flex p-1 items-center justify-between ";
   const { darkMode, currentRoomId, socket } = useContext(UserContext);
   const [shownMessage, setShownMessage] = useState(messages?.at(-1));
   const [showRoomPop, setShowRoomPop] = useState(false);
@@ -22,11 +20,13 @@ const RoomItem = ({ room }) => {
     socket.on("removeMsg", (lastMsg, roomId) => {
       if (roomId === _id) setShownMessage(lastMsg);
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (isRoomFull) setRoute("");
     if (!isRoomFull) setRoute(`/main/${_id}`);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isRoomFull]);
 
   return (

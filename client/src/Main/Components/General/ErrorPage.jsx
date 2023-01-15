@@ -12,7 +12,7 @@ const ErrorPage = () => {
       <NavBar isError={true} />
       <div className={"items-center flex flex-col mt-20"}>
         <p>Page not found</p>
-        <img className={"w-96"} src={ErrorImage} />
+        <img className={"w-96"} alt="error" src={ErrorImage} />
         <Link to={`/main`}>Back to chat</Link>
         <Link to={`/`}>Back to home page</Link>
       </div>

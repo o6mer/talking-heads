@@ -1,10 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
-import { UserContext } from "../../../contexts/UserContextProvider";
-
 const Player = ({ accessToken, trackUri }) => {
   const [play, setPlay] = useState(false);
-  const { darkMode } = useContext(UserContext);
 
   useEffect(() => {
     setPlay(true);

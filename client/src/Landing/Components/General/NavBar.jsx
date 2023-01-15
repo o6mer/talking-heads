@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Logo from "../../../Media/talking_heads_logo1.png";
 import LogoWhite from "../../../Media/talking_heads_logo_white_2.png";
 import MobileNav from "./MobileNav";
 const NavBar = () => {

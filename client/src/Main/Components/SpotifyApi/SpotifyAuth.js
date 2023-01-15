@@ -1,9 +1,7 @@
 import React from "react";
 
 const REDIRECT_URI = process.env.REACT_APP_SPOTIFY_REDIRECT_URL;
-const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=${
-  REDIRECT_URI || "https://talking-heads.netlify.app/main"
-}&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
+const AUTH_URL = `https://accounts.spotify.com/authorize?client_id=d679667fbb3e4d9e92688887dd7e6db3&response_type=code&redirect_uri=https://talking-heads.netlify.app/main&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`;
 console.log(REDIRECT_URI, AUTH_URL);
 
 export default function SpotifyAuth() {

@@ -10,7 +10,11 @@ const TrackSearchResult = ({ track, chooseTrack }) => {
       className="flex m-2 items-center cursor-pointer hover:bg-slate-300"
       onClick={handlePlay}
     >
-      <img src={track.albumUrl} style={{ height: "64px", width: "64px" }} />
+      <img
+        src={track.albumUrl}
+        style={{ height: "64px", width: "64px" }}
+        alt="track"
+      />
       <div className="ml-3">
         <div>{track.title}</div>
         <div className="text-gray-500">{track.artist}</div>

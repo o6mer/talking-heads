@@ -3,7 +3,6 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
 import LogoWhite from "../../../Media/talking_heads_logo_white_2.png";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ClearIcon from "@mui/icons-material/Clear";
 
 const MobileNav = () => {

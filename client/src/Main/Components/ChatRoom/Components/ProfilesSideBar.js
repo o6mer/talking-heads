@@ -1,7 +1,6 @@
 import React, { useContext, useEffect } from "react";
 import SearchBar from "../../General/SearchBar";
 import { useState } from "react";
-import Logo from "../../../../Media/NameLogo.png";
 import UserModal from "../../../Components/General/UserModal.jsx";
 import { UserContext } from "../../../../contexts/UserContextProvider";
 
@@ -27,6 +26,7 @@ const ProfilesSideBar = ({ selectedRoom, isShown, setOpen }) => {
         return prev.filter((user) => user._id.toString() !== userId.toString());
       });
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filterUser = (filter) => {
@@ -76,7 +76,7 @@ const ProfilesSideBar = ({ selectedRoom, isShown, setOpen }) => {
 
 const ProfilesSideBarItem = ({ user, selectedRoom }) => {
   const { darkMode } = useContext(UserContext);
-  const { userName, _id, profilePicture } = user;
+  const { profilePicture } = user;
   const isCreator = user._id === selectedRoom.roomCreator._id.toString();
 
   //modal stuff

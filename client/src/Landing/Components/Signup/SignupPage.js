@@ -21,8 +21,8 @@ const SignupPage = () => {
 
   const [file, setFile] = useState(undefined);
   const [file64, setFile64] = useState(undefined);
-  const [binFile, setBinFile] = useState(undefined);
   const [previewUrl, setPreviewUrl] = useState(undefined);
+  // eslint-disable-next-line no-unused-vars
   const [isValid, setIsValid] = useState(false);
 
   const clearImage = () => {
@@ -30,15 +30,12 @@ const SignupPage = () => {
     setFile();
   };
   const pickHandler = (event) => {
-    let fileIsValid = isValid;
     if (event.target.files && event.target.files.length === 1) {
       const pickedFile = event.target.files[0];
       setFile(pickedFile);
       setIsValid(true);
-      fileIsValid = true;
     } else {
       setIsValid(false);
-      fileIsValid = false;
     }
   };
 
@@ -129,7 +126,7 @@ const SignupPage = () => {
                   <div className="">
                     <div className="border border-primary rounded-lg hover:border-thirdy transition-all ">
                       <img
-                        className="ml-auto rounded-lg shadow-md w-20 h-20 shadow "
+                        className="ml-auto rounded-lg shadow-md w-20 h-20"
                         src={previewUrl}
                         alt="preview"
                       />

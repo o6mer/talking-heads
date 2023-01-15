@@ -25,6 +25,7 @@ const useForm = (mode) => {
     if (password && email) return setFormValid(true);
 
     setFormValid(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password, userName]);
   return {
     email,

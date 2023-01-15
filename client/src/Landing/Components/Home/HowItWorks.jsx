@@ -1,5 +1,4 @@
 import React from "react";
-import HeroPicture from "../../../Media/NameChatLogo4.png";
 import SignupImage from "./HomePageImages/SignupImage.PNG";
 import CreateRoom from "./HomePageImages/createRoom.png";
 import ChatExample from "./HomePageImages/chatExample.png";

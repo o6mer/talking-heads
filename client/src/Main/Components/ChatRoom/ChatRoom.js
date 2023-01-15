@@ -1,13 +1,11 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Chat from "./Components/Chat";
 import ProfilesSideBar from "./Components/ProfilesSideBar";
 import { useNavigate } from "react-router-dom";
-
-import SideBar from "../SideBar/SideBar";
 import { UserContext } from "../../../contexts/UserContextProvider";
 
 const ChatRoom = ({ selectedRoom }) => {
-  const { _id, messages, usersInfo } = selectedRoom;
+  const { _id, messages } = selectedRoom;
 
   const { socket } = useContext(UserContext);
 
@@ -19,6 +17,7 @@ const ChatRoom = ({ selectedRoom }) => {
         navigate("/main");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

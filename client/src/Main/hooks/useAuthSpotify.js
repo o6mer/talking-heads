@@ -26,6 +26,7 @@ export default function useAuth() {
     setExpiresIn(storedData.expiresIn);
 
     return () => localStorage.removeItem("spotifyAccessToken");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -84,6 +85,7 @@ export default function useAuth() {
         });
     }, (expiresIn - 60) * 1000);
     return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [refreshToken, expiresIn]);
 
   return accessToken;
