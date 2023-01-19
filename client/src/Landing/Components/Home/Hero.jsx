@@ -12,11 +12,11 @@ const Hero = () => {
 
       <div className="w-full flex items-center justify-center max-w-5xl flex-col gap-5 px-6">
         <header className="text-3xl md:text-5xl font-bold text-white uppercase text-center">
-          Chat with everyone at any time
+          Chat with anyone at any time
         </header>
         <p className="text-lg md:text-2xl font-extralight text-gray-300  text-center">
           An online, real time, chatting application. Chat with people with an
-          easy to use interface, costumisable chat rooms and cool features like
+          easy to use interface, customizable chat rooms and cool features like
           listening to music while chatting.
         </p>
         <div className="flex w-full justify-center items-center gap-5 text-white">
