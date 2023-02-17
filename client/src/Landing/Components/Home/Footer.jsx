@@ -42,7 +42,7 @@ const Footer = () => {
               <FacebookIcon fontSize="medium" />
             </a>
             <a
-              href="/"
+              href="javascript:void(0)"
               target="_blank"
               rel="noreferrer noopener"
               className="hover:text-[#ccc]"
