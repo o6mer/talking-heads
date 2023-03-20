@@ -1,4 +1,4 @@
-# music-chat-app
+# Talking-Heads
 
 ### An online, easy to use, chat application.  
 
